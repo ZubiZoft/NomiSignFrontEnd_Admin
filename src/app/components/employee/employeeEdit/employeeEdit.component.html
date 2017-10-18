@@ -1,0 +1,30 @@
+<div  style="max-height: 100vh; overflow-y: auto" class="centeredList">
+  <form class="example-form" *ngIf="employee">
+    <md-form-field class="example-full-width">
+      <input mdInput placeholder="Email Address" value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress" name=employeeEmailAddress
+        i18n-placeholder="@@EmployeeEmailField">
+    </md-form-field>
+    <md-form-field class="example-full-width">
+      <input mdInput placeholder="First Name" value="{{employee.FirstName}}" [(ngModel)]="employee.FirstName" name=employeeFirst
+        i18n-placeholder="@@EmployeeFirstNameField">
+    </md-form-field>
+    <md-form-field class="example-full-width">
+      <input mdInput placeholder="Last Name" value="{{employee.LastName1}}" [(ngModel)]="employee.LastName1" name=employeeLast1
+        i18n-placeholder="@@EmployeeLastNameField">
+    </md-form-field>
+    <md-form-field class="example-full-width">
+      <input mdInput placeholder="Last Name" value="{{employee.LastName2}}" [(ngModel)]="employee.LastName2" name=employeeLast2
+        i18n-placeholder="@@EmployeeLastNameField">
+    </md-form-field>
+
+    <md-form-field class="example-full-width">
+      <input mdInput placeholder="CURP" value="{{employee.CURP}}" [(ngModel)]="employee.CURP" name=employeeCURP i18n-placeholder="@@EmployeeCURPField">
+    </md-form-field>
+    <md-form-field class="example-full-width">
+      <input mdInput placeholder="RFC" value="{{employee.RFC}}" [(ngModel)]="employee.RFC" name=employeeRFC i18n-placeholder="@@EmployeeRFCField">
+    </md-form-field>
+  </form>
+
+  <button md-raised-button color="primary" (click)=updateEmployee() i18n="@@UpdateButton"> Update </button>
+  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</div>

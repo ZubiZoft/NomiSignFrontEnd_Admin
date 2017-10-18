@@ -1,0 +1,22 @@
+<div  style=" overflow-y: auto; max-height:100vh" *ngIf="employees">
+  <button md-button [routerLink]="['/employeeNew', companyId]" class="leftFloat">
+  <md-icon md-list-icon>add</md-icon><md-icon md-list-icon>account_circle</md-icon> 
+</button>
+<h1 i18n="header | header of the employees section@@EmployeesHeader" class="centerText">Employees</h1>
+<div style="margin-top:10px; line-height: 1.25" class="centerText">
+    <md-icon style="vertical-align:middle">search</md-icon>
+    <input #search placeholder="Search" (keyup)="0" class="inputSearchBox" />
+</div>
+
+  <md-list class="centeredList">
+    
+    <md-list-item *ngFor="let employee of (employees | listfilter: search.value)" style="border-bottom: 1px solid grey; cursor: pointer" [routerLink]="['/employeeEdit', companyId ,employee.EmployeeId]"
+      routerLinkActive="active">
+      <md-icon md-list-icon><i class="material-icons">account_circle</i></md-icon>
+      <h4 md-line>{{employee.EmailAddress}}</h4>
+      <p md-line> {{employee.FirstName}} {{employee.LastName1}} {{employee.LastName2}} </p>
+
+    </md-list-item>
+  </md-list>
+  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</div>

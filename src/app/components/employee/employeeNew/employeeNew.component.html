@@ -1,0 +1,32 @@
+<div style="max-height: 100vh; overflow-y: auto" class="centeredList"> 
+  <form class="example-form">
+    <md-form-field class="example-full-width">
+      <input mdInput placeholder="Company ID" disabled value="{{employee.CompanyId}}" i18n-placeholder="input field | input field which contains the company's id@@CompanyIdField">
+    </md-form-field>
+    <md-form-field class="example-full-width">
+      <input mdInput placeholder="Email Address" [(ngModel)]="employee.EmailAddress" name=employeeEmail i18n-placeholder="input field | input field which contains the employee's email@@EmployeeEmailField">
+    </md-form-field>
+    <md-form-field class="example-full-width">
+      <input mdInput placeholder="Password" [(ngModel)]="employee.PasswordHash" name=employeePassword i18n-placeholder="input field | input field which contains the employee's password@@EmployeePasswordField">
+    </md-form-field>
+    <md-form-field class="example-full-width">
+      <input mdInput placeholder="First Name" [(ngModel)]="employee.FirstName" name=employeeFirst i18n-placeholder="input field | input field which contains the employee's first name@@EmployeeFirstNameField">
+    </md-form-field>
+    <md-form-field class="example-full-width">
+      <input mdInput placeholder="Last Name" [(ngModel)]="employee.LastName1" name=employeeLast1 i18n-placeholder="input field | input field which contains the employee's last name@@EmployeeLastNameField">
+    </md-form-field>
+    <md-form-field class="example-full-width">
+      <input mdInput placeholder="Last Name" [(ngModel)]="employee.LastName2" name=employeeLast2 i18n-placeholder="input field | input field which contains the employee's last name@@EmployeeLastNameField">
+    </md-form-field>
+
+    <md-form-field class="example-full-width">
+      <input mdInput placeholder="CURP" [(ngModel)]="employee.CURP" name=employeeCurp i18n-placeholder="input field | input field which contains the employee's curp value@@EmployeeCURPField">
+    </md-form-field>
+    <md-form-field class="example-full-width">
+      <input mdInput placeholder="RFC" [(ngModel)]="employee.RFC" name=employeeRfc i18n-placeholder="input field | input field which contains the employee's rfc code@@EmployeeRFCField">
+    </md-form-field>
+  </form>
+
+  <button md-raised-button color="primary" (click)=saveEmployee() i18n="action | button which will update the employee's info when clicked@@UpdateButton"> Update </button>
+  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</div>
