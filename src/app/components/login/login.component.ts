@@ -54,7 +54,29 @@ export class LoginComponent implements OnInit {
           data: { }
         })
       ;},
-      () =>  this.router.navigate(['/dashboard']))
+      () =>  {
+        
+        let user = this.userService.getUser()
+        switch(user.UserStatus){
+          case 6: { //global admin
+            this.router.navigate(['/dashboard'])
+            break;
+          } 
+          case 5: { //company admin
+            this.router.navigate(['/companyEdit', user.CompanyId ])
+            break;
+          }
+          case 2: { //company user
+            this.router.navigate(['/employeesList', user.CompanyId])
+            break;
+          }
+          default: { //default case
+            this.router.navigate(['/login'])
+            break;
+          }
+        }
+      }
+    )
   }
 
 

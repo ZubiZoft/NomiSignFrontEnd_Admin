@@ -27,12 +27,13 @@ import { CompanyUsersListComponent } from './components/companyuser/companyUsers
 import { CompanyUsersEditComponent } from './components/companyuser/companyUsersEdit/companyUsersEdit.component'
 import { CompanyUsersNewComponent } from './components/companyuser/companyUsersNew/companyUsersNew.component'
 import { LoginAlertDialog } from './components/login/login.component'
+import { GlobalAdminNavbarComponent } from './components/navbars/globalAdmin/global-admin.navbar.component'
+import { CompanyAdminNavbarComponent } from './components/navbars/companyAdmin/company-admin.navbar.component'
+import { UserNavbarComponent } from './components/navbars/user/user.navbar.component'
 
 import { UserService } from './services/user.service'
 import { AuthService } from './services/auth.service'
-import { CAuthGuard } from './services/route-guards/authguard-cAdmin.service'
-import { GAuthGuard } from './services/route-guards/authguard-GAdmin.service'
-import { UAuthGuard } from './services/route-guards/authguard-user.service'
+import { CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard } from './services/authguard.service'
 
 import { ListFilterPipe } from './pipes/list-filter.pipe'
 
@@ -58,7 +59,10 @@ import { AppRoutingModule } from './app.routing'
     CompanyUsersEditComponent,
     CompanyUsersNewComponent,
     LoginAlertDialog,
-    ListFilterPipe
+    ListFilterPipe,
+    GlobalAdminNavbarComponent,
+    CompanyAdminNavbarComponent,
+    UserNavbarComponent
   ],
   imports: [
     BrowserModule,
@@ -80,7 +84,7 @@ import { AppRoutingModule } from './app.routing'
     AppRoutingModule,
     MdDialogModule,
   ],
-  providers: [ UserService, AuthService, CAuthGuard, GAuthGuard, UAuthGuard ],
+  providers: [ UserService, AuthService, CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard ],
   bootstrap: [AppComponent],
   entryComponents: [ LoginAlertDialog ]
 })

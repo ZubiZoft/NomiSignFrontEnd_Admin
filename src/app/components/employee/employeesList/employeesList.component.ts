@@ -21,13 +21,13 @@ export class EmployeesListComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private employeeService: EmployeeService) { 
      route.params.subscribe((params: Params) => {
-       this.companyId = params['id'];
+       this.companyId = params['cid'];
      })
   }
 
   ngOnInit(): void {
     this.route.paramMap
-    .switchMap((params: ParamMap) => this.employeeService.getEmployeesByCompany(params.get('id')))
+    .switchMap((params: ParamMap) => this.employeeService.getEmployeesByCompany(params.get('cid')))
     .subscribe(data => this.employees = data);
   }
 

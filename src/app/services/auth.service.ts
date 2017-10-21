@@ -13,7 +13,7 @@ export class AuthService {
     loginUser(user): Observable<any> {
         let _headers = new Headers ({'Content-Type': 'application/json'})
         let options = new RequestOptions({method: 'POST', headers: _headers})
-        let url = this.rootURL + 'api/login';
+        let url = this.rootURL + 'api/adminlogin';
         let body = JSON.stringify(user)
         return this.http.post(url, body, options).map(response => response.json());
     }

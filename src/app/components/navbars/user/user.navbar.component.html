@@ -1,0 +1,59 @@
+<div class="toolbar">
+    <!--mobile menu -->
+<span style="display:none" class="displayContentMobile">
+    <button md-button [mdMenuTriggerFor]="employeeMenu">
+        <md-icon>menu</md-icon>
+    </button>
+
+    <span style="float:right" *ngIf="user">
+        <button md-button [mdMenuTriggerFor]="menu">
+            <md-icon>person</md-icon>{{user.EmailAddress}}
+            <md-icon>arrow_drop_down</md-icon>
+        </button>
+        <md-menu #menu="mdMenu">
+            <button md-menu-item (click)="logout()">
+                <md-icon>exit_to_app</md-icon>
+                <span i18n="action | user will click this to log out of the website@@LogoutAction">Logout</span>
+            </button>
+        </md-menu>
+    </span>
+</span>
+
+<!--desktop menu -->
+    <div style="margin-left:12%">
+        <span class="hideContentMobile">
+
+            <button md-button [mdMenuTriggerFor]="employeeMenu">
+                <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
+                    Employees
+                </span>
+                <md-icon>arrow_drop_down</md-icon>
+            </button>
+            <md-menu #employeeMenu="mdMenu">
+                <button md-menu-item [routerLink]="['/employeesList', user.CompanyId]" routerLinkActive="active">
+                    <span i18n="@@GoEmployeesPageMenuHeader">
+                        Employees
+                    </span>
+                </button>
+                <button md-menu-item [routerLink]="['/employeeNew', user.CompanyId]" routerLinkActive="active">
+                    <span i18n="menu header | User will click this to create a new employee@@NewEmployeesPageMenuHeader">
+                        New Employee
+                    </span>
+                </button>
+            </md-menu>
+
+            <span style="float:right" *ngIf="user">
+                <button md-button [mdMenuTriggerFor]="menu">
+                    <md-icon>person</md-icon>{{user.EmailAddress}}
+                    <md-icon>arrow_drop_down</md-icon>
+                </button>
+                <md-menu #menu="mdMenu">
+                    <button md-menu-item (click)="logout()">
+                        <md-icon>exit_to_app</md-icon>
+                        <span i18n="action | user will click this to log out of the website@@LogoutAction">Logout</span>
+                    </button>
+                </md-menu>
+            </span>
+        </span>
+    </div>
+</div>

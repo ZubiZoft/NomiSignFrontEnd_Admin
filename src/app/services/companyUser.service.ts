@@ -39,7 +39,7 @@ export class CompanyUsersService {
         var options = new RequestOptions({method: 'POST', headers: _headers})
         var body = JSON.stringify(companyUser);
         console.log(companyUser)
-        var url = rootURL + 'api/companyusers/4'
+        var url = rootURL + 'api/companyusers'
         return this.http.post(url, body, options).map(response => response.json());
     }
 }

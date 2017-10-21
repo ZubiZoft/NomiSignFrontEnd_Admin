@@ -14,8 +14,8 @@ import { SettingsService } from './services/settings.service'
 export class AppComponent implements OnInit {
   title :string;
   url = this.router.url
-  username : string
   appName: string
+  user : any
 
   constructor(private router: Router, private settingsService: SettingsService, private userService: UserService) {
     settingsService.getSystemSettings().subscribe(data => this.appName = data[0].ProductName)
@@ -33,8 +33,11 @@ export class AppComponent implements OnInit {
   getCurrentUser(){
     let user = this.userService.getUser()
     if (user){
-      this.username = user.EmailAddress;
-    }     
+      this.user = user;
+    }  
+    else{
+      this.user = null
+    }
   }
 
   setTitle(title) {
@@ -43,8 +46,8 @@ export class AppComponent implements OnInit {
 
 
   logout(){
-    this.setTitle('Log In')
     this.userService.clearUser();
+    this.user = null;
     this.router.navigate(['/login'])
   }
 

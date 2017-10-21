@@ -14,8 +14,6 @@ export class UserService {
 
     public getUser (): any{
         if (this._user == null){
-            console.log(this._user)
-            console.log(sessionStorage.getItem('user'))
             return JSON.parse(sessionStorage.getItem('user'))
         }
         return this._user
@@ -38,7 +36,7 @@ export class UserService {
 
     public clearUser(){
         sessionStorage.clear()
-        this._user= new User();
+        this._user= null
         this.userUpdated.emit(null)
     }
 

@@ -1,0 +1,77 @@
+<div class="toolbar">
+    <!-- mobile menu -->
+    <span style="display:none" class="displayContentMobile">
+        <button md-button [mdMenuTriggerFor]="mobileMenu">
+            <md-icon>menu</md-icon>
+        </button>
+
+        <md-menu #mobileMenu="mdMenu">
+            <button md-menu-item [mdMenuTriggerFor]="companyMenu" i18n="@@GoCompaniesPageMenuHeader"> Companies </button>
+            <button md-menu-item [mdMenuTriggerFor]="employeeMenu" i18n="@@GoEmployeesPageMenuHeader"> Employees </button>
+        </md-menu>
+        <span style="float:right" *ngIf="user">
+            <button md-button [mdMenuTriggerFor]="menu">
+                <md-icon>person</md-icon>{{user.EmailAddress}}
+                <md-icon>arrow_drop_down</md-icon>
+            </button>
+            <md-menu #menu="mdMenu">
+                <button md-menu-item (click)="logout()">
+                    <md-icon>exit_to_app</md-icon>
+                    <span i18n="action | user will click this to log out of the website@@LogoutAction">Logout</span>
+                </button>
+            </md-menu>
+        </span>
+    </span>
+    <!--desktop menu -->
+    <div style="margin-left:12%">
+        <span class="hideContentMobile">
+            <button md-button [mdMenuTriggerFor]="companyMenu">
+                <span i18n="menu header | User will click this to navigate to the companies page@@GoCompaniesPageMenuHeader">
+                    Companies
+                </span>
+                <md-icon>arrow_drop_down</md-icon>
+            </button>
+
+            <md-menu #companyMenu="mdMenu">
+                <button md-menu-item [routerLink]="['/companyEdit', user.CompanyId]" routerLinkActive="active">
+                    <span i18n="menu header | User will click this to view their company's details@@CompanyToolbarHeader">
+                        Company
+                    </span>
+                </button>
+            </md-menu>
+
+
+            <button md-button [mdMenuTriggerFor]="employeeMenu">
+                <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
+                    Employees
+                </span>
+                <md-icon>arrow_drop_down</md-icon>
+            </button>
+            <md-menu #employeeMenu="mdMenu">
+                <button md-menu-item [routerLink]="['/employeesList', user.CompanyId]" routerLinkActive="active">
+                    <span i18n="@@GoEmployeesPageMenuHeader">
+                        Employees
+                    </span>
+                </button>
+                <button md-menu-item [routerLink]="['/employeeNew', user.CompanyId]" routerLinkActive="active">
+                    <span i18n="menu header | User will click this to create a new employee@@NewEmployeesPageMenuHeader">
+                        New Employee
+                    </span>
+                </button>
+            </md-menu>
+
+            <span style="float:right" *ngIf="user">
+                <button md-button [mdMenuTriggerFor]="menu">
+                    <md-icon>person</md-icon>{{user.EmailAddress}}
+                    <md-icon>arrow_drop_down</md-icon>
+                </button>
+                <md-menu #menu="mdMenu">
+                    <button md-menu-item (click)="logout()">
+                        <md-icon>exit_to_app</md-icon>
+                        <span i18n="action | user will click this to log out of the website@@LogoutAction">Logout</span>
+                    </button>
+                </md-menu>
+            </span>
+        </span>
+    </div>
+</div>

@@ -28,14 +28,14 @@ export class CompanyEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.paramMap
-    .switchMap((params: ParamMap) => this.companyService.getCompanyById(params.get('id')))
+    .switchMap((params: ParamMap) => this.companyService.getCompanyById(params.get('cid')))
     .subscribe(data => this.company = data);
   }
 
   updateCompany(){
     console.log("updating company")
      this.route.paramMap
-     .switchMap((params: ParamMap) => this.companyService.updateCompanyDetails(params.get('id'), this.company).finally(()=> this.snackbar.open("Updated successfully", "", {duration: 5000})))
+     .switchMap((params: ParamMap) => this.companyService.updateCompanyDetails(params.get('cid'), this.company).finally(()=> this.snackbar.open("Updated successfully", "", {duration: 5000})))
      .subscribe(
        data => this.company = data,
        error => this.snackbar.open(error, "", {duration: 5000}),
