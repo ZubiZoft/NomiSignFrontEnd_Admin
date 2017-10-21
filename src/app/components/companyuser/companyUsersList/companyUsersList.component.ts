@@ -17,7 +17,7 @@ import { States } from '../../../models/states.models'
 export class CompanyUsersListComponent implements OnInit {
   companyId: string;
   companyUsers: any[]
- // states : States
+  isPromiseDone: boolean = false;
 
   constructor(private route: ActivatedRoute, private employeeService: CompanyUsersService) { 
      route.params.subscribe((params: Params) => {
@@ -28,7 +28,10 @@ export class CompanyUsersListComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap
     .switchMap((params: ParamMap) => this.employeeService.getCompanyUsersByCompany(params.get('cid')))
-    .subscribe(data => this.companyUsers = data);
+    .subscribe(data => {
+      this.companyUsers = data
+      this.isPromiseDone = true;
+    });
   }
 
   updateEmployee(){

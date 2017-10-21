@@ -21,7 +21,7 @@ export class CompanyEditComponent implements OnInit {
   company: CompanyModel;
   id: string;
   states : States
-
+  isPromiseDone: boolean = false;
   constructor(private route: ActivatedRoute, private companyService: CompanyService, public snackbar: MdSnackBar) { 
       this.states = new States();
   }
@@ -29,7 +29,10 @@ export class CompanyEditComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap
     .switchMap((params: ParamMap) => this.companyService.getCompanyById(params.get('cid')))
-    .subscribe(data => this.company = data);
+    .subscribe(data => {
+      this.company = data
+      this.isPromiseDone = true
+    });
   }
 
   updateCompany(){
@@ -37,7 +40,7 @@ export class CompanyEditComponent implements OnInit {
      this.route.paramMap
      .switchMap((params: ParamMap) => this.companyService.updateCompanyDetails(params.get('cid'), this.company).finally(()=> this.snackbar.open("Updated successfully", "", {duration: 5000})))
      .subscribe(
-       data => this.company = data,
+       data =>  this.company = data,
        error => this.snackbar.open(error, "", {duration: 5000}),
        
     );

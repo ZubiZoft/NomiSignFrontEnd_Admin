@@ -15,9 +15,13 @@ import { CompanyModel } from '../../../models/company.model'
 export class CompanyUsersComponent {
 
   companies: CompanyModel[];
+  isPromiseDone: boolean = false;
   
     constructor(companyService : CompanyService) { 
-      companyService.getCompanies().subscribe(data => this.companies = data)
+      companyService.getCompanies().subscribe(data => {
+        this.companies = data
+        this.isPromiseDone = true;
+      })
     }
 
 }

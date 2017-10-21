@@ -12,8 +12,14 @@ import { CompanyService } from '../../../services/company.service'
 })
 export class CompaniesComponent {
   companies: CompanyModel[];
+  isPromiseDone: boolean = false
 
   constructor(companyService : CompanyService) { 
-    companyService.getCompanies().subscribe(data => this.companies = data)
+    companyService.getCompanies().subscribe(data => {
+      this.companies = data
+      this.isPromiseDone = true;
+    })
+
+    //companyService.getCompanies().subscribe(data => this.companies = data)
   }
 }

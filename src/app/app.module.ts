@@ -6,7 +6,7 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 //angular material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdButtonModule, MdCheckboxModule, MdInputModule, MdSidenavModule, MdCardModule, MdListModule, MdIconModule, MdSelectModule, MdToolbarModule, MdMenuModule, MdSnackBarModule, MdDialogModule } from '@angular/material';
+import { MdButtonModule, MdCheckboxModule, MdInputModule, MdSidenavModule, MdCardModule, MdListModule, MdIconModule, MdSelectModule, MdToolbarModule, MdMenuModule, MdSnackBarModule, MdDialogModule, MdProgressSpinnerModule } from '@angular/material';
 //custom imports
 import { AppComponent } from './app.component';
 
@@ -83,6 +83,7 @@ import { AppRoutingModule } from './app.routing'
     MdMenuModule,
     AppRoutingModule,
     MdDialogModule,
+    MdProgressSpinnerModule
   ],
   providers: [ UserService, AuthService, CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard ],
   bootstrap: [AppComponent],

@@ -1,3 +1,5 @@
+<md-spinner style="width:auto" *ngIf="!isPromiseDone"></md-spinner>
+
 <div style="max-height: 100vh; overflow-y: auto" *ngIf="companies">
   
  <h1 i18n="message | telling user to select a company from the list to view the employees@@PickCompanyViewEmployeesMsg" class="centerText">Select Company to View Company Users</h1>
@@ -15,4 +17,7 @@
     </md-list-item>
   </md-list>
   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</div>
+<div class="centerText" *ngIf="!companies && isPromiseDone" i18n="@@NoCompaniesMessage"> 
+    There are no companies to view
 </div>

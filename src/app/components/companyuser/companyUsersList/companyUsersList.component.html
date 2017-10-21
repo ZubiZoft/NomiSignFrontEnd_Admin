@@ -1,3 +1,5 @@
+<md-spinner style="width:auto" *ngIf="!isPromiseDone"></md-spinner>
+
 <div style="max-height: 100vh; overflow-y: auto" *ngIf="companyUsers">
   <button md-button [routerLink]="['/companyuserNew', companyId]" class="leftFloat">
   <md-icon md-list-icon >add</md-icon><md-icon md-list-icon>account_circle</md-icon> 
@@ -19,4 +21,7 @@
     </md-list-item>
   </md-list>
   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+</div>
+<div class="centerText" *ngIf="!companyUsers && isPromiseDone" i18n="message | message letting the user know there are no company users@@NoCompanyUsersMessage"> 
+    There are no company users to view
 </div>

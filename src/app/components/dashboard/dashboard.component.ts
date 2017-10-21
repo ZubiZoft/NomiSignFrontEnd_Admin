@@ -14,9 +14,13 @@ import { MdSnackBar } from '@angular/material'
 })
 export class DashboardComponent {
   systemSettings
+  isPromiseDone: boolean = false
 
   constructor(private settingsService: SettingsService,  public snackBar: MdSnackBar) {
-    settingsService.getSystemSettings().subscribe(data => this.systemSettings = data[0])
+    settingsService.getSystemSettings().subscribe(data => {
+      this.systemSettings = data[0]
+      this.isPromiseDone = true;
+    })
    }
 
    updateSettings(){

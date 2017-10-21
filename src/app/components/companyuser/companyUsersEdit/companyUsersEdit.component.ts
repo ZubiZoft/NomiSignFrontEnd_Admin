@@ -20,6 +20,7 @@ export class CompanyUsersEditComponent implements OnInit {
   companyUser: CompanyUserModel;
   companyId: string;
   employeeID: string;
+  isPromiseDone: boolean = false;
 
   constructor(private route: ActivatedRoute, private companyUserService: CompanyUsersService, public snackbar: MdSnackBar) { 
       
@@ -28,7 +29,10 @@ export class CompanyUsersEditComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap
     .switchMap((params: ParamMap) => this.companyUserService.getCompanyUserById(params.get('cid'), params.get('cuid')))
-    .subscribe(data => this.companyUser = data);
+    .subscribe(data => {
+      this.companyUser = data
+      this.isPromiseDone = true;
+    });
   }
 
   updateCompanyUser(){
