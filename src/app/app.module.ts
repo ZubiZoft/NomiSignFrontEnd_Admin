@@ -30,9 +30,11 @@ import { LoginAlertDialog } from './components/login/login.component'
 import { GlobalAdminNavbarComponent } from './components/navbars/globalAdmin/global-admin.navbar.component'
 import { CompanyAdminNavbarComponent } from './components/navbars/companyAdmin/company-admin.navbar.component'
 import { UserNavbarComponent } from './components/navbars/user/user.navbar.component'
+import { InputFile } from './components/fileupload.component'
 
 import { UserService } from './services/user.service'
 import { AuthService } from './services/auth.service'
+import { UploadService } from './services/upload.service'
 import { CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard } from './services/authguard.service'
 
 import { ListFilterPipe } from './pipes/list-filter.pipe'
@@ -62,7 +64,8 @@ import { AppRoutingModule } from './app.routing'
     ListFilterPipe,
     GlobalAdminNavbarComponent,
     CompanyAdminNavbarComponent,
-    UserNavbarComponent
+    UserNavbarComponent,
+    InputFile
   ],
   imports: [
     BrowserModule,
@@ -85,7 +88,7 @@ import { AppRoutingModule } from './app.routing'
     MdDialogModule,
     MdProgressSpinnerModule
   ],
-  providers: [ UserService, AuthService, CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard ],
+  providers: [ UserService, AuthService, CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard, UploadService ],
   bootstrap: [AppComponent],
   entryComponents: [ LoginAlertDialog ]
 })

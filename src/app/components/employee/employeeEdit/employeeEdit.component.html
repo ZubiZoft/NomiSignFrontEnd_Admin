@@ -1,7 +1,19 @@
 <md-spinner style="width:auto" *ngIf="!isPromiseDone"></md-spinner>
 
-<div  style="max-height: 100vh; overflow-y: auto" class="centeredList">
-  <form class="example-form" *ngIf="employee">
+<div  style="max-height: 100vh; overflow-y: auto" class="centeredList" *ngIf="employee">
+ 
+  <input-file (onFileSelect)="onFileSelect($event)" *ngIf="userStatus === 5 || userStatus === 6" >
+    <span class="nofiles">Choose file</span>
+    <span class="selected">Files selected</span>
+  </input-file>
+
+  <div *ngIf="files">
+    <div *ngFor="let file of files">
+     {{ file.name}}
+    </div>
+  </div>
+ 
+  <form class="example-form">
     <md-form-field class="example-full-width">
       <input mdInput placeholder="Email Address" value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress" name=employeeEmailAddress
         i18n-placeholder="@@EmployeeEmailField">
