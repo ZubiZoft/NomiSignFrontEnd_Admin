@@ -30,7 +30,7 @@ export class EmployeeEditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MdSnackBar, private uploadService: UploadService,
     private companyService: CompanyService, private userService: UserService) {
-      this.userStatus = userService.getUserStatus();
+    this.userStatus = userService.getUserStatus();
   }
 
   ngOnInit(): void {
@@ -69,16 +69,15 @@ export class EmployeeEditComponent implements OnInit {
     this.files = event;
   }
 
-  uploadFile(file, batchId): any{
+  uploadFile(file, batchId): any {
     let uploadFile = new FileModel()
     uploadFile.EmployeeCURP = this.employee.CURP;
     uploadFile.FileName = file.name;
-  
     var reader = new FileReader();
     reader.readAsDataURL(file)
-    reader.onload = (e) => {       
-        uploadFile.Content = reader.result.substring(22) //removes data:image...   
-        this.uploadService.addFile(uploadFile, batchId).subscribe(data => data) //success from file uploads
-      }
+    reader.onload = (e) => {
+      uploadFile.Content = reader.result.split(',')[1] //removes data:image...   
+      this.uploadService.addFile(uploadFile, batchId).subscribe(data => data) //success from file uploads
+    }
   }
 }
