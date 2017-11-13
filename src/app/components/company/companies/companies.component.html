@@ -1,27 +1,27 @@
-<md-spinner style="width:auto" *ngIf="!isPromiseDone"></md-spinner>
+<mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
 <div style="max-height: 100vh; overflow-y: auto" *ngIf="companies">
-  <button md-button routerLink="/companyNew" class="leftFloat">
-    <md-icon md-list-icon>add</md-icon>
-    <md-icon md-list-icon>business</md-icon>
+  <button mat-button routerLink="/companyNew" class="leftFloat">
+    <mat-icon mat-list-icon>add</mat-icon>
+    <mat-icon mat-list-icon>business</mat-icon>
   </button>
 
 
   <h1 i18n="CompaniesHeader" class="centerText">Companies</h1>
   <div style="margin-top:10px;  line-height:1.25;" class="centerText">
-    <md-icon style="vertical-align:middle">search</md-icon>
+    <mat-icon style="vertical-align:middle">search</mat-icon>
     <input #search placeholder="Search" (keyup)="0" class="inputSearchBox"/>
   </div>
-  <md-list class="centeredList">
+  <mat-list class="centeredList">
 
-    <md-list-item *ngFor="let company of (companies | listfilter: search.value)" style="border-bottom: 1px solid grey; cursor: pointer"
+    <mat-list-item *ngFor="let company of (companies | listfilter: search.value)" style="border-bottom: 1px solid grey; cursor: pointer"
       [routerLink]="['/companyEdit', company.CompanyId]" routerLinkActive="active">
-      <md-icon md-list-icon>business</md-icon>
-      <h4 md-line>{{company.CompanyName}}</h4>
-      <p md-line> Date to go here </p>
+      <mat-icon mat-list-icon>business</mat-icon>
+      <h4 mat-line>{{company.CompanyName}}</h4>
+      <p mat-line>{{ company.CompanyRFC }} </p>
 
-    </md-list-item>
+    </mat-list-item>
     
-  </md-list>
+  </mat-list>
   <br/>
   <br/>  <br/>  <br/>  <br/>
   <br/>  <br/>  <br/>  <br/>

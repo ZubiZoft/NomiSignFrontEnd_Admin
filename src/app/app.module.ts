@@ -6,11 +6,12 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 //angular material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MdButtonModule, MdCheckboxModule, MdInputModule, MdSidenavModule, MdCardModule, MdListModule, MdIconModule, MdSelectModule, MdToolbarModule, MdMenuModule, MdSnackBarModule, MdDialogModule, MdProgressSpinnerModule } from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatInputModule, MatSidenavModule, MatCardModule, MatListModule, MatIconModule, MatSelectModule, MatToolbarModule, MatMenuModule, MatSnackBarModule, MatDialogModule, MatProgressSpinnerModule } from '@angular/material';
 //custom imports
 import { AppComponent } from './app.component';
 
 import { LoginComponent } from './components/login/login.component'
+import { AccountComponent } from './components/account/account.component'
 import { EmployeesComponent } from './components/employee/employees/employees.component'
 import { CompaniesComponent } from './components/company/companies/companies.component'
 import { TimesheetComponent } from './components/timesheet/timesheet.component'
@@ -30,7 +31,7 @@ import { LoginAlertDialog } from './components/login/login.component'
 import { GlobalAdminNavbarComponent } from './components/navbars/globalAdmin/global-admin.navbar.component'
 import { CompanyAdminNavbarComponent } from './components/navbars/companyAdmin/company-admin.navbar.component'
 import { UserNavbarComponent } from './components/navbars/user/user.navbar.component'
-import { InputFile } from './components/fileupload.component'
+import { InputFile } from './components/fileupload.component' 
 
 import { UserService } from './services/user.service'
 import { AuthService } from './services/auth.service'
@@ -65,28 +66,29 @@ import { AppRoutingModule } from './app.routing'
     GlobalAdminNavbarComponent,
     CompanyAdminNavbarComponent,
     UserNavbarComponent,
+    AccountComponent,
     InputFile
   ],
   imports: [
     BrowserModule,
-    MdCardModule,
-    MdButtonModule,
-    MdCheckboxModule,
-    MdInputModule,
+    MatCardModule,
+    MatButtonModule,
+    MatCheckboxModule,
+    MatInputModule,
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpModule,
-    MdSidenavModule,
-    MdListModule,
-    MdIconModule,
-    MdSelectModule,
-    MdToolbarModule,
-    MdSnackBarModule,
-    MdMenuModule,
+    MatSidenavModule,
+    MatListModule,
+    MatIconModule,
+    MatSelectModule,
+    MatToolbarModule,
+    MatSnackBarModule,
+    MatMenuModule,
     AppRoutingModule,
-    MdDialogModule,
-    MdProgressSpinnerModule
+    MatDialogModule,
+    MatProgressSpinnerModule
   ],
   providers: [ UserService, AuthService, CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard, UploadService ],
   bootstrap: [AppComponent],

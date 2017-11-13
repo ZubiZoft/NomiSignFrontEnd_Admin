@@ -9,7 +9,7 @@ import { CompanyService } from '../../../services/company.service'
 import { CompanyModel } from '../../../models/company.model'
 import { States } from '../../../models/states.models'
 //angular material imports
-import { MdSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material'
 
 @Component({
   selector: 'ng-company',
@@ -22,7 +22,7 @@ export class CompanyEditComponent implements OnInit {
   id: string;
   states : States
   isPromiseDone: boolean = false;
-  constructor(private route: ActivatedRoute, private companyService: CompanyService, public snackbar: MdSnackBar) { 
+  constructor(private route: ActivatedRoute, private companyService: CompanyService, public snackbar: MatSnackBar) { 
       this.states = new States();
   }
 

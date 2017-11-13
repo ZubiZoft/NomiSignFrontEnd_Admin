@@ -7,7 +7,11 @@ import { CompanyModel } from '../models/company.model'
 
 import 'rxjs/add/operator/map';
 
-const rootURL = "http://ogrean.com/nomisign/";
+import { environment } from '../../environments/environment';
+
+//const rootURL: string = 'http://ogrean.com/nomisign/'
+const rootURL: string = environment.serviceUrl;
+
 
 @Injectable()
 export class CompanyService {

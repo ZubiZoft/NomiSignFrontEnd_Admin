@@ -12,7 +12,7 @@ import { FileModel } from '../../../models/file.model'
 import { CompanyService } from '../../../services/company.service'
 import { UserService } from '../../../services/user.service'
 //angular material imports
-import { MdSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material'
 
 @Component({
   selector: 'ng-employee-edit',
@@ -28,7 +28,7 @@ export class EmployeeEditComponent implements OnInit {
   isPromiseDone: boolean = false;
   files: any[]
 
-  constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MdSnackBar, private uploadService: UploadService,
+  constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MatSnackBar, private uploadService: UploadService,
     private companyService: CompanyService, private userService: UserService) {
     this.userStatus = userService.getUserStatus();
   }

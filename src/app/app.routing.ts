@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
+import { AccountComponent } from './components/account/account.component'
 import { LoginComponent } from './components/login/login.component'
 import { EmployeesComponent } from './components/employee/employees/employees.component'
 import { CompaniesComponent } from './components/company/companies/companies.component'
@@ -19,7 +20,9 @@ import { CompanyUsersNewComponent } from './components/companyuser/companyUsersN
 import { CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard } from './services/authguard.service'
 
 const routes: Routes = [
+  { path: 'account/:uid', component: AccountComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
+  //{ path: 'account/:uid', redirectTo: '/account/:uid', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'employees', component: EmployeesComponent, canActivate: [UserAuthGuard] },
   { path: 'companies', component: CompaniesComponent, canActivate: [GAdminAuthGuard] },
@@ -31,10 +34,11 @@ const routes: Routes = [
   { path: 'employeeEdit/:cid/:eid', component: EmployeeEditComponent, canActivate: [UserAuthGuard] },
   { path: 'employeeNew/:cid', component: EmployeeNewComponent, canActivate: [UserAuthGuard] },
   { path: 'companyusers', component: CompanyUsersComponent, canActivate: [GAdminAuthGuard] }, //change
-  { path: 'companyusers/:cid', component: CompanyUsersListComponent, canActivate: [GAdminAuthGuard] },
-  { path: 'companyuser/:cid/:cuid', component: CompanyUsersEditComponent, canActivate: [GAdminAuthGuard] },
-  { path: 'companyuserNew/:cid', component: CompanyUsersNewComponent, canActivate: [GAdminAuthGuard] }, //change
+  { path: 'companyusers/:cid', component: CompanyUsersListComponent, canActivate: [CAdminAuthGuard] },
+  { path: 'companyuser/:cid/:cuid', component: CompanyUsersEditComponent, canActivate: [CAdminAuthGuard] },
+  { path: 'companyuserNew/:cid', component: CompanyUsersNewComponent, canActivate: [CAdminAuthGuard] }, //change
   { path: '**', component: NotFoundComponent }
+  
 
   // { path: '', redirectTo: '/login', pathMatch: 'full' },
   // { path: 'login', component: LoginComponent, outlet: 'login'},

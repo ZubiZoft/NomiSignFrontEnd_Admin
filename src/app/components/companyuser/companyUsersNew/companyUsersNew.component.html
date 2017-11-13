@@ -1,26 +1,37 @@
 <div style="max-height: 100vh; overflow-y: auto" class="centeredList">
   <form class="example-form">
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="Email Address" value="{{companyUser.EmailAddress}}" [(ngModel)]="companyUser.EmailAddress" name=companyUserEmail
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Email Address" value="{{companyUser.EmailAddress}}" [(ngModel)]="companyUser.EmailAddress" name=companyUserEmail
         i18n-placeholder="form | field displaying the company user's email@@CompanyUserEmail">
-    </md-form-field>
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="Display Name" value="{{companyUser.DisplayName}}" [(ngModel)]="companyUser.DisplayName" name=companyUserDisplayName
+    </mat-form-field>
+      <mat-form-field class="example-full-width">
+          <input matInput placeholder="Password" value="{{companyUser.PasswordHash}}" [(ngModel)]="companyUser.PasswordHash" name=companyPasswordHash
+                 i18n-placeholder="form | field displaying the company user's password@@CompanyUserPasswordHash">
+      </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Display Name" value="{{companyUser.DisplayName}}" [(ngModel)]="companyUser.DisplayName" name=companyUserDisplayName
         i18n-placeholder="form | field displaying the company user's display name@@CompanyUserDisplayName">
-    </md-form-field>
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="Phone Number" value="{{companyUser.PhoneNumber}}" [(ngModel)]="companyUser.PhoneNumber" name=companyUserPhoneNumber
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Phone Number" value="{{companyUser.PhoneNumber}}" [(ngModel)]="companyUser.PhoneNumber" name=companyUserPhoneNumber
         i18n-placeholder="form | field displaying the company user's phone number@@CompanyUserPhoneNumber">
-    </md-form-field>
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="User Status" value="{{companyUser.UserStatus}}" [(ngModel)]="companyUser.UserStatus" name=companyUserStatus
+    </mat-form-field>
+      <mat-form-field class="example-full-width">
+          <mat-select [(ngModel)]="companyUser.UserStatus" title="User Status" placeholder="Status" name=companyUserStatus i18n-placeholder="@@UserStatusInput">
+              <mat-option *ngFor="let status of userstatus.codes" [value]="status">
+                  {{ status }}
+              </mat-option>
+          </mat-select>
+      </mat-form-field>
+    <!--<mat-form-field class="example-full-width">
+      <input matInput placeholder="User Status" value="{{companyUser.UserStatus}}" [(ngModel)]="companyUser.UserStatus" name=companyUserStatus
         i18n-placeholder="form | field display the company user's status@@CompanyUserStatus">
-    </md-form-field>
-    <md-checkbox style="padding:10px 25px 10px 25px;" mdInput placeholder="Force Password Reset" value="{{companyUser.ForcePasswordReset}}"
+    </mat-form-field>-->
+    <mat-checkbox style="padding:10px 25px 10px 25px;" matInput placeholder="Force Password Reset" value="{{companyUser.ForcePasswordReset}}"
       [(ngModel)]="companyUser.ForcePasswordReset" name=companyUserPasswordReset i18n="form | field asking the if there should be a forced password reset@@CompanyUserPasswordReset">
-    Force Password Reset</md-checkbox>
+    Force Password Reset</mat-checkbox>
   </form>
 
-  <button md-raised-button color="primary" (click)=saveNewCompanyUser() i18n="@@UpdateButton"> Update </button>
+  <button mat-raised-button color="primary" (click)=saveNewCompanyUser() i18n="@@UpdateButton"> Update </button>
   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 </div>

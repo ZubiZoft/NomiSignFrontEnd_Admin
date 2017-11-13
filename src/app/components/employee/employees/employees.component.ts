@@ -9,7 +9,7 @@ import { CompanyModel } from '../../../models/company.model'
 @Component({
   selector: 'ng-employees',
   templateUrl: './employees.component.html',
-  styleUrls: ['./employees.component.css'],
+  //styleUrls: ['./employees.component.css'],
   providers: [ CompanyService ]
 })
 

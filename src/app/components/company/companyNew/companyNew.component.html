@@ -1,41 +1,41 @@
 <div style="max-height: 100vh; overflow-y: auto" class="centeredList">
     <form class="example-form">
-        <md-form-field class="example-full-width">
-            <input mdInput placeholder="Company Name" [(ngModel)]="company.CompanyName" name=companyName i18n-placeholder="input field | input field which contains the company's name@@CompanyNameInput">
-        </md-form-field>
-        <md-form-field class="example-full-width">
-            <input mdInput placeholder="Address" [(ngModel)]="company.Address1" name=companyAddress1 i18n-placeholder="input field | input field which contains the company's address@@CompanyAdressInput">
-        </md-form-field>
-        <md-form-field class="example-full-width" style="margin-top:-40px">
-            <input mdInput [(ngModel)]="company.Address2" name=companyAddress2 i18n-placeholder="input field | input field which contains the company's address@@CompanyAdressInput">
-        </md-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Company Name" [(ngModel)]="company.CompanyName" name=companyName i18n-placeholder="input field | input field which contains the company's name@@CompanyNameInput">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Address" [(ngModel)]="company.Address1" name=companyAddress1 i18n-placeholder="input field | input field which contains the company's address@@CompanyAdressInput">
+        </mat-form-field>
+        <mat-form-field class="example-full-width" style="margin-top:-40px">
+            <input matInput [(ngModel)]="company.Address2" name=companyAddress2 i18n-placeholder="input field | input field which contains the company's address@@CompanyAdressInput">
+        </mat-form-field>
 
         <table class="example-full-width" cellspacing="0">
             <tr>
                 <td>
-                    <md-form-field class="example-full-width">
-                        <input mdInput placeholder="City" [(ngModel)]="company.City" name=companyCity i18n-placeholder="input field | input field which contains the companys' city@@CompanyCityInput">
-                    </md-form-field>
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="City" [(ngModel)]="company.City" name=companyCity i18n-placeholder="input field | input field which contains the companys' city@@CompanyCityInput">
+                    </mat-form-field>
                 </td>
                 <td>
-                    <md-select placeholder="State" [(ngModel)]="company.State" name=companyState style="padding: 10px 0px 14px 15px" i18n-placeholder="input field | input field which contains the companys's state@@CompanyStateInput">
-                        <md-option *ngFor="let state of states.codes" [value]="state">
-                            {{ state }}
-                        </md-option>
-                    </md-select>
-                    {{company.State}}
-                    <!-- <input mdInput placeholder="State" value="{{company.State}}"> -->
+                    <mat-select placeholder="State" [(ngModel)]="company.State" name=companyState style="padding: 10px 15px 14px 15px" i18n-placeholder="input field | input field which contains the companys's state@@CompanyStateInput">
+                        <mat-option *ngFor="let state of states.codes" [value]="state">
+                            {{ state }} 
+                        </mat-option>
+                    </mat-select>
+                    <!--  {{company.State}} -->
+                    <!-- <input matInput placeholder="State" value="{{company.State}}"> -->
                     <!-- <md-form-field class="example-full-width"></md-form-field></td> -->
             </tr>
         </table>
-        <md-form-field class="example-full-width">
-            <input mdInput placeholder="Zip Code" [(ngModel)]="company.PostalCode" name=companyZipCode i18n-placeholder="input field | input field which contains the company's zip code@@CompanyPostalCode">
-        </md-form-field>
-        <md-form-field class="example-full-width">
-            <input mdInput placeholder="RFC" [(ngModel)]="company.CompanyRFC" name=companyRFC i18n-placeholder="input field | input field which contains the company's RFC code@@CompanyRFCInput">
-        </md-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Zip Code" [(ngModel)]="company.PostalCode" name=companyZipCode i18n-placeholder="input field | input field which contains the company's zip code@@CompanyPostalCode">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="RFC" [(ngModel)]="company.CompanyRFC" name=companyRFC i18n-placeholder="input field | input field which contains the company's RFC code@@CompanyRFCInput">
+        </mat-form-field>
     </form>
 
-    <button md-raised-button color="primary" (click)=saveCompany() i18n="action | button which will save the company info@@SaveButton"> Save </button>
+    <button mat-raised-button color="primary" (click)=saveCompany() i18n="action | button which will save the company info@@SaveButton"> Save </button>
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 </div>

@@ -5,7 +5,7 @@ import { AlertComponent } from '../alert/alert.component'
 import { SettingsService } from '../../services/settings.service'
 
 //angular material imports
-import { MdSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material'
 
 @Component({
   selector: 'ng-dashboard',
@@ -16,7 +16,7 @@ export class DashboardComponent {
   systemSettings
   isPromiseDone: boolean = false
 
-  constructor(private settingsService: SettingsService,  public snackBar: MdSnackBar) {
+  constructor(private settingsService: SettingsService,  public snackBar: MatSnackBar) {
     settingsService.getSystemSettings().subscribe(data => {
       this.systemSettings = data[0]
       this.isPromiseDone = true;

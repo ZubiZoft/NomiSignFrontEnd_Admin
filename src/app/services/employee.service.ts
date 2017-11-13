@@ -7,8 +7,10 @@ import { EmployeeModel } from '../models/employee.model'
 import { User } from '../models/user.model'
 
 import 'rxjs/add/operator/map';
+import { environment } from '../../environments/environment';
 
-const rootURL = "http://ogrean.com/nomisign/";
+//const rootURL: string = 'http://ogrean.com/nomisign/'
+ const rootURL: string = environment.serviceUrl;
 
 @Injectable()
 export class EmployeeService {

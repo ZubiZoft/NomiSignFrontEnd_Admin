@@ -1,32 +1,37 @@
 <div style="max-height: 100vh; overflow-y: auto" class="centeredList"> 
   <form class="example-form">
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="Company ID" disabled value="{{employee.CompanyId}}" i18n-placeholder="input field | input field which contains the company's id@@CompanyIdField">
-    </md-form-field>
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="Email Address" [(ngModel)]="employee.EmailAddress" name=employeeEmail i18n-placeholder="input field | input field which contains the employee's email@@EmployeeEmailField">
-    </md-form-field>
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="Password" [(ngModel)]="employee.PasswordHash" name=employeePassword i18n-placeholder="input field | input field which contains the employee's password@@EmployeePasswordField">
-    </md-form-field>
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="First Name" [(ngModel)]="employee.FirstName" name=employeeFirst i18n-placeholder="input field | input field which contains the employee's first name@@EmployeeFirstNameField">
-    </md-form-field>
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="Last Name" [(ngModel)]="employee.LastName1" name=employeeLast1 i18n-placeholder="input field | input field which contains the employee's last name@@EmployeeLastNameField">
-    </md-form-field>
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="Last Name" [(ngModel)]="employee.LastName2" name=employeeLast2 i18n-placeholder="input field | input field which contains the employee's last name@@EmployeeLastNameField">
-    </md-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="Company ID" disabled value="{{employee.CompanyId}}" i18n-placeholder="input field | input field which contains the company's id@@CompanyIdField">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput required placeholder="Email Address" [(ngModel)]="employee.EmailAddress" name=employeeEmail i18n-placeholder="input field | input field which contains the employee's email@@EmployeeEmailField">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input required matInput placeholder="Password" [(ngModel)]="employee.PasswordHash" name=employeePassword i18n-placeholder="input field | input field which contains the employee's password@@EmployeePasswordField">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="First Name" [(ngModel)]="employee.FirstName" name=employeeFirst i18n-placeholder="input field | input field which contains the employee's first name@@EmployeeFirstNameField">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="1st Last Name" [(ngModel)]="employee.LastName1" name=employeeLast1 i18n-placeholder="input field | input field which contains the employee's last name@@EmployeeLastNameField">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="2nd Last Name" [(ngModel)]="employee.LastName2" name=employeeLast2 i18n-placeholder="input field | input field which contains the employee's last name@@EmployeeLastNameField">
+    </mat-form-field>
 
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="CURP" [(ngModel)]="employee.CURP" name=employeeCurp i18n-placeholder="input field | input field which contains the employee's curp value@@EmployeeCURPField">
-    </md-form-field>
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="RFC" [(ngModel)]="employee.RFC" name=employeeRfc i18n-placeholder="input field | input field which contains the employee's rfc code@@EmployeeRFCField">
-    </md-form-field>
+      <mat-form-field class="example-full-width">
+          <input matInput placeholder="Cell Number" value="{{employee.CellPhoneNumber}}" [(ngModel)]="employee.CellPhoneNumber" name=employeeCellPhoneNumber
+                 i18n-placeholder="@@EmployeeCellPhoneNumber">
+      </mat-form-field>
+
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="CURP" [(ngModel)]="employee.CURP" name=employeeCurp i18n-placeholder="input field | input field which contains the employee's curp value@@EmployeeCURPField">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="RFC" [(ngModel)]="employee.RFC" name=employeeRfc i18n-placeholder="input field | input field which contains the employee's rfc code@@EmployeeRFCField">
+    </mat-form-field>
   </form>
 
-  <button md-raised-button color="primary" (click)=saveEmployee() i18n="action | button which will update the employee's info when clicked@@UpdateButton"> Update </button>
+  <button mat-raised-button color="primary" (click)=saveEmployee() i18n="action | button which will update the employee's info when clicked@@UpdateButton"> Update </button>
   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 </div>

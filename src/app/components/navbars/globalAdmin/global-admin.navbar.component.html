@@ -1,100 +1,102 @@
 <div class="toolbar">
     <!-- mobile menu -->
     <span style="display:none" class="displayContentMobile">
-        <button md-button [mdMenuTriggerFor]="mobileMenu">
-            <md-icon>menu</md-icon>
+        <button mat-button [matMenuTriggerFor]="mobileMenu">
+            <mat-icon>menu</mat-icon>
         </button>
 
-        <md-menu #mobileMenu="mdMenu">
-            <button md-menu-item routerLink="/dashboard" routerLinkActive="active" i18n="@@GoHomePageMenuHeader"> Home </button>
-            <button md-menu-item [mdMenuTriggerFor]="companyMenu" i18n="@@GoCompaniesPageMenuHeader"> Companies </button>
-            <button md-menu-item [mdMenuTriggerFor]="employeeMenu" i18n="@@GoEmployeesPageMenuHeader"> Employees </button>
-            <button md-menu-item [mdMenuTriggerFor]="companyuserMenu" i18n="@@GoCompanyUsersPageMenuHeader"> Company Users </button>
-        </md-menu>
+        <mat-menu #mobileMenu="matMenu">
+            <button mat-menu-item routerLink="/dashboard" routerLinkActive="active" i18n="@@GoHomePageMenuHeader"> Home </button>
+            <button mat-menu-item [matMenuTriggerFor]="companyMenu" i18n="@@GoCompaniesPageMenuHeader"> Companies </button>
+            <button mat-menu-item [matMenuTriggerFor]="companyuserMenu" i18n="@@GoCompanyUsersPageMenuHeader"> Users </button>
+            <button mat-menu-item [matMenuTriggerFor]="employeeMenu" i18n="@@GoEmployeesPageMenuHeader"> Employees </button>
+            
+        </mat-menu>
         <span style="float:right" *ngIf="user">
-            <button md-button [mdMenuTriggerFor]="menu">
-                <md-icon>person</md-icon>{{user.EmailAddress}}
-                <md-icon>arrow_drop_down</md-icon>
+            <button mat-button [matMenuTriggerFor]="menu">
+                <mat-icon>person</mat-icon>{{user.EmailAddress}}
+                <mat-icon>arrow_drop_down</mat-icon>
             </button>
-            <md-menu #menu="mdMenu">
-                <button md-menu-item (click)="logout()">
-                    <md-icon>exit_to_app</md-icon>
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="logout()">
+                    <mat-icon>exit_to_app</mat-icon>
                     <span i18n="action | user will click this to log out of the website@@LogoutAction">Logout</span>
                 </button>
-            </md-menu>
+            </mat-menu>
         </span>
     </span>
     <!-- desktop menu -->
     <div style="margin-left:12%">
         <span class="hideContentMobile">
             <span>
-                <button md-button routerLink="/dashboard" routerLinkActive="active">
+                <button mat-button routerLink="/dashboard" routerLinkActive="active">
                     <span i18n="menu header | User will click this to navigate to the home page@@GoHomePageMenuHeader">
                         Home
                     </span>
                 </button>
             </span>
 
-            <button md-button [mdMenuTriggerFor]="companyMenu">
+            <button mat-button [matMenuTriggerFor]="companyMenu">
                 <span i18n="menu header | User will click this to navigate to the companies page@@GoCompaniesPageMenuHeader">
                     Companies
                 </span>
-                <md-icon>arrow_drop_down</md-icon>
+                <mat-icon>arrow_drop_down</mat-icon>
             </button>
 
-            <md-menu #companyMenu="mdMenu">
-                <button md-menu-item routerLink="/companies" routerLinkActive="active">
+            <mat-menu #companyMenu="matMenu">
+                <button mat-menu-item routerLink="/companies" routerLinkActive="active">
                     <span i18n="@GoCompaniesPageMenuHeader">
                         Companies
                     </span>
                 </button>
-                <button md-menu-item routerLink="/companyNew" routerLinkActive="active">
+                <button mat-menu-item routerLink="/companyNew" routerLinkActive="active">
                     <span i18n="menu header | User will click this to create a new company@@NewCompanyPageHeader">
                         New Company
                     </span>
                 </button>
-            </md-menu>
+            </mat-menu>
 
+            <button mat-button [matMenuTriggerFor]="companyuserMenu">
+                <span i18n="menu header | User will click this to go to the company user's page@@GoCompanyUsersPageMenuHeader">
+                    Users
+                </span>
+                <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+            <mat-menu #companyuserMenu="matMenu">
+                <button mat-menu-item routerLink="/companyusers" routerLinkActive="active">
+                    <span i18n="@@GoCompanyUsersPageMenuHeader">
+                        Users
+                    </span>
+                </button>
+            </mat-menu>
 
-            <button md-button [mdMenuTriggerFor]="employeeMenu">
+            <button mat-button [matMenuTriggerFor]="employeeMenu">
                 <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
                     Employees
                 </span>
-                <md-icon>arrow_drop_down</md-icon>
+                <mat-icon>arrow_drop_down</mat-icon>
             </button>
-            <md-menu #employeeMenu="mdMenu">
-                <button md-menu-item routerLink="/employees" routerLinkActive="active">
+            <mat-menu #employeeMenu="matMenu">
+                <button mat-menu-item routerLink="/employees" routerLinkActive="active">
                     <span i18n="@@GoEmployeesPageMenuHeader">
                         Employees
                     </span>
                 </button>
-            </md-menu>
+            </mat-menu>
 
-            <button md-button [mdMenuTriggerFor]="companyuserMenu">
-                <span i18n="menu header | User will click this to go to the company user's page@@GoCompanyUsersPageMenuHeader">
-                    Company Users
-                </span>
-                <md-icon>arrow_drop_down</md-icon>
-            </button>
-            <md-menu #companyuserMenu="mdMenu">
-                <button md-menu-item routerLink="/companyusers" routerLinkActive="active">
-                    <span i18n="@@GoCompanyUsersPageMenuHeader">
-                        Company Users
-                    </span>
-                </button>
-            </md-menu>
+            
 
             <span style="float:right" *ngIf="user">
-                <button md-button [mdMenuTriggerFor]="menu">
-                    <md-icon>person</md-icon>{{user.EmailAddress}}
-                    <md-icon>arrow_drop_down</md-icon>
+                <button mat-button [matMenuTriggerFor]="menu">
+                    <mat-icon>person</mat-icon>{{user.EmailAddress}}
+                    <mat-icon>arrow_drop_down</mat-icon>
                 </button>
-                <md-menu #menu="mdMenu">
-                    <button md-menu-item (click)="logout()">
-                        <md-icon>exit_to_app</md-icon>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item (click)="logout()">
+                        <mat-icon>exit_to_app</mat-icon>
                         <span i18n="action | user will click this to log out of the website@@LogoutAction">Logout</span>
                     </button>
-                </md-menu>
+                </mat-menu>
             </span>
         </span>
     </div>

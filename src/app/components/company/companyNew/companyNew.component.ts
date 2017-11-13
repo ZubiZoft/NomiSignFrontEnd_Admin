@@ -5,7 +5,7 @@ import { CompanyModel } from '../../../models/company.model'
 import { CompanyService } from '../../../services/company.service'
 import { States } from '../../../models/states.models'
 //angular material imports
-import { MdSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material'
 
 @Component({
   selector: 'ng-newcompany',
@@ -18,7 +18,7 @@ export class CompanyNewComponent {
   id: string;
   states : States
 
-  constructor(private companyService : CompanyService, public snackbar: MdSnackBar) { 
+  constructor(private companyService : CompanyService, public snackbar: MatSnackBar) { 
       this.states = new States();
       this.company = new CompanyModel()
   }

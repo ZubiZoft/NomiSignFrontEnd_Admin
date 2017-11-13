@@ -1,44 +1,60 @@
-<md-spinner style="width:auto" *ngIf="!isPromiseDone"></md-spinner>
+<mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
 
 <div  style="max-height: 100vh; overflow-y: auto" class="centeredList" *ngIf="employee">
  
-  <input-file (onFileSelect)="onFileSelect($event)" *ngIf="userStatus === 5 || userStatus === 6" >
-    <span class="nofiles">Choose file</span>
-    <span class="selected">Files selected</span>
-  </input-file>
-
-  <div *ngIf="files">
-    <div *ngFor="let file of files">
-     {{ file.name}}
-    </div>
-  </div>
- 
   <form class="example-form">
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="Email Address" value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress" name=employeeEmailAddress
+    <mat-form-field class="example-full-width">
+      <input required matInput placeholder="Email Address" value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress" name=employeeEmailAddress
         i18n-placeholder="@@EmployeeEmailField">
-    </md-form-field>
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="First Name" value="{{employee.FirstName}}" [(ngModel)]="employee.FirstName" name=employeeFirst
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="First Name" value="{{employee.FirstName}}" [(ngModel)]="employee.FirstName" name=employeeFirst
         i18n-placeholder="@@EmployeeFirstNameField">
-    </md-form-field>
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="Last Name" value="{{employee.LastName1}}" [(ngModel)]="employee.LastName1" name=employeeLast1
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="1st Last Name" value="{{employee.LastName1}}" [(ngModel)]="employee.LastName1" name=employeeLast1
         i18n-placeholder="@@EmployeeLastNameField">
-    </md-form-field>
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="Last Name" value="{{employee.LastName2}}" [(ngModel)]="employee.LastName2" name=employeeLast2
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="2nd Last Name" value="{{employee.LastName2}}" [(ngModel)]="employee.LastName2" name=employeeLast2
         i18n-placeholder="@@EmployeeLastNameField">
-    </md-form-field>
+    </mat-form-field>
 
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="CURP" value="{{employee.CURP}}" [(ngModel)]="employee.CURP" name=employeeCURP i18n-placeholder="@@EmployeeCURPField">
-    </md-form-field>
-    <md-form-field class="example-full-width">
-      <input mdInput placeholder="RFC" value="{{employee.RFC}}" [(ngModel)]="employee.RFC" name=employeeRFC i18n-placeholder="@@EmployeeRFCField">
-    </md-form-field>
-  </form>
+      <mat-form-field class="example-full-width">
+          <input matInput placeholder="Cell Number" value="{{employee.CellPhoneNumber}}" [(ngModel)]="employee.CellPhoneNumber" name=employeeCellPhoneNumber
+                 i18n-placeholder="@@EmployeeCellPhoneNumber">
+      </mat-form-field>
 
-  <button md-raised-button color="primary" (click)=updateEmployee() i18n="@@UpdateButton"> Update </button>
-  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="CURP" value="{{employee.CURP}}" [(ngModel)]="employee.CURP" name=employeeCURP i18n-placeholder="@@EmployeeCURPField">
+    </mat-form-field>
+    <mat-form-field class="example-full-width">
+      <input matInput placeholder="RFC" value="{{employee.RFC}}" [(ngModel)]="employee.RFC" name=employeeRFC i18n-placeholder="@@EmployeeRFCField">
+    </mat-form-field>
+      
+      <table>
+          <tr>
+              <td>
+                  <input-file style="padding-bottom:15px" (onFileSelect)="onFileSelect($event)">
+                      <span class="nofiles">Upload Employee File</span>
+                      <span class="selected">Files selected</span>
+                  </input-file>
+                  </td>
+              <td>
+                  <div *ngIf="files">
+                      <div *ngFor="let file of files">
+                          {{ file.name}}
+                      </div>
+                  </div>
+              </td>
+          </tr>
+          <tr style="padding-top: 25px">
+              <td style="padding-top: 25px" colspan="2">
+                  <button mat-raised-button color="primary" (click)=updateEmployee() i18n="@@UpdateButton"> Update </button>
+              </td>
+          </tr>
+      </table>
+</form>
+
+   
 </div>

@@ -8,7 +8,7 @@ import 'rxjs/add/operator/finally'
 import { EmployeeService } from '../../../services/employee.service'
 import { User } from '../../../models/user.model'
 //angular material imports
-import { MdSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material'
 
 @Component({
   selector: 'ng-employee-new',
@@ -21,7 +21,7 @@ export class EmployeeNewComponent implements OnInit {
   companyId: string;
   employeeID: string;
 
-  constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MdSnackBar) { 
+  constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MatSnackBar) { 
       this.employee = new User()
       route.params.subscribe((params: Params) => {
         this.employee.CompanyId = params['cid'];
