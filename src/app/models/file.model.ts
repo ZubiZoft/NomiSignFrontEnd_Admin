@@ -1,5 +1,6 @@
 export class FileModel {
     FileName: string;
     Content:any;
-    EmployeeCURP: string
+    EmployeeCURP: string;
+    //CompanyId: string;
 }

@@ -1,6 +1,7 @@
 //angular imports
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Params } from '@angular/router';
+import { Location } from '@angular/common';
 //rxjs imports
 import "rxjs/add/operator/switchMap";
 import 'rxjs/add/operator/finally'
@@ -23,7 +24,7 @@ export class CompanyUsersNewComponent implements OnInit {
   userstatus: UserStatus;
   employeeID: string;
 
-  constructor(private route: ActivatedRoute, private companyUserService: CompanyUsersService, public snackbar: MatSnackBar) { 
+  constructor(private route: ActivatedRoute, private companyUserService: CompanyUsersService, public snackbar: MatSnackBar, private _location: Location) { 
       this.companyUser = new CompanyUserModel()
       this.userstatus = new UserStatus();
   }
@@ -37,8 +38,8 @@ export class CompanyUsersNewComponent implements OnInit {
   saveNewCompanyUser(){
     this.companyUser.CompanyId = +this.companyId
      this.route.paramMap
-     .switchMap((params: ParamMap) => this.companyUserService.saveNewCompanyUser(this.companyUser).finally(() => this.snackbar.open("sucessfully updated", "",{duration: 5000}) ))
-     .subscribe(data => this.companyUser = data,
+         .switchMap((params: ParamMap) => this.companyUserService.saveNewCompanyUser(this.companyUser).finally(() => { this.snackbar.open("sucessfully updated", "", { duration: 5000 });}))
+         .subscribe(data => { this.companyUser = data; this._location.back(); }, 
                 error => this.snackbar.open(error, "",{duration: 5000}))
   }
 }

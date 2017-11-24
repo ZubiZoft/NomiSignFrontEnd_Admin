@@ -1,6 +1,6 @@
 <mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
 
-<div style="max-height: 100vh; overflow-y: auto" *ngIf="companyUsers">
+<div style="max-height: 80vh; overflow-y: auto" *ngIf="companyUsers">
   <button mat-button [routerLink]="['/companyuserNew', companyId]" class="leftFloat">
   <mat-icon mat-list-icon >add</mat-icon><mat-icon mat-list-icon>account_circle</mat-icon> 
 </button>

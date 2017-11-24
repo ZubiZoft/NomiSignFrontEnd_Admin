@@ -1,0 +1,37 @@
+<h2 class="centerText" i18n="message | a message to let the user refused document details">
+    Details for document ID {{ doc.DocumentId }}:
+    
+</h2>
+
+    <table>
+        <tr>
+            <td><b>Employee Name:</b></td>
+            <td> {{ doc.EmployeeName }} </td>
+        </tr>
+        <tr>
+            <td><b>Pay Period:</b></td>
+            <td> {{ doc.PayperiodDate }}</td>
+        </tr>
+        <tr>
+            <td><b>Upload Time:</b></td>
+            <td> {{ doc.UploadTime }}</td>
+        </tr>
+        <tr>
+            <td><b>Rejection Reason:</b></td>
+            <td> {{ doc.EmployeeConcern }}</td>
+        </tr>
+    </table>
+
+<hr/>
+<div>
+    <table width="100%">
+        <tr>
+            <td>
+                <button style="float:left" mat-button color="primary" (click)="onNoClick()"> Resubmit </button>
+            </td>
+            <td>
+                <button style="float:right" mat-button color="primary" (click)="onNoClick()"> Close </button>
+            </td>
+        </tr>
+    </table>
+</div>

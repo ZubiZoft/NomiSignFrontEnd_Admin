@@ -5,9 +5,10 @@ export class CompanyUserModel {
     PhoneNumber:string;
     PasswordHash:string;
     UserStatus:number;
-    LastLogin:Date;
+    LastLogin:string;
     LastPasswordChange:Date;
     ForcePasswordReset: boolean;
+    CreatedByUserName: string;
     CompanyId: number;
     Links:{
         SelfUri: string

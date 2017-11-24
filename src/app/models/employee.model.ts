@@ -10,4 +10,5 @@ export class EmployeeModel {
     RFC: string;
     CURP: string;
     CellPhoneNumber: string;
+    CreatedByUserName: string;
 }

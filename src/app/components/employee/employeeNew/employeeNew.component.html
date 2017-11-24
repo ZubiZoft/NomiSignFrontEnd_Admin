@@ -1,4 +1,4 @@
-<div style="max-height: 100vh; overflow-y: auto" class="centeredList"> 
+<div style="max-height: 80vh; overflow-y: auto" class="centeredList"> 
   <form class="example-form">
     <mat-form-field class="example-full-width">
       <input matInput placeholder="Company ID" disabled value="{{employee.CompanyId}}" i18n-placeholder="input field | input field which contains the company's id@@CompanyIdField">
@@ -6,9 +6,9 @@
     <mat-form-field class="example-full-width">
       <input matInput required placeholder="Email Address" [(ngModel)]="employee.EmailAddress" name=employeeEmail i18n-placeholder="input field | input field which contains the employee's email@@EmployeeEmailField">
     </mat-form-field>
-    <mat-form-field class="example-full-width">
+    <!--<mat-form-field class="example-full-width">
       <input required matInput placeholder="Password" [(ngModel)]="employee.PasswordHash" name=employeePassword i18n-placeholder="input field | input field which contains the employee's password@@EmployeePasswordField">
-    </mat-form-field>
+    </mat-form-field>-->
     <mat-form-field class="example-full-width">
       <input matInput placeholder="First Name" [(ngModel)]="employee.FirstName" name=employeeFirst i18n-placeholder="input field | input field which contains the employee's first name@@EmployeeFirstNameField">
     </mat-form-field>
@@ -32,6 +32,6 @@
     </mat-form-field>
   </form>
 
-  <button mat-raised-button color="primary" (click)=saveEmployee() i18n="action | button which will update the employee's info when clicked@@UpdateButton"> Update </button>
+  <button mat-raised-button color="primary" (click)=saveEmployee() i18n="action | button which will update the employee's info when clicked@@UpdateButton"> Save </button>
   <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 </div>

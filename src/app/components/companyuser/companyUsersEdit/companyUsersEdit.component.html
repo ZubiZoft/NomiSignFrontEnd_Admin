@@ -1,6 +1,6 @@
 <mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
 
-<div style="max-height: 100vh; overflow-y: auto" class="centeredList">
+<div style="max-height: 75vh; overflow-y: auto"  class="centeredList">
   <form class="example-form" *ngIf="companyUser">
     <mat-form-field class="example-full-width">
       <input matInput required placeholder="Email Address" value="{{companyUser.EmailAddress}}" [(ngModel)]="companyUser.EmailAddress" name=companyUserEmail
@@ -29,12 +29,15 @@
               <input matInput placeholder="User Status" value="{{companyUser.UserStatus}}" [(ngModel)]="companyUser.UserStatus" name=companyUserStatus
                      i18n-placeholder="form | field display the company user's status@@CompanyUserStatus">
           </mat-form-field>-->
-          <mat-checkbox style="padding:10px 25px 10px 25px;" matInput placeholder="Force Password Reset" value="{{companyUser.ForcePasswordReset}}"
+          <!--<mat-checkbox style="padding:10px 25px 10px 25px;" matInput placeholder="Force Password Reset" value="{{companyUser.ForcePasswordReset}}"
                         [(ngModel)]="companyUser.ForcePasswordReset" name=companyUserPasswordReset i18n="form | field asking the if there should be a forced password reset@@CompanyUserPasswordReset">
               Force Password Reset
-          </mat-checkbox>
+          </mat-checkbox>-->
+  
+      <p align="right"><b>Created By:</b>{{companyUser.CreatedByUserName}} - <b>Last Login:</b>{{companyUser.LastLogin}} </p>
 </form>
 
   <button mat-raised-button color="primary" (click)=updateCompanyUser() i18n="@@UpdateButton"> Update </button>
-  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+  <br/><br/>
+    
 </div>

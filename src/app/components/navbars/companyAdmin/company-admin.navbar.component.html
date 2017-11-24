@@ -9,6 +9,7 @@
             <button mat-menu-item [matMenuTriggerFor]="companyMenu" i18n="@@GoCompaniesPageMenuHeader"> Companies </button>
             <button mat-menu-item [matMenuTriggerFor]="companyuserMenu" i18n="@@GoCompanyUsersPageMenuHeader"> Users </button>
             <button mat-menu-item [matMenuTriggerFor]="employeeMenu" i18n="@@GoEmployeesPageMenuHeader"> Employees </button>
+            <button mat-menu-item [matMenuTriggerFor]="companyDocumentMenu" i18n="@@GoCompanyDocumentMenuHeader"> Documents </button>
         </mat-menu>
         <span style="float:right" *ngIf="user">
             <button mat-button [matMenuTriggerFor]="menu">
@@ -70,6 +71,25 @@
                 <button mat-menu-item [routerLink]="['/employeeNew', user.CompanyId]" routerLinkActive="active">
                     <span i18n="menu header | User will click this to create a new employee@@NewEmployeesPageMenuHeader">
                         New Employee
+                    </span>
+                </button>
+            </mat-menu>
+
+            <button mat-button [matMenuTriggerFor]="companyDocumentMenu">
+            <span i18n="menu header | User will click this to go to the documents page@@GoDocumentPageMenuHeader">
+                Documents
+            </span>
+            <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+            <mat-menu #companyDocumentMenu="matMenu">
+                <button mat-menu-item [routerLink]="['/documentRejectList/3/', user.CompanyId]" routerLinkActive="active">
+                    <span i18n="@@GoCompanyUsersPageMenuHeader">
+                        Refused
+                    </span>
+                </button>
+                <button mat-menu-item [routerLink]="['/documentUnapprovedList/1/', user.CompanyId]" routerLinkActive="active">
+                    <span i18n="@@GoCompanyUsersPageMenuHeader">
+                        Unsigned
                     </span>
                 </button>
             </mat-menu>

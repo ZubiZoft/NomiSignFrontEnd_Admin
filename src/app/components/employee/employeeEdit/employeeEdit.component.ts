@@ -1,6 +1,7 @@
 //angular imports
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, Params, ParamMap } from '@angular/router';
+import { Location } from '@angular/common';
 //rxjs imports
 import "rxjs/add/operator/switchMap";
 import 'rxjs/add/operator/finally'
@@ -29,8 +30,13 @@ export class EmployeeEditComponent implements OnInit {
   files: any[]
 
   constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MatSnackBar, private uploadService: UploadService,
-    private companyService: CompanyService, private userService: UserService) {
-    this.userStatus = userService.getUserStatus();
+      private companyService: CompanyService, private userService: UserService, private _location: Location) {
+      this.userStatus = userService.getUserStatus();
+
+      // get company Id
+      route.params.subscribe((params: Params) => {
+          this.companyId = params['cid'];
+      });
   }
 
   ngOnInit(): void {
@@ -44,11 +50,11 @@ export class EmployeeEditComponent implements OnInit {
 
   updateEmployee() {
     this.route.paramMap
-      .switchMap((params: ParamMap) => this.employeeService.updateEmployeeDetails(params.get('eid'), this.employee).finally(() => this.snackbar.open("sucessfully updated", "", { duration: 5000 })))
-      .subscribe(data => this.employee = data,
+        .switchMap((params: ParamMap) => this.employeeService.updateEmployeeDetails(params.get('eid'), this.employee).finally(() => { this.snackbar.open("sucessfully updated", "", { duration: 5000 });}))
+        .subscribe(data => { this.employee = data; if (!this.files) { this._location.back(); } },
       error => this.snackbar.open(error, "", { duration: 5000 }))
 
-    if (this.files.length > 0) {
+    if (this.files && this.files.length > 0) {
       this.companyService.getCompanyById(this.employee.CompanyId).subscribe(data => {
         this.uploadService.openBatch(data.CompanyRFC).subscribe(data => {
           let batchId = data.BatchId;
@@ -56,7 +62,7 @@ export class EmployeeEditComponent implements OnInit {
             this.uploadFile(file, batchId)
           };
           this.uploadService.closeBatch(batchId).subscribe(data => {
-            console.log('closed')
+              console.log('closed'); this._location.back();
             //success from closed batch
           })
         })
@@ -72,6 +78,7 @@ export class EmployeeEditComponent implements OnInit {
   uploadFile(file, batchId): any {
     let uploadFile = new FileModel()
     uploadFile.EmployeeCURP = this.employee.CURP;
+    //uploadFile.CompanyId = this.companyId;
     uploadFile.FileName = file.name;
     var reader = new FileReader();
     reader.readAsDataURL(file)

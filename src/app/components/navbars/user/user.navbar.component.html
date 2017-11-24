@@ -41,6 +41,13 @@
                     </span>
                 </button>
             </mat-menu>
+            <mat-menu #companyDocumentMenu="matMenu">
+                <button mat-menu-item [routerLink]="['/companyusers', user.CompanyId]" routerLinkActive="active">
+                    <span i18n="@@GoCompanyUsersPageMenuHeader">
+                        Documents
+                    </span>
+                </button>
+            </mat-menu>
 
             <span style="float:right" *ngIf="user">
                 <button mat-button [matMenuTriggerFor]="menu">

@@ -1,0 +1,23 @@
+﻿
+<h1 *ngIf="(signStatusSearch === '1')" i18n="header | header of the employees section@@EmployeesHeader" class="centerText">Unsigned Documents</h1>
+<h1 *ngIf="(signStatusSearch === '3')" i18n="header | header of the employees section@@EmployeesHeader" class="centerText">Refused Documents</h1>
+
+    <div style="margin-top:10px; line-height: 1.25" class="centerText">
+        <mat-icon style="vertical-align:middle">search</mat-icon>
+        <input #search placeholder="Search" (keyup)="0" class="inputSearchBox" />
+        <button *ngIf="(signStatusSearch === '1')" mat-raised-button color="primary" i18n="@@UpdateButton"> Send Reminders </button>
+    </div>
+<div style="max-height: 100vh; overflow-y: auto" *ngIf="documents">    
+    <mat-list class="centeredList">
+
+        <mat-list-item *ngFor="let document of (documents | listfilter: search.value)" style="border-bottom: 1px solid grey; cursor: pointer" (click)="showDialog(document)" routerLinkActive="active">
+            <mat-icon mat-list-icon><i class="material-icons">account_circle</i></mat-icon>
+            <!--<h4 mat-line>{{document.SignStatus}}</h4>-->
+            <p mat-line>{{document.EmployeeName}}, PayPeriod: {{document.PayperiodDate}}, Date Uploaded: {{document.UploadTime}} </p>
+        </mat-list-item>
+    </mat-list>
+    <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
+    <div *ngIf="!documents && isPromiseDone" i18n="message | message letting the user know there are no documents@@NoDocumentsMessage">
+        There are no documents to view
+    </div>
+</div>

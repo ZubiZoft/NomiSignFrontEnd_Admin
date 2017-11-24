@@ -28,7 +28,9 @@ import { CompanyUsersListComponent } from './components/companyuser/companyUsers
 import { CompanyUsersEditComponent } from './components/companyuser/companyUsersEdit/companyUsersEdit.component'
 import { CompanyUsersNewComponent } from './components/companyuser/companyUsersNew/companyUsersNew.component'
 import { LoginAlertDialog } from './components/login/login.component'
+import { RefusedDocumentAlertDialog } from './components/documentList/documentList.component'
 import { GlobalAdminNavbarComponent } from './components/navbars/globalAdmin/global-admin.navbar.component'
+import { DocumentListComponent } from './components/documentList/documentList.component'
 import { CompanyAdminNavbarComponent } from './components/navbars/companyAdmin/company-admin.navbar.component'
 import { UserNavbarComponent } from './components/navbars/user/user.navbar.component'
 import { InputFile } from './components/fileupload.component' 
@@ -36,6 +38,7 @@ import { InputFile } from './components/fileupload.component'
 import { UserService } from './services/user.service'
 import { AuthService } from './services/auth.service'
 import { UploadService } from './services/upload.service'
+import { DocumentService } from './services/documents.service'
 import { CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard } from './services/authguard.service'
 
 import { ListFilterPipe } from './pipes/list-filter.pipe'
@@ -49,6 +52,7 @@ import { AppRoutingModule } from './app.routing'
     CompaniesComponent,
     TimesheetComponent,
     DashboardComponent,
+    DocumentListComponent,
     NotFoundComponent,
     CompanyEditComponent,
     CompanyNewComponent,
@@ -62,6 +66,7 @@ import { AppRoutingModule } from './app.routing'
     CompanyUsersEditComponent,
     CompanyUsersNewComponent,
     LoginAlertDialog,
+    RefusedDocumentAlertDialog,
     ListFilterPipe,
     GlobalAdminNavbarComponent,
     CompanyAdminNavbarComponent,
@@ -90,8 +95,8 @@ import { AppRoutingModule } from './app.routing'
     MatDialogModule,
     MatProgressSpinnerModule
   ],
-  providers: [ UserService, AuthService, CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard, UploadService ],
+  providers: [ UserService, AuthService, CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard, UploadService, DocumentService ],
   bootstrap: [AppComponent],
-  entryComponents: [ LoginAlertDialog ]
+  entryComponents: [LoginAlertDialog, RefusedDocumentAlertDialog ]
 })
 export class AppModule { }

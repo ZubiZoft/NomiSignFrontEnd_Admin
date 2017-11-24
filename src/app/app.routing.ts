@@ -15,12 +15,13 @@ import { EmployeeEditComponent } from './components/employee/employeeEdit/employ
 import { EmployeeNewComponent } from './components/employee/employeeNew/employeeNew.component'
 import { CompanyUsersComponent } from './components/companyuser/companyUsers/companyUsers.component'
 import { CompanyUsersListComponent } from './components/companyuser/companyUsersList/companyUsersList.component'
+import { DocumentListComponent } from './components/documentList/documentList.component'
 import { CompanyUsersEditComponent } from './components/companyuser/companyUsersEdit/companyUsersEdit.component'
 import { CompanyUsersNewComponent } from './components/companyuser/companyUsersNew/companyUsersNew.component'
 import { CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard } from './services/authguard.service'
 
 const routes: Routes = [
-  { path: 'account/:uid', component: AccountComponent },
+  { path: 'account/:eid', component: AccountComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   //{ path: 'account/:uid', redirectTo: '/account/:uid', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -37,22 +38,10 @@ const routes: Routes = [
   { path: 'companyusers/:cid', component: CompanyUsersListComponent, canActivate: [CAdminAuthGuard] },
   { path: 'companyuser/:cid/:cuid', component: CompanyUsersEditComponent, canActivate: [CAdminAuthGuard] },
   { path: 'companyuserNew/:cid', component: CompanyUsersNewComponent, canActivate: [CAdminAuthGuard] }, //change
+  { path: 'documentUnapprovedList/:sts/:cid', component: DocumentListComponent, canActivate: [UserAuthGuard] },
+  { path: 'documentRejectList/:sts/:cid', component: DocumentListComponent, canActivate: [UserAuthGuard] },
   { path: '**', component: NotFoundComponent }
-  
-
-  // { path: '', redirectTo: '/login', pathMatch: 'full' },
-  // { path: 'login', component: LoginComponent, outlet: 'login'},
-  // { path: 'layout', component: LayoutComponent, outlet: 'layout' },
-  // { path: 'employees', component: EmployeesComponent, outlet: 'layout'  },
-  // { path: 'companies', component: CompaniesComponent, outlet: 'layout'  },
-  // { path: 'timesheet', component: TimesheetComponent, outlet: 'layout'  },
-  // { path: 'dashboard', component: DashboardComponent, outlet: 'layout'  },
-  // { path: 'companyEdit/:id', component: CompanyEditComponent, outlet: 'layout'  },
-  // { path: 'companyNew', component: CompanyNewComponent, outlet: 'layout'  },
-  // { path: 'employeesList/:id', component: EmployeesListComponent, outlet: 'layout'  },
-  // { path: 'employeeEdit/:cid/:eid', component: EmployeeEditComponent, outlet: 'layout'  },
-  // { path: 'employeeNew/:cid', component: EmployeeNewComponent, outlet: 'layout'  },
-  // { path: '**', component: NotFoundComponent, outlet: 'layout'  }
+ 
 ];
 
 @NgModule({
