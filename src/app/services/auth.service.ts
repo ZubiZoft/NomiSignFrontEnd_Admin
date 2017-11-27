@@ -7,12 +7,10 @@ import 'rxjs/add/operator/map';
 
 import { environment } from '../../environments/environment';
 
-//const rootURL: string = 'http://ogrean.com/nomisign/'
 const rootURL: string = environment.serviceUrl;
 
 @Injectable()
 export class AuthService {
-    //private rootURL: string = 'http://ogrean.com/nomisign/'
 
     constructor(private http: Http) {}
 

@@ -57,16 +57,16 @@ export class LoginComponent implements OnInit {
       () =>  {
         
         let user = this.userService.getUser()
-        switch(user.UserStatus){
-          case 6: { //global admin
+        switch(user.UserType){
+          case 3: { //global admin
             this.router.navigate(['/dashboard'])
             break;
           } 
-          case 5: { //company admin
+          case 2: { //company admin
             this.router.navigate(['/companyEdit', user.CompanyId ])
             break;
           }
-          case 2: { //company user
+          case 1: { //HR user
             this.router.navigate(['/employeesList', user.CompanyId])
             break;
           }

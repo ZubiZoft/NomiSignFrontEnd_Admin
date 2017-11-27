@@ -1,5 +1,5 @@
 export class User {
-    EmployeeId: number;
+    //EmployeeId: number;
     UserId: number;
     CompanyId: number;
     FirstName: string;
@@ -8,7 +8,7 @@ export class User {
     CURP: string;
     RFC: string;
     CreatedByUserId: number;
-    PasswordHash: string;
+    //PasswordHash: string;
     EmailAddress: string;
     Links: {
         SelfUri: string

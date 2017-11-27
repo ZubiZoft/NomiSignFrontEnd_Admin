@@ -22,7 +22,7 @@ import { MatSnackBar } from '@angular/material'
   providers: [EmployeeService, CompanyService]
 })
 export class EmployeeEditComponent implements OnInit {
-  userStatus: any;
+  //userStatus: any;
   employee: EmployeeModel;
   companyId: string;
   employeeID: string;
@@ -31,7 +31,7 @@ export class EmployeeEditComponent implements OnInit {
 
   constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MatSnackBar, private uploadService: UploadService,
       private companyService: CompanyService, private userService: UserService, private _location: Location) {
-      this.userStatus = userService.getUserStatus();
+      //this.userStatus = userService.getUserType();
 
       // get company Id
       route.params.subscribe((params: Params) => {

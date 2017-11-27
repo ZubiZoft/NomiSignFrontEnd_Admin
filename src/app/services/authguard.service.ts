@@ -12,11 +12,11 @@ export class CAdminAuthGuard {
     if (this.userService.isLoggedIn()){
       let user = this.userService.getUser();
 
-      if (user.UserStatus === 6){
+      if (user.UserType === 3){
         return true;
       }
 
-        if (user.UserStatus >= 5){
+      if (user.UserType === 2){
           if (user.CompanyId === +route.params.cid){
             return true;
           }
@@ -40,11 +40,11 @@ export class UserAuthGuard {
     if (this.userService.isLoggedIn()) {
       let user = this.userService.getUser();
 
-      if (user.UserStatus === 6){
+      if (user.UserType === 3){
         return true;
       }
 
-      if (user.UserStatus === 2 || user.UserStatus >= 5){
+      if (user.UserType === 1 || user.UserType === 2){
         if (user.CompanyId === +route.params.cid){
           return true;
         }
@@ -66,10 +66,10 @@ export class GAdminAuthGuard {
 
   canActivate( route : ActivatedRouteSnapshot, state : RouterStateSnapshot ) {
     if (this.userService.isLoggedIn()){
-       if (this.userService.getUserStatus() === 6){
+       if (this.userService.getUserType() === 3){
          return true;
        }
-       console.log(this.userService.getUserStatus())
+       console.log(this.userService.getUserType())
     } 
     this.router.navigate(['/login']);
     return false;

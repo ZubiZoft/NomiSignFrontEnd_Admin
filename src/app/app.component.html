@@ -4,9 +4,9 @@
     <h1 style="line-height:50px" class="mobileHeaderText"> Admin Page</h1>
   </div>
   <div *ngIf="user">
-    <global-admin-navbar *ngIf="user.UserStatus === 6"></global-admin-navbar>
-    <company-admin-navbar *ngIf="user.UserStatus === 5"></company-admin-navbar>
-    <user-navbar *ngIf="user.UserStatus === 2"></user-navbar>
+    <global-admin-navbar *ngIf="user.UserType === 3"></global-admin-navbar>
+    <company-admin-navbar *ngIf="user.UserType === 2"></company-admin-navbar>
+    <user-navbar *ngIf="user.UserType === 1"></user-navbar>
   </div>
   <router-outlet></router-outlet>
 </div>

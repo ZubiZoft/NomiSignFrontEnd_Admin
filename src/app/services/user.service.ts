@@ -26,10 +26,10 @@ export class UserService {
         return false;
     }
 
-    public getUserStatus(): number {
+    public getUserType(): number {
         let currentUser = this.getUser()
         if (currentUser != null){
-            return currentUser.UserStatus
+            return currentUser.UserType
         }
         return 0;
     }

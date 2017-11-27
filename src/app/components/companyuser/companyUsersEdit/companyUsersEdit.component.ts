@@ -6,7 +6,7 @@ import { Location } from '@angular/common';
 import "rxjs/add/operator/switchMap";
 import 'rxjs/add/operator/finally'
 //custom imports
-import { UserStatus } from '../../../models/userstatus.models'
+import { UserType} from '../../../models/usertype.models'
 import { CompanyUsersService } from '../../../services/companyUser.service'
 import { CompanyUserModel } from '../../../models/companyUser.model'
 //angular material imports
@@ -22,11 +22,11 @@ export class CompanyUsersEditComponent implements OnInit {
   companyUser: CompanyUserModel;
   companyId: string;
   employeeID: string;
-  userstatus: UserStatus;
+  usertype: UserType;
   isPromiseDone: boolean = false;
 
   constructor(private route: ActivatedRoute, private companyUserService: CompanyUsersService, public snackbar: MatSnackBar, private _location: Location) { 
-      this.userstatus = new UserStatus();
+      this.usertype = new UserType();
   }
 
   ngOnInit(): void {

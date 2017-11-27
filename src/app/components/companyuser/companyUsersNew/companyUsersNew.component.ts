@@ -6,7 +6,8 @@ import { Location } from '@angular/common';
 import "rxjs/add/operator/switchMap";
 import 'rxjs/add/operator/finally'
 //custom imports
-import { UserStatus } from '../../../models/userstatus.models'
+import { UserType } from '../../../models/usertype.models'
+import { UserService } from '../../../services/user.service'
 import { CompanyUsersService } from '../../../services/companyUser.service'
 import { CompanyUserModel } from '../../../models/companyUser.model'
 //angular material imports
@@ -21,12 +22,12 @@ import { MatSnackBar } from '@angular/material'
 export class CompanyUsersNewComponent implements OnInit {
   companyUser: CompanyUserModel;
   companyId: string;
-  userstatus: UserStatus;
+  usertype: UserType;
   employeeID: string;
 
-  constructor(private route: ActivatedRoute, private companyUserService: CompanyUsersService, public snackbar: MatSnackBar, private _location: Location) { 
+  constructor(private route: ActivatedRoute, private companyUserService: CompanyUsersService, public snackbar: MatSnackBar, private _location: Location, private userService: UserService) { 
       this.companyUser = new CompanyUserModel()
-      this.userstatus = new UserStatus();
+      this.usertype = new UserType();
   }
 
   ngOnInit(): void {
@@ -36,10 +37,15 @@ export class CompanyUsersNewComponent implements OnInit {
   }
 
   saveNewCompanyUser(){
-    this.companyUser.CompanyId = +this.companyId
+      this.companyUser.CompanyId = +this.companyId;
+      let user = this.userService.getUser();
+      this.companyUser.CreatedByUserId = user.UserId;
      this.route.paramMap
-         .switchMap((params: ParamMap) => this.companyUserService.saveNewCompanyUser(this.companyUser).finally(() => { this.snackbar.open("sucessfully updated", "", { duration: 5000 });}))
-         .subscribe(data => { this.companyUser = data; this._location.back(); }, 
-                error => this.snackbar.open(error, "",{duration: 5000}))
+         .switchMap((params: ParamMap) => this.companyUserService.saveNewCompanyUser(this.companyUser))
+         .subscribe(
+         data => { this.companyUser = data; this._location.back(); }, 
+         error => this.snackbar.open(error, "", { duration: 5000 }),
+         () => this.snackbar.open("Successfully Updated", "", { duration: 5000 })
+     )
   }
 }
