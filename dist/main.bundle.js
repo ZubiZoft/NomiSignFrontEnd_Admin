@@ -808,8 +808,9 @@ module.exports = "<mat-spinner style=\"margin:0 auto;\" *ngIf=\"!isPromiseDone\"
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_finally__ = __webpack_require__("../../../../rxjs/add/operator/finally.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_finally___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_4_rxjs_add_operator_finally__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__models_usertype_models__ = __webpack_require__("../../../../../src/app/models/usertype.models.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_companyUser_service__ = __webpack_require__("../../../../../src/app/services/companyUser.service.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__services_user_service__ = __webpack_require__("../../../../../src/app/services/user.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__services_companyUser_service__ = __webpack_require__("../../../../../src/app/services/companyUser.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__angular_material__ = __webpack_require__("../../../material/esm5/material.es5.js");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -829,19 +830,25 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 //custom imports
 
 
+
 //angular material imports
 
 var CompanyUsersEditComponent = (function () {
-    function CompanyUsersEditComponent(route, companyUserService, snackbar, _location) {
+    function CompanyUsersEditComponent(route, companyUserService, snackbar, _location, userService) {
         this.route = route;
         this.companyUserService = companyUserService;
         this.snackbar = snackbar;
         this._location = _location;
+        this.userService = userService;
         this.isPromiseDone = false;
         this.usertype = new __WEBPACK_IMPORTED_MODULE_5__models_usertype_models__["a" /* UserType */]();
     }
     CompanyUsersEditComponent.prototype.ngOnInit = function () {
         var _this = this;
+        var user = this.userService.getUser();
+        if (user.UserType != 3) {
+            this.usertype.codes = this.usertype.codes.filter(function (obj) { return obj !== 'GlobalAdmin'; });
+        }
         this.route.paramMap
             .switchMap(function (params) { return _this.companyUserService.getCompanyUserById(params.get('cid'), params.get('cuid')); })
             .subscribe(function (data) {
@@ -862,12 +869,12 @@ CompanyUsersEditComponent = __decorate([
         selector: 'ng-company-users-edit',
         template: __webpack_require__("../../../../../src/app/components/companyuser/companyUsersEdit/companyUsersEdit.component.html"),
         styles: [__webpack_require__("../../../../../src/app/components/companyuser/companyUsersEdit/companyUsersEdit.component.css")],
-        providers: [__WEBPACK_IMPORTED_MODULE_6__services_companyUser_service__["a" /* CompanyUsersService */]]
+        providers: [__WEBPACK_IMPORTED_MODULE_7__services_companyUser_service__["a" /* CompanyUsersService */]]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_6__services_companyUser_service__["a" /* CompanyUsersService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__services_companyUser_service__["a" /* CompanyUsersService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_7__angular_material__["o" /* MatSnackBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__angular_material__["o" /* MatSnackBar */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_common__["f" /* Location */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_common__["f" /* Location */]) === "function" && _d || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_7__services_companyUser_service__["a" /* CompanyUsersService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_7__services_companyUser_service__["a" /* CompanyUsersService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_8__angular_material__["o" /* MatSnackBar */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_8__angular_material__["o" /* MatSnackBar */]) === "function" && _c || Object, typeof (_d = typeof __WEBPACK_IMPORTED_MODULE_2__angular_common__["f" /* Location */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_2__angular_common__["f" /* Location */]) === "function" && _d || Object, typeof (_e = typeof __WEBPACK_IMPORTED_MODULE_6__services_user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_6__services_user_service__["a" /* UserService */]) === "function" && _e || Object])
 ], CompanyUsersEditComponent);
 
-var _a, _b, _c, _d;
+var _a, _b, _c, _d, _e;
 //# sourceMappingURL=companyUsersEdit.component.js.map
 
 /***/ }),
@@ -907,6 +914,7 @@ module.exports = "<mat-spinner style=\"margin:0 auto;\" *ngIf=\"!isPromiseDone\"
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_switchMap__ = __webpack_require__("../../../../rxjs/add/operator/switchMap.js");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_switchMap___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_rxjs_add_operator_switchMap__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__services_companyUser_service__ = __webpack_require__("../../../../../src/app/services/companyUser.service.ts");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__services_user_service__ = __webpack_require__("../../../../../src/app/services/user.service.ts");
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -923,11 +931,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 
 //custom imports
 
+
 var CompanyUsersListComponent = (function () {
-    function CompanyUsersListComponent(route, employeeService) {
+    function CompanyUsersListComponent(route, employeeService, userService) {
         var _this = this;
         this.route = route;
         this.employeeService = employeeService;
+        this.userService = userService;
         this.isPromiseDone = false;
         route.params.subscribe(function (params) {
             _this.companyId = params['cid'];
@@ -935,8 +945,9 @@ var CompanyUsersListComponent = (function () {
     }
     CompanyUsersListComponent.prototype.ngOnInit = function () {
         var _this = this;
+        var user = this.userService.getUser();
         this.route.paramMap
-            .switchMap(function (params) { return _this.employeeService.getCompanyUsersByCompany(params.get('cid')); })
+            .switchMap(function (params) { return _this.employeeService.getCompanyUsersByCompany(params.get('cid'), user.UserType); })
             .subscribe(function (data) {
             _this.companyUsers = data;
             _this.isPromiseDone = true;
@@ -956,10 +967,10 @@ CompanyUsersListComponent = __decorate([
         styles: [__webpack_require__("../../../../../src/app/components/companyuser/companyUsersList/companyUsersList.component.css")],
         providers: [__WEBPACK_IMPORTED_MODULE_3__services_companyUser_service__["a" /* CompanyUsersService */]]
     }),
-    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_companyUser_service__["a" /* CompanyUsersService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_companyUser_service__["a" /* CompanyUsersService */]) === "function" && _b || Object])
+    __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["a" /* ActivatedRoute */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_3__services_companyUser_service__["a" /* CompanyUsersService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_3__services_companyUser_service__["a" /* CompanyUsersService */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_4__services_user_service__["a" /* UserService */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_4__services_user_service__["a" /* UserService */]) === "function" && _c || Object])
 ], CompanyUsersListComponent);
 
-var _a, _b;
+var _a, _b, _c;
 //# sourceMappingURL=companyUsersList.component.js.map
 
 /***/ }),
@@ -1041,6 +1052,10 @@ var CompanyUsersNewComponent = (function () {
     }
     CompanyUsersNewComponent.prototype.ngOnInit = function () {
         var _this = this;
+        var user = this.userService.getUser();
+        if (user.UserType != 3) {
+            this.usertype.codes = this.usertype.codes.filter(function (obj) { return obj !== 'GlobalAdmin'; });
+        }
         this.route.params.subscribe(function (params) {
             _this.companyId = params['cid'];
         });
@@ -2656,14 +2671,14 @@ var CompanyUsersService = (function () {
         this.http = http;
     }
     //GET/:cid
-    CompanyUsersService.prototype.getCompanyUsersByCompany = function (companyId) {
+    CompanyUsersService.prototype.getCompanyUsersByCompany = function (companyId, userTypeId) {
         var _headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({});
-        return this.http.get(rootURL + 'api/companyusers/' + companyId, { headers: _headers }).map(function (response) { return response.json(); });
+        return this.http.get(rootURL + 'api/companyusers/' + companyId + '/' + userTypeId, { headers: _headers }).map(function (response) { return response.json(); });
     };
     //GET/:cid/:eid
     CompanyUsersService.prototype.getCompanyUserById = function (companyId, companyUserId) {
         var _headers = new __WEBPACK_IMPORTED_MODULE_1__angular_http__["a" /* Headers */]({});
-        return this.http.get(rootURL + 'api/companyusers/' + companyId + '/' + companyUserId, { headers: _headers }).map(function (response) { return response.json(); });
+        return this.http.get(rootURL + 'api/companyuser/' + companyId + '/' + companyUserId, { headers: _headers }).map(function (response) { return response.json(); });
     };
     //PUT
     CompanyUsersService.prototype.updateCompanyUserDetails = function (companyUserId, companyUser) {
@@ -2994,14 +3009,9 @@ UserService = __decorate([
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
-// The file contents for the current environment will overwrite these during build.
-// The build system defaults to the dev environment which uses `environment.ts`, but if you do
-// `ng build --env=prod` then `environment.prod.ts` will be used instead.
-// The list of which env maps to which file can be found in `.angular-cli.json`.
-// The file contents for the current environment will overwrite these during build.
 var environment = {
     production: true,
-    serviceUrl: "http://18.216.139.244/nomiadmin/"
+    serviceUrl: "http://ogrean.com/nomisign/"
 };
 //# sourceMappingURL=environment.js.map
 

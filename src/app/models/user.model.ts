@@ -6,6 +6,7 @@ export class User {
     LastName1: string;
     LastName2: string;
     CURP: string;
+    UserType: string;
     RFC: string;
     CreatedByUserId: number;
     //PasswordHash: string;

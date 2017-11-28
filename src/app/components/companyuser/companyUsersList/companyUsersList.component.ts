@@ -5,6 +5,7 @@ import { ActivatedRoute, ParamMap, Params } from '@angular/router';
 import "rxjs/add/operator/switchMap";
 //custom imports
 import { CompanyUsersService } from '../../../services/companyUser.service'
+import { UserService } from '../../../services/user.service'
 import { EmployeeModel } from '../../../models/employee.model'
 import { States } from '../../../models/states.models'
 
@@ -19,15 +20,17 @@ export class CompanyUsersListComponent implements OnInit {
   companyUsers: any[]
   isPromiseDone: boolean = false;
 
-  constructor(private route: ActivatedRoute, private employeeService: CompanyUsersService) { 
+  constructor(private route: ActivatedRoute, private employeeService: CompanyUsersService, private userService: UserService) { 
      route.params.subscribe((params: Params) => {
        this.companyId = params['cid'];
      })
   }
 
   ngOnInit(): void {
+    let user = this.userService.getUser();
+
     this.route.paramMap
-    .switchMap((params: ParamMap) => this.employeeService.getCompanyUsersByCompany(params.get('cid')))
+    .switchMap((params: ParamMap) => this.employeeService.getCompanyUsersByCompany(params.get('cid'), user.UserType))
     .subscribe(data => {
       this.companyUsers = data
       this.isPromiseDone = true;

@@ -31,6 +31,11 @@ export class CompanyUsersNewComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let user = this.userService.getUser();
+    if (user.UserType != 3)
+    {
+        this.usertype.codes = this.usertype.codes.filter(obj => obj !== 'GlobalAdmin');
+    }
     this.route.params.subscribe((params: Params) => {
       this.companyId = params['cid'];
     })

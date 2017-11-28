@@ -7,6 +7,7 @@ import "rxjs/add/operator/switchMap";
 import 'rxjs/add/operator/finally'
 //custom imports
 import { UserType} from '../../../models/usertype.models'
+import { UserService } from '../../../services/user.service'
 import { CompanyUsersService } from '../../../services/companyUser.service'
 import { CompanyUserModel } from '../../../models/companyUser.model'
 //angular material imports
@@ -25,11 +26,16 @@ export class CompanyUsersEditComponent implements OnInit {
   usertype: UserType;
   isPromiseDone: boolean = false;
 
-  constructor(private route: ActivatedRoute, private companyUserService: CompanyUsersService, public snackbar: MatSnackBar, private _location: Location) { 
+  constructor(private route: ActivatedRoute, private companyUserService: CompanyUsersService, public snackbar: MatSnackBar, private _location: Location, private userService: UserService) { 
       this.usertype = new UserType();
   }
 
   ngOnInit(): void {
+      let user = this.userService.getUser();
+      if (user.UserType != 3) {
+          this.usertype.codes = this.usertype.codes.filter(obj => obj !== 'GlobalAdmin');
+      }
+
     this.route.paramMap
     .switchMap((params: ParamMap) => this.companyUserService.getCompanyUserById(params.get('cid'), params.get('cuid')))
     .subscribe(data => {

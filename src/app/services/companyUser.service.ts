@@ -18,14 +18,14 @@ export class CompanyUsersService {
     constructor( private http: Http ) {}
    
     //GET/:cid
-    getCompanyUsersByCompany(companyId: string): Observable<any>{
+    getCompanyUsersByCompany(companyId: string, userTypeId: string): Observable<any>{
         var _headers = new Headers ({})
-        return this.http.get(rootURL + 'api/companyusers/' + companyId, {headers: _headers}).map(response => response.json());
+        return this.http.get(rootURL + 'api/companyusers/' + companyId + '/' + userTypeId, {headers: _headers}).map(response => response.json());
     }
     //GET/:cid/:eid
     getCompanyUserById(companyId: string, companyUserId: string): Observable<any>{
         var _headers = new Headers ({})
-        return this.http.get(rootURL + 'api/companyusers/' + companyId + '/' + companyUserId, {headers: _headers}).map(response => response.json());
+        return this.http.get(rootURL + 'api/companyuser/' + companyId + '/' + companyUserId, {headers: _headers}).map(response => response.json());
     }
     //PUT
     updateCompanyUserDetails(companyUserId: string, companyUser: CompanyUserModel): Observable<any>{
