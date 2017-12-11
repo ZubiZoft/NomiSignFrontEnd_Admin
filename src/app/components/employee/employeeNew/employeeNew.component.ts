@@ -18,7 +18,8 @@ import { MatSnackBar } from '@angular/material'
   providers: [ EmployeeService ]
 })
 export class EmployeeNewComponent implements OnInit {
-  employee: User;
+    employee: User;
+    cellNumberVerificationStatus: string;
   companyId: string;
   employeeID: string;
 
@@ -33,13 +34,31 @@ export class EmployeeNewComponent implements OnInit {
   }
 
   saveEmployee() {
-      this.employee.CreatedByUserId = 2 //TODO FIX THIS HARDCODE
-      console.log("save employee")
+      if (this.cellNumberVerificationStatus == "Success") {
+          this.employee.CreatedByUserId = 2 //TODO FIX THIS HARDCODE
+          console.log("save employee")
+          this.route.paramMap
+              .switchMap((params: ParamMap) =>
+                  this.employeeService.saveNewEmployee(this.employee).finally(() =>
+                  { this.snackbar.open("Updated successfully", "", { duration: 5000 }); }))
+              .subscribe(data => { this.employee = data; this._location.back(); },
+              error => this.snackbar.open(error, "", { duration: 5000 }));
+      }
+      else {
+          alert("Cell Phone has not been verified");
+      }
+  }
+
+  verifyNewEmployeeCellNumber() {
+      
+      console.log("verify employee cell")
       this.route.paramMap
           .switchMap((params: ParamMap) =>
-              this.employeeService.saveNewEmployee(this.employee).finally(() =>
-              { this.snackbar.open("Updated successfully", "", { duration: 5000 });}))
-          .subscribe(data => { this.employee = data; this._location.back(); },
-          error => this.snackbar.open(error, "", { duration: 5000 })); 
+              this.employeeService.verifyNewEmployeeCellNumber(this.employee).finally(() =>
+              { return false; }))
+          .subscribe(data => { this.cellNumberVerificationStatus = data; return false;},
+          error => this.cellNumberVerificationStatus = error
+      );
+      
   }
 }

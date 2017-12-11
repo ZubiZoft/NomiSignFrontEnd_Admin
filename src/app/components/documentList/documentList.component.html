@@ -5,7 +5,7 @@
     <div style="margin-top:10px; line-height: 1.25" class="centerText">
         <mat-icon style="vertical-align:middle">search</mat-icon>
         <input #search placeholder="Search" (keyup)="0" class="inputSearchBox" />
-        <button *ngIf="(signStatusSearch === '1')" mat-raised-button color="primary" i18n="@@UpdateButton"> Send Reminders </button>
+        <button *ngIf="(signStatusSearch === '1')" (click)="sendUnVerifiedMsg()" mat-raised-button color="primary" i18n="@@UpdateButton"> Send Reminders </button>
     </div>
 <div style="max-height: 100vh; overflow-y: auto" *ngIf="documents">    
     <mat-list class="centeredList">

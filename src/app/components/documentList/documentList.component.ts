@@ -39,6 +39,16 @@ export class DocumentListComponent implements OnInit {
         } )
     }
 
+    sendUnVerifiedMsg() {
+        this.route.paramMap
+            .switchMap((params: ParamMap) => this.documentService.notifyUnsignedDocumentsForCompany(this.companyId))
+            .subscribe(data => {
+                //this.documents = data
+                this.isPromiseDone = true;
+                alert("Successfully sent document reminders");
+            });
+    }
+
     ngOnInit(): void {
 
         // 1 == unsigned, 3 == rejected
@@ -68,24 +78,25 @@ export class DocumentListComponent implements OnInit {
 })
 export class RefusedDocumentAlertDialog implements OnInit {
     doc: DocumentModel
-    employeeName: string;
-    PayPeriod: string;
-    uploadTime: string;
-    reasonRefused: string;
-    documentId: string;
 
-    constructor(public dialogRef: MatDialogRef<RefusedDocumentAlertDialog>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+    constructor(private route: ActivatedRoute, public dialogRef: MatDialogRef<RefusedDocumentAlertDialog>, private documentService: DocumentService, @Inject(MAT_DIALOG_DATA) public data: any) { }
 
     onNoClick(): void {
         this.dialogRef.close();
     }
 
+    onResubmitClick(): void {
+        this.doc.SignStatus = '1';
+        // send doc update call
+        this.route.paramMap
+            .switchMap((params: ParamMap) => this.documentService.updateDocument(this.doc))
+            .subscribe(data => {
+                this.doc = data;
+                this.dialogRef.close();
+            });
+    }
+
     ngOnInit(): void {
         this.doc = this.data['document'];
-        //this.documentId = this.data['documentId'];
-        //this.employeeName = this.data['employeeName'];
-        //this.uploadTime = this.data['uploadTime'];
-        //this.PayPeriod = this.data['payPeriod'];
-        //this.reasonRefused = this.data['reasonRefused'];
     }
 }

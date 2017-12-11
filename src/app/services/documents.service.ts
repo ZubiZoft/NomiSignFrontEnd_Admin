@@ -30,12 +30,20 @@ export class DocumentService {
         return this.http.get(url, options).map(response => response.json());
     }
 
-    //updateDocument(userId, document): Observable<any> {
-    //    let _headers = new Headers({ 'Content-Type': 'application/json' })
-    //    let options = new RequestOptions({ method: 'PUT', headers: _headers })
-    //    let url = rootURL + 'api/documents/' + document.DocumentId;
-    //    let body = JSON.stringify(document);
+    notifyUnsignedDocumentsForCompany(companyId): Observable<any> {
+        let _headers = new Headers({})
+        let options = new RequestOptions({ method: 'GET', headers: _headers })
+        let url = rootURL + 'api/documents/unsigned/notify/' + companyId;
 
-    //    return this.http.put(url, body, options).map(response => response.json());
-    //}
+        return this.http.get(url, options).map(response => response.json());
+    }
+
+    updateDocument(document): Observable<any> {
+        let _headers = new Headers({ 'Content-Type': 'application/json' })
+        let options = new RequestOptions({ method: 'PUT', headers: _headers })
+        let url = rootURL + 'api/documents/' + document.DocumentId;
+        let body = JSON.stringify(document);
+
+        return this.http.put(url, body, options).map(response => response.json());
+    }
 }

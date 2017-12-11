@@ -27,7 +27,7 @@
     <table width="100%">
         <tr>
             <td>
-                <button style="float:left" mat-button color="primary" (click)="onNoClick()"> Resubmit </button>
+                <button *ngIf="doc.SignStatus === 'Refused'" style="float:left" mat-button color="primary" (click)="onResubmitClick()"> Resubmit </button>
             </td>
             <td>
                 <button style="float:right" mat-button color="primary" (click)="onNoClick()"> Close </button>

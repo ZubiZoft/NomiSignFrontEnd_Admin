@@ -27,7 +27,7 @@ export class EmployeeEditComponent implements OnInit {
   companyId: string;
   employeeID: string;
   isPromiseDone: boolean = false;
-  files: any[]
+  files: any[];
 
   constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MatSnackBar, private uploadService: UploadService,
       private companyService: CompanyService, private userService: UserService, private _location: Location) {
@@ -49,26 +49,30 @@ export class EmployeeEditComponent implements OnInit {
   }
 
   updateEmployee() {
-    this.route.paramMap
-        .switchMap((params: ParamMap) => this.employeeService.updateEmployeeDetails(params.get('eid'), this.employee).finally(() => { this.snackbar.open("sucessfully updated", "", { duration: 5000 });}))
-        .subscribe(data => { this.employee = data; if (!this.files) { this._location.back(); } },
-      error => this.snackbar.open(error, "", { duration: 5000 }))
+    //this.route.paramMap
+    //    .switchMap((params: ParamMap) => this.employeeService.updateEmployeeDetails(params.get('eid'), this.employee).finally(() => { this.snackbar.open("sucessfully updated", "", { duration: 5000 });}))
+    //    .subscribe(data => { this.employee = data; if (!this.files) { this._location.back(); } },
+    //  error => this.snackbar.open(error, "", { duration: 5000 }))
 
-    if (this.files && this.files.length > 0) {
-      this.companyService.getCompanyById(this.employee.CompanyId).subscribe(data => {
-        this.uploadService.openBatch(data.CompanyRFC).subscribe(data => {
-          let batchId = data.BatchId;
-          for (let file of this.files) {
-            this.uploadFile(file, batchId)
-          };
-          this.uploadService.closeBatch(batchId).subscribe(data => {
-              console.log('closed'); this._location.back();
-            //success from closed batch
+      if (this.files && this.files.length > 0) {
+          this.companyService.getCompanyById(this.employee.CompanyId).subscribe(data => {
+              this.uploadService.openBatch(data.CompanyRFC).subscribe(data => {
+                  let batchId = data.BatchId;
+                  for (let file of this.files)
+                  {
+                      this.uploadFile(file, batchId);
+                  };
+                  this.uploadService.closeBatch(batchId).subscribe(data => {
+                      console.log('closed'); this._location.back();
+                      //success from closed batch
+                  })
+              })
           })
-        })
-      })
 
-    }
+      }
+      else {
+          alert('No Files Selected');
+      }
   }
 
   onFileSelect(event) {

@@ -44,4 +44,13 @@ export class EmployeeService {
         var url = rootURL + 'api/employees/'
         return this.http.post(url, body, options).map(response => response.json());
     }
+
+    verifyNewEmployeeCellNumber(employee: User): Observable<any> {
+        var _headers = new Headers({ 'Content-Type': 'application/json' })
+        var options = new RequestOptions({ method: 'POST', headers: _headers })
+        var body = JSON.stringify(employee);
+        console.log(employee)
+        var url = rootURL + 'api/employee/verifycell'
+        return this.http.post(url, body, options).map(response => response.json());
+    }
 }
