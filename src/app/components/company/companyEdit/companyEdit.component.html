@@ -39,7 +39,38 @@
         <mat-form-field class="example-full-width">
             <input matInput placeholder="RFC" value="{{company.CompanyRFC}}" [(ngModel)]="company.CompanyRFC" name="companyRfc" i18n-placeholder="@@CompanyRFCInput">
         </mat-form-field>
-    </form>
+    
+            <mat-checkbox color="primary" class="mat-checkbox" matInput placeholder="Auto Add Agreement Document" value="{{company.NewEmployeeGetDoc}}"
+                          [(ngModel)]="company.NewEmployeeGetDoc" name=companyNewEmployeeGetDoc i18n="form | field asking the if there should be a forced password reset@@CompanyUserPasswordReset">
+                Auto Add Company Agreement Document for new users
+            </mat-checkbox>
+
+        <table style="padding: 10px 25px 10px 25px">
+            <tr>
+                <td>
+                    <input-file style="padding-bottom:15px" (onFileSelect)="onFileSelect($event)" accept="application/pdf">
+                        <span class="nofiles">Upload Company Agreement File</span>
+                        <span class="selected">Files selected</span>
+                    </input-file>
+                </td>
+                <!--<td>
+                    <div *ngIf="files">
+                        <div *ngFor="let file of files">
+                            {{ file.name }}
+                        </div>
+                    </div>
+                </td>-->
+                <td>
+                    <button [disabled]="!company.NewEmployeeGetDoc" mat-raised-button color="primary" (click)=addCompanyDocument() i18n="@@UpdateButton"> Upload File </button>
+                </td>
+            </tr>
+        </table>
+
+        <mat-form-field class="example-full-width">
+            <input disabled matInput placeholder="Company Ageeement Document" value="{{company.NewEmployeeDocument}}" [(ngModel)]="company.NewEmployeeDocument" name="companyNewEmployeeDocument" i18n-placeholder="@@CompanyRFCInput">
+        </mat-form-field>
+        <br /><br />
+</form>
 
     <button mat-raised-button color="primary" (click)=updateCompany() i18n="@@UpdateButton"> Update </button>
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>

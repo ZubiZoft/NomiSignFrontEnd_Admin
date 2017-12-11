@@ -4,6 +4,10 @@
     display:flow-root;
   }
 
+  .mat-checkbox {
+                padding:10px 25px 10px 25px;
+            }
+
   /* ignore parent width */
   .mat-form-field{
         width:auto;

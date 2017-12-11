@@ -17,7 +17,9 @@ export class CompanyModel {
     Address1:string;
     Address2:string;
     CompanyName:string;
-    CompanyID:number;
+    CompanyId: number;
+    NewEmployeeGetDoc: boolean;
+    NewEmployeeDocument: string;
     Links: {
         SelfUri: string;
     }

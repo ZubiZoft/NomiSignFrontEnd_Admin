@@ -29,6 +29,15 @@ export class UploadService {
         return this.http.post(url, body, options).map(response => response); //unexpected end of JSON
     }
 
+    addcompanyfile(file, companyId): Observable<any> {
+        let _headers = new Headers({ 'Content-Type': 'application/json' })
+        let options = new RequestOptions({ method: 'POST', headers: _headers })
+        let url = this.rootURL + 'api/upload/addcompanyfile/' + companyId;
+        let body = JSON.stringify(file);
+        return this.http.post(url, body, options).map(response => response); //unexpected end of JSON
+    }
+
+
     closeBatch(batchId): Observable<any> {
         let _headers = new Headers ({'Content-Type': 'application/json'})
         let options = new RequestOptions({method: 'POST', headers: _headers})

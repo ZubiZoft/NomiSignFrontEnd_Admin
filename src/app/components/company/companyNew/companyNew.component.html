@@ -34,6 +34,14 @@
         <mat-form-field class="example-full-width">
             <input matInput placeholder="RFC" [(ngModel)]="company.CompanyRFC" name=companyRFC i18n-placeholder="input field | input field which contains the company's RFC code@@CompanyRFCInput">
         </mat-form-field>
+        <!--<mat-checkbox color="primary" class="mat-checkbox" matInput placeholder="Auto Add Agreement Document" value="{{company.NewEmployeeGetDoc}}"
+                      [(ngModel)]="company.NewEmployeeGetDoc" name=companyNewEmployeeGetDoc i18n="form | field asking the if there should be a forced password reset@@CompanyUserPasswordReset">
+            Auto Add Company Agreement Document for new users
+        </mat-checkbox>
+        <mat-form-field class="example-full-width">
+            <input [disabled]="!company.NewEmployeeGetDoc" matInput placeholder="Company Ageeement Document" value="{{company.NewEmployeeDocument}}" [(ngModel)]="company.NewEmployeeDocument" name="companyNewEmployeeDocument" i18n-placeholder="@@CompanyRFCInput">
+        </mat-form-field>-->
+        <br /><br />
     </form>
 
     <button mat-raised-button color="primary" (click)=saveCompany() i18n="action | button which will save the company info@@SaveButton"> Save </button>
