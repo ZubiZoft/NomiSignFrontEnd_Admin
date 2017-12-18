@@ -46,8 +46,8 @@ export class CompanyUsersEditComponent implements OnInit {
 
   updateCompanyUser(){
      this.route.paramMap
-     .switchMap((params: ParamMap) => this.companyUserService.updateCompanyUserDetails(params.get('cuid'), this.companyUser).finally(() => this.snackbar.open("sucessfully updated", "",{duration: 5000}) ))
-         .subscribe(data => { this.companyUser = data; this._location.back(); },
-                error => this.snackbar.open(error, "",{duration: 5000}))
+     .switchMap((params: ParamMap) => this.companyUserService.updateCompanyUserDetails(params.get('cuid'), this.companyUser))
+         .subscribe(data => { this.companyUser = data; this._location.back(); this.snackbar.open("Updated Successfully", "", {duration: 5000}) },
+                error => this.snackbar.open(error, "",{duration: 5000}));
   }
 }

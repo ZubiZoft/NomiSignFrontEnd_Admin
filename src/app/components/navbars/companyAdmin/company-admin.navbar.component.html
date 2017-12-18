@@ -1,6 +1,6 @@
 <div class="toolbar">
     <!-- mobile menu -->
-    <span style="display:none" class="displayContentMobile">
+    <span [ngClass]="smallScreen ? 'displayContentMobile' : 'hideContentMobile' ">
         <button md-button [matMenuTriggerFor]="mobileMenu">
             <mat-icon>menu</mat-icon>
         </button>
@@ -26,7 +26,7 @@
     </span>
     <!--desktop menu -->
     <div style="margin-left:12%">
-        <span class="hideContentMobile">
+        <span [ngClass]="!smallScreen ? 'displayContentMobile' : 'hideContentMobile' ">
             <button mat-button [matMenuTriggerFor]="companyMenu">
                 <span i18n="menu header | User will click this to navigate to the companies page@@GoCompaniesPageMenuHeader">
                     Companies

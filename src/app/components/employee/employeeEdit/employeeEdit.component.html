@@ -1,59 +1,108 @@
 <mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
 
 <div style="max-height: 80vh; overflow-y: auto" class="centeredList" *ngIf="employee">
-        <form class="example-form">
-            <mat-form-field class="example-full-width">
-                <input readonly matInput placeholder="Email Address" value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress" name=employeeEmailAddress
-                       i18n-placeholder="@@EmployeeEmailField">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input readonly matInput placeholder="First Name" value="{{employee.FirstName}}" [(ngModel)]="employee.FirstName" name=employeeFirst
-                       i18n-placeholder="@@EmployeeFirstNameField">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input readonly matInput placeholder="1st Last Name" value="{{employee.LastName1}}" [(ngModel)]="employee.LastName1" name=employeeLast1
-                       i18n-placeholder="@@EmployeeLastNameField">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input readonly matInput placeholder="2nd Last Name" value="{{employee.LastName2}}" [(ngModel)]="employee.LastName2" name=employeeLast2
-                       i18n-placeholder="@@EmployeeLastNameField">
-            </mat-form-field>
+    <form class="example-form">
+        <mat-form-field class="example-full-width">
+            <input readonly matInput placeholder="Email Address" value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress"
+                name=employeeEmailAddress i18n-placeholder="@@EmployeeEmailField">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input readonly matInput placeholder="First Name" value="{{employee.FirstName}}" [(ngModel)]="employee.FirstName" name=employeeFirst
+                i18n-placeholder="@@EmployeeFirstNameField">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input readonly matInput placeholder="1st Last Name" value="{{employee.LastName1}}" [(ngModel)]="employee.LastName1" name=employeeLast1
+                i18n-placeholder="@@EmployeeLastNameField">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input readonly matInput placeholder="2nd Last Name" value="{{employee.LastName2}}" [(ngModel)]="employee.LastName2" name=employeeLast2
+                i18n-placeholder="@@EmployeeLastNameField">
+        </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-                <input readonly matInput placeholder="Cell Number" value="{{employee.CellPhoneNumber}}" [(ngModel)]="employee.CellPhoneNumber" name=employeeCellPhoneNumber
-                       i18n-placeholder="@@EmployeeCellPhoneNumber">
-            </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input readonly matInput placeholder="Cell Number" value="{{employee.CellPhoneNumber}}" [(ngModel)]="employee.CellPhoneNumber"
+                name=employeeCellPhoneNumber i18n-placeholder="@@EmployeeCellPhoneNumber">
+        </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-                <input readonly matInput placeholder="CURP" value="{{employee.CURP}}" [(ngModel)]="employee.CURP" name=employeeCURP i18n-placeholder="@@EmployeeCURPField">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input readonly matInput placeholder="RFC" value="{{employee.RFC}}" [(ngModel)]="employee.RFC" name=employeeRFC i18n-placeholder="@@EmployeeRFCField">
-            </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input readonly matInput placeholder="CURP" value="{{employee.CURP}}" [(ngModel)]="employee.CURP" name=employeeCURP i18n-placeholder="@@EmployeeCURPField">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input readonly matInput placeholder="RFC" value="{{employee.RFC}}" [(ngModel)]="employee.RFC" name=employeeRFC i18n-placeholder="@@EmployeeRFCField">
+        </mat-form-field>
 
-            <p align="right"><b>Created By:</b>{{employee.CreatedByUserName}} - <b>Last Login:</b>{{employee.LastLogin}} </p>
-            <table>
+        <p align="right">
+            <b>Created By:</b>{{employee.CreatedByUserName}} -
+            <b>Last Login:</b>{{employee.LastLogin}} </p>
+
+        <div ng2FileDrop [ngClass]="{'file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="drop-zone"
+            style="float:left" *ngIf="!smallScreen">
+            Drag Files Here
+        </div>
+
+        <div *ngIf="smallScreen">
+            <input accept="application/pdf" type="file" #inputFile hidden multiple="multiple" [uploader]="uploader" ng2FileSelect />
+            <button type="button" md-raised-button (click)="selectFile()">
+                <mat-icon>file_upload</mat-icon> Choose Files
+                <ng-content *ngIf="!fileCount" select=".nofiles"></ng-content>
+                <span *ngIf="fileCount">
+                    <span>{{fileCount}}</span>
+                    <ng-content select=".selected"></ng-content>
+                </span>
+            </button>
+        </div>
+
+        <table class="table" *ngIf="uploader?.queue?.length > 0">
+            <thead>
                 <tr>
-                    <td>
-                        <input-file style="padding-bottom:15px" (onFileSelect)="onFileSelect($event)" accept="application/pdf" >
-                            <span class="nofiles">Upload Employee File</span>
-                            <span class="selected">Files selected</span>
-                        </input-file>
-                    </td>
-                    <td>
-                        <div *ngIf="files">
-                            <div *ngFor="let file of files">
-                                {{ file.name }}
-                            </div>
-                        </div>
-                    </td>
+                    <th width="50%">Name</th>
+                    <th width="25%">Size</th>
+                    <th width="25%">Type</th>
                 </tr>
-                <tr style="padding-top: 25px">
-                    <td style="padding-top: 25px" colspan="2">
-                        <button mat-raised-button color="primary" (click)=updateEmployee() i18n="@@UpdateButton"> Upload File </button>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of uploader.queue">
+                    <td class="fileNames">
+                        <strong>{{ item?.file.name }}</strong>
                     </td>
+                    <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                    <td> {{item?.file?.type}} </td>
                 </tr>
-            </table>
-        </form>
+            </tbody>
+        </table>
 
+        <div style="clear:both; margin-bottom: 25px"> </div>
+
+        <!-- <table>
+            <tr>
+                <td>
+                    <input-file style="padding-bottom:15px" (onFileSelect)="onFileSelect($event)" accept="application/pdf">
+                        <span class="nofiles">Upload Employee File</span>
+                        <span class="selected">Files selected</span>
+                    </input-file>
+                </td>
+                <td>
+                    <div *ngIf="files">
+                        <div *ngFor="let file of files">
+                            {{ file.name }}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr style="padding-top: 25px">
+                <td style="padding-top: 25px" colspan="2">
+                    <button mat-raised-button color="primary" (click)=updateEmployee() i18n="@@UpdateButton"> Upload File </button>
+                </td>
+            </tr>
+        </table> -->
+        <div style="text-align:center" *ngIf="isFileUploading"> File uploading... <mat-spinner style="margin:0 auto;"> </mat-spinner> </div> 
+        
+        <button [disabled]="isFileUploading" mat-raised-button color="primary" (click)=updateEmployee() i18n="@@UpdateButton"> Upload File </button>
+    </form>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
 </div>
