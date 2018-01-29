@@ -26,15 +26,6 @@ html{
   .leftFloat{
     float: left
   }
-
-  .displayContent {
-      display:block !important;
-   }
-   .hideContent{
-     display:none;
-   }
-
-  @media (max-device-width: 720px) {
    .displayContentMobile {
       display:block !important;
    }
@@ -53,6 +44,4 @@ html{
    }
    .mobileHeaderText{
      line-height: 30px !important;
-   }
-     
-  }
+   }   
