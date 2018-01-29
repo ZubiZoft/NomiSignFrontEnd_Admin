@@ -1,6 +1,6 @@
 <div class="toolbar">
     <!-- mobile menu -->
-    <span style="display:none" class="displayContentMobile">
+    <span [ngClass]="smallScreen ? 'displayContentMobile' : 'hideContentMobile' ">
         <button mat-button [matMenuTriggerFor]="mobileMenu">
             <mat-icon>menu</mat-icon>
         </button>
@@ -27,7 +27,7 @@
     </span>
     <!-- desktop menu -->
     <div style="margin-left:12%">
-        <span class="hideContentMobile">
+        <span [ngClass]="!smallScreen ? 'displayContentMobile' : 'hideContentMobile' ">
             <span>
                 <button mat-button routerLink="/dashboard" routerLinkActive="active">
                     <span i18n="menu header | User will click this to navigate to the home page@@GoHomePageMenuHeader">

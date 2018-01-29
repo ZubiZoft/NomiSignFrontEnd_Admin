@@ -14,8 +14,12 @@ import { FileModel } from '../../../models/file.model'
 import { CompanyModel } from '../../../models/company.model'
 import { CompanyService } from '../../../services/company.service'
 import { UserService } from '../../../services/user.service'
+import { FileUploader } from 'ng2-file-upload'
 //angular material imports
 import { MatSnackBar } from '@angular/material'
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
+
+import {Output, EventEmitter, ViewChild, ElementRef, Input} from '@angular/core';
 
 @Component({
   selector: 'ng-employee-edit',
@@ -34,16 +38,36 @@ export class EmployeeEditComponent implements OnInit {
   company: CompanyModel;
   isPromiseDone: boolean = false;
   files: any[];
+  uploader: FileUploader = new FileUploader({ });
+  hasBaseDropZoneOver: boolean = false;
+  smallScreen: boolean = false;
+  isFileUploading: boolean = false;
+
+  @ViewChild('inputFile') nativeInputFile: ElementRef;
 
   constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MatSnackBar, private uploadService: UploadService,
-      private companyService: CompanyService, private userService: UserService, private _location: Location) {
+      private companyService: CompanyService, private userService: UserService, private _location: Location, private breakpointObserver: BreakpointObserver) {
       //this.userStatus = userService.getUserType();
 
+      const layoutChanges = breakpointObserver.observe([
+        '(max-width: 780px)',
+      ]);
+      
+      layoutChanges.subscribe(result => {
+        this.smallScreen = result.matches;
+      });
       // get company Id
       route.params.subscribe((params: Params) => {
           this.companyId = params['cid'];
       });
   }
+  public fileOverBase(e: any): void {
+    this.hasBaseDropZoneOver = e;
+  }
+
+  selectFile() {
+    this.nativeInputFile.nativeElement.click();
+}
 
   ngOnInit(): void {
     this.route.paramMap
@@ -90,7 +114,7 @@ export class EmployeeEditComponent implements OnInit {
   }
 
   updateEmployee() {
-
+    this.isFileUploading = true;
       // only update if employee is editable
       if (this.allowEmployeeEdit && this.cellNumberVerificationStatus == "Success") {
           this.employee.EmployeeStatus = 5; // allows for 1 time update of employees created by bulk editor
@@ -99,7 +123,7 @@ export class EmployeeEditComponent implements OnInit {
               .subscribe(data => { this.employee = data; if (!this.files) { this._location.back(); } },
               error => this.snackbar.open(error, "", { duration: 5000 }))
 
-          if (this.files && this.files.length > 0) {
+      if (this.uploader && this.uploader.queue.length > 0) {
               this.uploadEmployeeFiles();
           }
       }
@@ -114,15 +138,16 @@ export class EmployeeEditComponent implements OnInit {
           this.companyService.getCompanyById(this.employee.CompanyId).subscribe(data => {
               this.uploadService.openBatch(this.companyId, this.openbatch).subscribe(data => {
                   let batchId = data.BatchId;
-                  for (let file of this.files) {
-                      this.uploadFile(file, batchId);
+                  for (let fileIem of this.uploader.queue)
+                      this.uploadFile(fileItem.file.rawFile, batchId);
                   };
                   this.uploadService.closeBatch(batchId).subscribe(data => {
-                      console.log('closed'); this._location.back();
+                      this._location.back();
                       //success from closed batch
                   })
               })
           })
+      this.isFileUploading = false;
   }
 
   onFileSelect(event) {

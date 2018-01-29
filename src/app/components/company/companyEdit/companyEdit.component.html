@@ -1,5 +1,5 @@
 <mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
-<div style="max-height: 100vh; overflow-y: auto" class="centeredList">
+<div style="max-height: 100vh; overflow-y: auto" class="centeredList" *ngIf="isPromiseDone">
     <form class="example-form" *ngIf="company">
         <mat-form-field class="example-full-width">
             <input matInput placeholder="Company ID" disabled value="{{company.CompanyId}}" i18n-placeholder="input field | input field which displays the companies id@@CompanyIdInput">
@@ -9,7 +9,8 @@
                 i18n-placeholder="@@CompanyNameInput">
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Address" value="{{company.Address1}}" [(ngModel)]="company.Address1" name="companyAddress1" i18n-placeholder="@@CompanyAdressInput">
+            <input matInput placeholder="Address" value="{{company.Address1}}" [(ngModel)]="company.Address1" name="companyAddress1"
+                i18n-placeholder="@@CompanyAdressInput">
         </mat-form-field>
         <mat-form-field class="example-full-width" style="margin-top:-40px">
             <input matInput value="{{company.Address2}}" [(ngModel)]="company.Address2" name="companyAddress2" i18n-placeholder="@@CompanyAdressInput">
@@ -39,39 +40,45 @@
         <mat-form-field class="example-full-width">
             <input matInput placeholder="RFC" value="{{company.CompanyRFC}}" [(ngModel)]="company.CompanyRFC" name="companyRfc" i18n-placeholder="@@CompanyRFCInput">
         </mat-form-field>
-    
-            <mat-checkbox color="primary" class="mat-checkbox" matInput placeholder="Auto Add Agreement Document" value="{{company.NewEmployeeGetDoc}}"
-                          [(ngModel)]="company.NewEmployeeGetDoc" name=companyNewEmployeeGetDoc i18n="form | field asking the if there should be a forced password reset@@CompanyUserPasswordReset">
-                Auto Add Company Agreement Document for new users
-            </mat-checkbox>
 
-        <table style="padding: 10px 25px 10px 25px">
-            <tr>
-                <td>
-                    <input-file style="padding-bottom:15px" (onFileSelect)="onFileSelect($event)" accept="application/pdf">
-                        <span class="nofiles">Upload Company Agreement File</span>
-                        <span class="selected">Files selected</span>
-                    </input-file>
-                </td>
-                <!--<td>
-                    <div *ngIf="files">
-                        <div *ngFor="let file of files">
-                            {{ file.name }}
-                        </div>
-                    </div>
-                </td>-->
-                <td>
-                    <button [disabled]="!company.NewEmployeeGetDoc" mat-raised-button color="primary" (click)=addCompanyDocument() i18n="@@UpdateButton"> Upload File </button>
-                </td>
-            </tr>
-        </table>
+        <mat-checkbox color="primary" class="mat-checkbox" matInput placeholder="Auto Add Agreement Document" value="{{company.NewEmployeeGetDoc}}"
+            [(ngModel)]="company.NewEmployeeGetDoc" name=companyNewEmployeeGetDoc i18n="form | field asking the if there should be a forced password reset@@CompanyUserPasswordReset">
+            Auto Add Company Agreement Document for new users
+        </mat-checkbox>
 
-        <mat-form-field class="example-full-width">
-            <input disabled matInput placeholder="Company Ageeement Document" value="{{company.NewEmployeeDocument}}" [(ngModel)]="company.NewEmployeeDocument" name="companyNewEmployeeDocument" i18n-placeholder="@@CompanyRFCInput">
+        <div ng2FileDrop [ngClass]="{'file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="drop-zone"
+            (onFileDrop)=onFileSelect($event) *ngIf="company.NewEmployeeGetDoc && !smallScreen">
+            Drag Company Agreement Here
+        </div>
+        <div style="clear:both; margin-top:20px"></div>
+
+        <input-file style="padding-bottom:15px" (onFileSelect)="onFileSelect($event)" accept="application/pdf" *ngIf="smallScreen" class="mobileUploadBtn">
+            <span class="nofiles">Upload Company Agreement File</span>
+            <span class="selected">Files selected</span>
+        </input-file>
+        <mat-form-field class="example-full-width" style="float:left; width: 50%" [ngClass]="{'agreementFieldMobile': smallScreen}">
+            <input disabled matInput placeholder="Company Ageeement Document" value="{{company.NewEmployeeDocument}}" [(ngModel)]="company.NewEmployeeDocument"
+                name="companyNewEmployeeDocument">
         </mat-form-field>
-        <br /><br />
-</form>
+        <button [disabled]="!company.NewEmployeeGetDoc || isFileUploading" mat-raised-button color="primary" (click)=addCompanyDocument() i18n="@@UpdateButton"
+            class="uploadFileButton">
+            Upload File
+        </button>
+        <div style="clear:both"></div>
+        <div style="text-align:center" *ngIf="isFileUploading"> File uploading... <mat-spinner style="margin:0 auto;"> </mat-spinner> </div>
+        <br />
+        <br />
+    </form>
 
-    <button mat-raised-button color="primary" (click)=updateCompany() i18n="@@UpdateButton"> Update </button>
-    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <button mat-raised-button color="primary" (click)=updateCompany() i18n="@@UpdateButton" style="margin-left: 25px"> Update </button>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
 </div>

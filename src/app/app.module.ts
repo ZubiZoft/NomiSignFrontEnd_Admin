@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 //angular material
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule, MatCheckboxModule, MatInputModule, MatSidenavModule, MatCardModule, MatListModule, MatIconModule, MatSelectModule, MatToolbarModule, MatMenuModule, MatSnackBarModule, MatDialogModule, MatProgressSpinnerModule } from '@angular/material';
+import { LayoutModule } from '@angular/cdk/layout'
 //custom imports
 import { AppComponent } from './app.component';
 
@@ -34,6 +35,8 @@ import { DocumentListComponent } from './components/documentList/documentList.co
 import { CompanyAdminNavbarComponent } from './components/navbars/companyAdmin/company-admin.navbar.component'
 import { UserNavbarComponent } from './components/navbars/user/user.navbar.component'
 import { InputFile } from './components/fileupload.component' 
+
+import { FileUploadModule } from 'ng2-file-upload'
 
 import { UserService } from './services/user.service'
 import { AuthService } from './services/auth.service'
@@ -93,7 +96,9 @@ import { AppRoutingModule } from './app.routing'
     MatMenuModule,
     AppRoutingModule,
     MatDialogModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    FileUploadModule,
+    LayoutModule
   ],
   providers: [ UserService, AuthService, CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard, UploadService, DocumentService ],
   bootstrap: [AppComponent],

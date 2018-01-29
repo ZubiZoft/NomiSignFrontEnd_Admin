@@ -10,8 +10,10 @@ import { CompanyModel } from '../../../models/company.model'
 import { States } from '../../../models/states.models'
 import { UploadService } from '../../../services/upload.service'
 import { FileModel } from '../../../models/file.model'
+import { FileUploader } from 'ng2-file-upload'
 //angular material imports
 import { MatSnackBar } from '@angular/material'
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 
 @Component({
   selector: 'ng-company',
@@ -25,9 +27,22 @@ export class CompanyEditComponent implements OnInit {
   states : States
   isPromiseDone: boolean = false;
   files: any[];
+  uploader: FileUploader = new FileUploader({ });
+  hasBaseDropZoneOver: boolean = false;
+  smallScreen : boolean = false
+  isFileUploading: boolean = false;
 
-  constructor(private route: ActivatedRoute, private companyService: CompanyService, public snackbar: MatSnackBar, private uploadService: UploadService) { 
+  constructor(private route: ActivatedRoute, private companyService: CompanyService, public snackbar: MatSnackBar,
+             private uploadService: UploadService, private breakpointObserver: BreakpointObserver) { 
       this.states = new States();
+
+    const layoutChanges = breakpointObserver.observe([
+      '(max-width: 780px)',
+    ]);
+    
+    layoutChanges.subscribe(result => {
+      this.smallScreen = result.matches;
+    });
   }
 
   ngOnInit(): void {
@@ -39,7 +54,13 @@ export class CompanyEditComponent implements OnInit {
     });
   }
 
+  public fileOverBase(e: any): void {
+    this.hasBaseDropZoneOver = e;
+  }
+
   addCompanyDocument() {
+    this.isFileUploading = true;
+    
       if (this.files && this.files.length > 0) {
           for (let file of this.files) {
               this.uploadFile(file, this.company.CompanyId);
@@ -48,7 +69,8 @@ export class CompanyEditComponent implements OnInit {
       else {
           alert("No file selected");
       }
-
+     this.snackbar.open("Uploaded Successfully", "", {duration: 5000})
+     this.isFileUploading = false;
       return false;
   }
 
@@ -64,19 +86,21 @@ export class CompanyEditComponent implements OnInit {
   }
 
   onFileSelect(event) {
+      console.log(event)
+      if (this.uploader.queue.length > 1){
+        this.uploader.queue.splice(0,1)
+      }
       this.files = event;
       this.company.NewEmployeeDocument = this.files[0].name;
   }
 
 
-  updateCompany(){
-    console.log("updating company")
+  updateCompany(){    
      this.route.paramMap
-     .switchMap((params: ParamMap) => this.companyService.updateCompanyDetails(params.get('cid'), this.company).finally(()=> this.snackbar.open("Updated successfully", "", {duration: 5000})))
+     .switchMap((params: ParamMap) => this.companyService.updateCompanyDetails(params.get('cid'), this.company))
      .subscribe(
-       data =>  this.company = data,
-       error => this.snackbar.open(error, "", {duration: 5000}),
-       
+       data =>  { this.company = data; this.snackbar.open("Updated Successfully", "", {duration: 5000}) },
+       error => this.snackbar.open(error, "", {duration: 5000}),       
     );
   }
 }

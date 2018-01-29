@@ -48,9 +48,8 @@ export class CompanyUsersNewComponent implements OnInit {
      this.route.paramMap
          .switchMap((params: ParamMap) => this.companyUserService.saveNewCompanyUser(this.companyUser))
          .subscribe(
-         data => { this.companyUser = data; this._location.back(); }, 
-         error => this.snackbar.open(error, "", { duration: 5000 }),
-         () => this.snackbar.open("Successfully Updated", "", { duration: 5000 })
+         data => { this.companyUser = data; this._location.back(); this.snackbar.open("Updated Successfully", "", {duration: 5000}) }, 
+         error => this.snackbar.open(error, "", { duration: 5000 })
      )
   }
 }

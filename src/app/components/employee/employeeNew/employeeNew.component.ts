@@ -41,9 +41,8 @@ export class EmployeeNewComponent implements OnInit {
           console.log("save employee")
           this.route.paramMap
               .switchMap((params: ParamMap) =>
-                  this.employeeService.saveNewEmployee(this.employee).finally(() =>
-                  { this.snackbar.open("Updated successfully", "", { duration: 5000 }); }))
-              .subscribe(data => { this.employee = data; this._location.back(); },
+                  this.employeeService.saveNewEmployee(this.employee))
+              .subscribe(data => { this.employee = data; this._location.back(); this.snackbar.open("Updated Successfully", "", {duration: 5000}) },
               error => this.snackbar.open(error, "", { duration: 5000 }));
       }
       else {
@@ -56,8 +55,7 @@ export class EmployeeNewComponent implements OnInit {
       console.log("verify employee cell")
       this.route.paramMap
           .switchMap((params: ParamMap) =>
-              this.employeeService.verifyNewEmployeeCellNumber(this.employee).finally(() =>
-              { return false; }))
+              this.employeeService.verifyNewEmployeeCellNumber(this.employee))
           .subscribe(data => { this.cellNumberVerificationStatus = data; return false;},
           error => this.cellNumberVerificationStatus = error
       );

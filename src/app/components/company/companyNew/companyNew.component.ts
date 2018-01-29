@@ -25,6 +25,6 @@ export class CompanyNewComponent {
     saveCompany(){
        this.companyService.saveNewCompany(this.company).subscribe(data => this.company = data,
                                                                   error => this.snackbar.open(error, "",{duration: 5000}),
-                                                                () => this.snackbar.open("Successfully updated", "",{duration: 5000}));
+                                                                  () => this.snackbar.open("Updated Successfully", "", {duration: 5000}));
     }
 }
