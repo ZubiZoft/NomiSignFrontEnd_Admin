@@ -4,7 +4,7 @@ export class CompanyUserModel {
     DisplayName:string;
     PhoneNumber:string;
     PasswordHash:string;
-    //UserStatus: number;
+    UserStatus: number;
     UserType: number;
     LastLogin:string;
     LastPasswordChange:Date;

@@ -1,14 +1,17 @@
 export class EmployeeModel {
     CompanyUserId: number;
     CompanyId:string;
-    UserName:string;
+    UserName: string;
+    FullName: string;
     EmailAddress:string;
     PhoneNumber:string;
     Password:string;
     PasswordStatus:number;
-    LastPasswordChangeDate:Date;
+    LastPasswordChangeDate: Date;
+    EmployeeStatus: number;
+    CreatedByUserId: number;
     RFC: string;
-    CURP: string;
+    CRUP: string;
     CellPhoneNumber: string;
     CreatedByUserName: string;
 }

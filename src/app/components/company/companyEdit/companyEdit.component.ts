@@ -58,7 +58,7 @@ export class CompanyEditComponent implements OnInit {
       var reader = new FileReader();
       reader.readAsDataURL(file)
       reader.onload = (e) => {
-          uploadFile.Content = reader.result.split(',')[1] //removes data:image...   
+          uploadFile.PDFContent = reader.result.split(',')[1] //removes data:image...   
           this.uploadService.addcompanyfile(uploadFile, companyId).subscribe(data => data) //success from file uploads
       }
   }

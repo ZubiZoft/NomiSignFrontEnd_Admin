@@ -18,6 +18,12 @@
     <mat-form-field class="example-full-width">
       <input matInput placeholder="2nd Last Name" [(ngModel)]="employee.LastName2" name=employeeLast2 i18n-placeholder="input field | input field which contains the employee's last name@@EmployeeLastNameField">
     </mat-form-field>
+      <mat-form-field class="example-full-width">
+          <input matInput placeholder="CRUP" [(ngModel)]="employee.CRUP" name=employeeCurp i18n-placeholder="input field | input field which contains the employee's curp value@@EmployeeCURPField">
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+      <input matInput placeholder="RFC" [(ngModel)]="employee.RFC" name=employeeRfc i18n-placeholder="input field | input field which contains the employee's rfc code@@EmployeeRFCField">
+    </mat-form-field>
 
       <table>
           <tr>
@@ -36,12 +42,8 @@
               </td>
           </tr>
       </table>
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="CURP" [(ngModel)]="employee.CURP" name=employeeCurp i18n-placeholder="input field | input field which contains the employee's curp value@@EmployeeCURPField">
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="RFC" [(ngModel)]="employee.RFC" name=employeeRfc i18n-placeholder="input field | input field which contains the employee's rfc code@@EmployeeRFCField">
-    </mat-form-field>
+    
+    
   </form>
     <!-- TODO: dont allow a save till phone is verified -->
   <button mat-raised-button color="primary" (click)=saveEmployee() i18n="action | button which will update the employee's info when clicked@@UpdateButton"> Save </button>

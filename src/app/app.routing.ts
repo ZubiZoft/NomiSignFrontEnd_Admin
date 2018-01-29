@@ -21,7 +21,7 @@ import { CompanyUsersNewComponent } from './components/companyuser/companyUsersN
 import { CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard } from './services/authguard.service'
 
 const routes: Routes = [
-  { path: 'account/:eid', component: AccountComponent },
+    { path: 'account/:uid', component: AccountComponent },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   //{ path: 'account/:uid', redirectTo: '/account/:uid', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },

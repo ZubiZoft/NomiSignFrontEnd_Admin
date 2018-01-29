@@ -3,32 +3,50 @@
 <div style="max-height: 80vh; overflow-y: auto" class="centeredList" *ngIf="employee">
         <form class="example-form">
             <mat-form-field class="example-full-width">
-                <input readonly matInput placeholder="Email Address" value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress" name=employeeEmailAddress
+                <input [readonly]="!allowEmployeeEdit" matInput placeholder="Email Address" value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress" name=employeeEmailAddress
                        i18n-placeholder="@@EmployeeEmailField">
             </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input readonly matInput placeholder="First Name" value="{{employee.FirstName}}" [(ngModel)]="employee.FirstName" name=employeeFirst
+                <input  [readonly]="!allowEmployeeEdit" matInput placeholder="First Name" value="{{employee.FirstName}}" [(ngModel)]="employee.FirstName" name=employeeFirst
                        i18n-placeholder="@@EmployeeFirstNameField">
             </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input readonly matInput placeholder="1st Last Name" value="{{employee.LastName1}}" [(ngModel)]="employee.LastName1" name=employeeLast1
+                <input  [readonly]="!allowEmployeeEdit" matInput placeholder="1st Last Name" value="{{employee.LastName1}}" [(ngModel)]="employee.LastName1" name=employeeLast1
                        i18n-placeholder="@@EmployeeLastNameField">
             </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input readonly matInput placeholder="2nd Last Name" value="{{employee.LastName2}}" [(ngModel)]="employee.LastName2" name=employeeLast2
+                <input  [readonly]="!allowEmployeeEdit" matInput placeholder="2nd Last Name" value="{{employee.LastName2}}" [(ngModel)]="employee.LastName2" name=employeeLast2
                        i18n-placeholder="@@EmployeeLastNameField">
             </mat-form-field>
 
-            <mat-form-field class="example-full-width">
+           
+                <table *ngIf="allowEmployeeEdit">
+                    <tr>
+                        <td style="width: 50%">
+                            <mat-form-field class="example-full-width">
+                                <input [readonly]="!allowEmployeeEdit" matInput placeholder="Cell Number" value="{{employee.CellPhoneNumber}}" [(ngModel)]="employee.CellPhoneNumber" name=employeeCellPhoneNumber
+                                       i18n-placeholder="@@EmployeeCellPhoneNumber">
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <button mat-raised-button color="primary" (click)=verifyNewEmployeeCellNumber() i18n="action | button which will update the employee's info when clicked@@UpdateButton"> Verify </button>
+                        </td>
+                        <td>
+                            <span><strong> {{cellNumberVerificationStatus}} </strong></span>
+
+                        </td>
+                    </tr>
+                </table>
+            <mat-form-field *ngIf="!allowEmployeeEdit" class="example-full-width">
                 <input readonly matInput placeholder="Cell Number" value="{{employee.CellPhoneNumber}}" [(ngModel)]="employee.CellPhoneNumber" name=employeeCellPhoneNumber
                        i18n-placeholder="@@EmployeeCellPhoneNumber">
             </mat-form-field>
 
             <mat-form-field class="example-full-width">
-                <input readonly matInput placeholder="CURP" value="{{employee.CURP}}" [(ngModel)]="employee.CURP" name=employeeCURP i18n-placeholder="@@EmployeeCURPField">
+                <input  [readonly]="!allowEmployeeEdit" matInput placeholder="CRUP" value="{{employee.CRUP}}" [(ngModel)]="employee.CRUP" name=employeeCURP i18n-placeholder="@@EmployeeCURPField">
             </mat-form-field>
             <mat-form-field class="example-full-width">
-                <input readonly matInput placeholder="RFC" value="{{employee.RFC}}" [(ngModel)]="employee.RFC" name=employeeRFC i18n-placeholder="@@EmployeeRFCField">
+                <input  [readonly]="!allowEmployeeEdit" matInput placeholder="RFC" value="{{employee.RFC}}" [(ngModel)]="employee.RFC" name=employeeRFC i18n-placeholder="@@EmployeeRFCField">
             </mat-form-field>
 
             <p align="right"><b>Created By:</b>{{employee.CreatedByUserName}} - <b>Last Login:</b>{{employee.LastLogin}} </p>
@@ -50,7 +68,8 @@
                 </tr>
                 <tr style="padding-top: 25px">
                     <td style="padding-top: 25px" colspan="2">
-                        <button mat-raised-button color="primary" (click)=updateEmployee() i18n="@@UpdateButton"> Upload File </button>
+                        <button *ngIf="allowEmployeeEdit" mat-raised-button color="primary" (click)=updateEmployee() i18n="@@UpdateButton"> Update </button>
+                        <button *ngIf="!allowEmployeeEdit"  mat-raised-button color="primary" (click)=updateEmployeeFiles() i18n="@@UpdateButton"> Upload File </button>
                     </td>
                 </tr>
             </table>

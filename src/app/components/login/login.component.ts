@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router'
 
@@ -43,6 +43,36 @@ export class LoginComponent implements OnInit {
     this.router.navigate(['/layout'])
   }
 
+  gotoForgotPassword(): boolean {
+      var message = "Se envio un enlace de restablecimiento de contrasena a su email en el archivo";
+      if (this.usernameFormControl.hasError('required') || this.usernameFormControl.hasError('email')) {
+          message = "Pon su email y entonces oprima 'me Olvide Mi Contrasena'";
+          let dialogRef = this.dialog.open(LoginAlertDialog, {
+              width: '50%',
+              data: { 'message': message }
+          });
+      }
+      else {
+          this.user.EmailAddress = this.userName;
+          this.authService.sendPasswordReset(this.user).subscribe(
+              userData => {
+                  this.userService.setUser(userData);
+                  let dialogRef = this.dialog.open(LoginAlertDialog, {
+                      width: '50%',
+                      data: { 'message': message }
+                  });
+              },
+              error => {
+                  let dialogRef = this.dialog.open(LoginAlertDialog, {
+                      width: '50%',
+                      data: { 'message': "Si el email proporcionado fue correcto, se enviara un enlace de restablecimiento de contrasena" }
+                  });
+              })
+
+      }
+      return false;
+  }
+
   login() {
     this.user.EmailAddress = this.userName
     this.user.PasswordHash = this.password
@@ -51,7 +81,8 @@ export class LoginComponent implements OnInit {
       error => {
           let dialogRef = this.dialog.open(LoginAlertDialog, {
           width: '50%',
-          data: { }
+          data: {
+              'message': "El email y / o contrasena provistos no pudieron ser autenticados con exito" }
         })
       ;},
       () =>  {
@@ -83,15 +114,20 @@ export class LoginComponent implements OnInit {
 }
 
 @Component({
-  selector: 'login-alert-dialog',
-  templateUrl: 'login-alert.dialog.html',
+    selector: 'login-alert-dialog',
+    templateUrl: 'login-alert.dialog.html',
 })
-export class LoginAlertDialog {
+export class LoginAlertDialog implements OnInit {
 
-  constructor(public dialogRef: MatDialogRef<LoginAlertDialog>) { }
+    constructor(public dialogRef: MatDialogRef<LoginAlertDialog>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+    loginMessage: string;
 
-  onNoClick(): void {
-    this.dialogRef.close();
-  }
+    ngOnInit() {
+        this.loginMessage = this.data['message']; //"The email and/or password provided could not be authenticated sucessfully.";
+    }
+
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
 
 }

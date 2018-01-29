@@ -7,7 +7,8 @@ import "rxjs/add/operator/switchMap";
 import 'rxjs/add/operator/finally'
 //custom imports
 import { EmployeeService } from '../../../services/employee.service'
-import { User } from '../../../models/user.model'
+import { UserService } from '../../../services/user.service'
+import { EmployeeModel } from '../../../models/employee.model'
 //angular material imports
 import { MatSnackBar } from '@angular/material'
 
@@ -18,24 +19,25 @@ import { MatSnackBar } from '@angular/material'
   providers: [ EmployeeService ]
 })
 export class EmployeeNewComponent implements OnInit {
-    employee: User;
+    employee: EmployeeModel;
     cellNumberVerificationStatus: string;
   companyId: string;
   employeeID: string;
 
-  constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MatSnackBar, private _location: Location) { 
-      this.employee = new User()
+  constructor(private route: ActivatedRoute, private employeeService: EmployeeService,private userService: UserService, public snackbar: MatSnackBar, private _location: Location) { 
+      this.employee = new EmployeeModel()
       route.params.subscribe((params: Params) => {
         this.employee.CompanyId = params['cid'];
       })
   }
 
   ngOnInit(): void {
-  }
+  } 
 
   saveEmployee() {
       if (this.cellNumberVerificationStatus == "Success") {
-          this.employee.CreatedByUserId = 2 //TODO FIX THIS HARDCODE
+          var loggedInUser = this.userService.getUser();
+          this.employee.CreatedByUserId = loggedInUser.UserId;
           console.log("save employee")
           this.route.paramMap
               .switchMap((params: ParamMap) =>

@@ -4,14 +4,15 @@ export class CompanyModel {
     DaysAccountPastDue:number;
     LastInvoiceDate:Date;
     AccountStatus:number;
-    NumberSignaturesRemaining:number;
-    NumberSignaturesPurchasedLifetime:number;
+    SignatureBalance:number;
+    TotalSignaturesPurchased:number;
     CorporateEmailDomain:string;
     BillingEmailAddress:string;
     PayPeriod:number;
     EmployeeCount:number;
     CompanyRFC:string;
-    PostalCode:string;
+    PostalCode: string;
+    ApiKey: string;
     State:string;
     City:string;
     Address1:string;

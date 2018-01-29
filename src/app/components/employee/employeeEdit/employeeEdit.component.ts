@@ -8,8 +8,10 @@ import 'rxjs/add/operator/finally'
 //custom imports
 import { EmployeeService } from '../../../services/employee.service'
 import { EmployeeModel } from '../../../models/employee.model'
+import { OpenBatchModel } from '../../../models/openbatch.model'
 import { UploadService } from '../../../services/upload.service'
 import { FileModel } from '../../../models/file.model'
+import { CompanyModel } from '../../../models/company.model'
 import { CompanyService } from '../../../services/company.service'
 import { UserService } from '../../../services/user.service'
 //angular material imports
@@ -26,6 +28,10 @@ export class EmployeeEditComponent implements OnInit {
   employee: EmployeeModel;
   companyId: string;
   employeeID: string;
+  allowEmployeeEdit: boolean = false;
+  cellNumberVerificationStatus: string;
+  openbatch: OpenBatchModel;
+  company: CompanyModel;
   isPromiseDone: boolean = false;
   files: any[];
 
@@ -43,23 +49,72 @@ export class EmployeeEditComponent implements OnInit {
     this.route.paramMap
       .switchMap((params: ParamMap) => this.employeeService.getEmployeeById(params.get('cid'), params.get('eid')))
       .subscribe(data => {
-        this.employee = data;
+          this.employee = data;
+          if (this.employee.EmployeeStatus == 1) this.allowEmployeeEdit = true;
         this.isPromiseDone = true;
-      });
+          });
+
+      // Need ApiKey from Company
+    this.route.paramMap
+        .switchMap((params: ParamMap) => this.companyService.getCompanyById(params.get('cid')))
+        .subscribe(data => {
+            this.company = data;
+            this.openbatch = new OpenBatchModel();
+            this.openbatch.CompanyRfc = this.company.CompanyRFC;
+            this.openbatch.ApiKey = this.company.ApiKey;
+            this.openbatch.FileCount = 1;
+            this.isPromiseDone = true;
+        });
+  }
+
+  verifyNewEmployeeCellNumber() {
+
+      console.log("verify employee cell")
+      this.route.paramMap
+          .switchMap((params: ParamMap) =>
+              this.employeeService.verifyNewEmployeeCellNumber(this.employee).finally(() =>
+              { return false; }))
+          .subscribe(data => { this.cellNumberVerificationStatus = data; return false; },
+          error => this.cellNumberVerificationStatus = error
+          );
+
+  }
+
+  updateEmployeeFiles() {
+      if (this.files && this.files.length > 0) {
+          this.uploadEmployeeFiles();
+      }
+      else {
+          alert('No Files Selected');
+      }
   }
 
   updateEmployee() {
-    //this.route.paramMap
-    //    .switchMap((params: ParamMap) => this.employeeService.updateEmployeeDetails(params.get('eid'), this.employee).finally(() => { this.snackbar.open("sucessfully updated", "", { duration: 5000 });}))
-    //    .subscribe(data => { this.employee = data; if (!this.files) { this._location.back(); } },
-    //  error => this.snackbar.open(error, "", { duration: 5000 }))
 
-      if (this.files && this.files.length > 0) {
+      // only update if employee is editable
+      if (this.allowEmployeeEdit && this.cellNumberVerificationStatus == "Success") {
+          this.employee.EmployeeStatus = 5; // allows for 1 time update of employees created by bulk editor
+          this.route.paramMap
+              .switchMap((params: ParamMap) => this.employeeService.updateEmployeeDetails(params.get('eid'), this.employee).finally(() => { this.snackbar.open("sucessfully updated", "", { duration: 5000 }); }))
+              .subscribe(data => { this.employee = data; if (!this.files) { this._location.back(); } },
+              error => this.snackbar.open(error, "", { duration: 5000 }))
+
+          if (this.files && this.files.length > 0) {
+              this.uploadEmployeeFiles();
+          }
+      }
+      else
+      {
+          alert("Cell Phone has not been verified");
+      } 
+  }
+
+  uploadEmployeeFiles() {
+      
           this.companyService.getCompanyById(this.employee.CompanyId).subscribe(data => {
-              this.uploadService.openBatch(data.CompanyRFC).subscribe(data => {
+              this.uploadService.openBatch(this.companyId, this.openbatch).subscribe(data => {
                   let batchId = data.BatchId;
-                  for (let file of this.files)
-                  {
+                  for (let file of this.files) {
                       this.uploadFile(file, batchId);
                   };
                   this.uploadService.closeBatch(batchId).subscribe(data => {
@@ -68,11 +123,6 @@ export class EmployeeEditComponent implements OnInit {
                   })
               })
           })
-
-      }
-      else {
-          alert('No Files Selected');
-      }
   }
 
   onFileSelect(event) {
@@ -81,13 +131,13 @@ export class EmployeeEditComponent implements OnInit {
 
   uploadFile(file, batchId): any {
     let uploadFile = new FileModel()
-    uploadFile.EmployeeCURP = this.employee.CURP;
+    uploadFile.EmployeeCURP = this.employee.CRUP;
     //uploadFile.CompanyId = this.companyId;
     uploadFile.FileName = file.name;
     var reader = new FileReader();
     reader.readAsDataURL(file)
     reader.onload = (e) => {
-      uploadFile.Content = reader.result.split(',')[1] //removes data:image...   
+      uploadFile.PDFContent = reader.result.split(',')[1] //removes data:image...   
       this.uploadService.addFile(uploadFile, batchId).subscribe(data => data) //success from file uploads
     }
   }

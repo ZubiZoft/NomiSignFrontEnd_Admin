@@ -16,9 +16,9 @@
     <mat-list-item *ngFor="let company of (companies | listfilter: search.value)" style="border-bottom: 1px solid grey; cursor: pointer"
       [routerLink]="['/companyEdit', company.CompanyId]" routerLinkActive="active">
       <mat-icon mat-list-icon>business</mat-icon>
-      <h4 mat-line>{{company.CompanyName}}</h4>
+      <h4 mat-line><strong>{{company.CompanyName}}</strong></h4>
       <p mat-line>{{ company.CompanyRFC }} </p>
-
+      <p mat-line>Signatures Purchased: {{ company.TotalSignaturesPurchased }} Signatures Remaining: {{ company.SignatureBalance }}</p>
     </mat-list-item>
     
   </mat-list>

@@ -36,7 +36,7 @@ export class EmployeeService {
         return this.http.put(url, body, options).map(response => response.json());
     }
     //POST
-    saveNewEmployee(employee: User): Observable<any>{
+    saveNewEmployee(employee: EmployeeModel): Observable<any>{
         var _headers = new Headers ({'Content-Type': 'application/json'})
         var options = new RequestOptions({method: 'POST', headers: _headers})
         var body = JSON.stringify(employee);
@@ -45,7 +45,7 @@ export class EmployeeService {
         return this.http.post(url, body, options).map(response => response.json());
     }
 
-    verifyNewEmployeeCellNumber(employee: User): Observable<any> {
+    verifyNewEmployeeCellNumber(employee: EmployeeModel): Observable<any> {
         var _headers = new Headers({ 'Content-Type': 'application/json' })
         var options = new RequestOptions({ method: 'POST', headers: _headers })
         var body = JSON.stringify(employee);

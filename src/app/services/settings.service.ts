@@ -8,7 +8,6 @@ import { environment } from '../../environments/environment';
 
 @Injectable()
 export class SettingsService {
-    //private rootURL: string = 'http://ogrean.com/nomisign/'
     private rootURL: string = environment.serviceUrl;
 
     constructor(private http: Http) {}

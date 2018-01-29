@@ -21,4 +21,12 @@ export class AuthService {
         let body = JSON.stringify(user)
         return this.http.post(url, body, options).map(response => response.json());
     }
+
+    sendPasswordReset(user): Observable<any> {
+        let _headers = new Headers({ 'Content-Type': 'application/json' })
+        let options = new RequestOptions({ method: 'POST', headers: _headers })
+        let url = rootURL + 'api/adminlogin/reset';
+        let body = JSON.stringify(user)
+        return this.http.post(url, body, options).map(response => response.json());
+    }
 }
