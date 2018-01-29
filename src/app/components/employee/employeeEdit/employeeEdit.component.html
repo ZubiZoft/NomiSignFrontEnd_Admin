@@ -79,10 +79,8 @@
                 </tr>
             </thead>
             <tbody>
-                        <td style="padding-top: 25px" colspan="2">
-                        <button *ngIf="allowEmployeeEdit" mat-raised-button color="primary" (click)=updateEmployee() i18n="@@UpdateButton"> Update </button>
-                        <button *ngIf="!allowEmployeeEdit"  mat-raised-button color="primary" (click)=updateEmployeeFiles() i18n="@@UpdateButton"> Upload File </button>
-
+                <tr *ngFor="let item of uploader.queue">
+                    <td class="fileNames">
                         <strong>{{ item?.file.name }}</strong>
                     </td>
                     <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
@@ -90,6 +88,8 @@
                 </tr>
             </tbody>
         </table>
+        <button *ngIf="allowEmployeeEdit" mat-raised-button color="primary" (click)=updateEmployee() i18n="@@UpdateButton"> Update </button>
+        <button *ngIf="!allowEmployeeEdit" mat-raised-button color="primary" (click)=updateEmployeeFiles() i18n="@@UpdateButton"> Upload File </button>
 
         <div style="clear:both; margin-bottom: 25px"> </div>
 
@@ -117,12 +117,7 @@
         </table> -->
         <div style="text-align:center" *ngIf="isFileUploading"> File uploading... <mat-spinner style="margin:0 auto;"> </mat-spinner> </div> 
         
-        <button [disabled]="isFileUploading" mat-raised-button color="primary" (click)=updateEmployee() i18n="@@UpdateButton"> Upload File </button>
+        <!--<button [disabled]="isFileUploading" mat-raised-button color="primary" (click)=updateEmployee() i18n="@@UpdateButton"> Upload File </button>-->
     </form>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
     <br/>
 </div>

@@ -37,7 +37,7 @@ export class EmployeeEditComponent implements OnInit {
   openbatch: OpenBatchModel;
   company: CompanyModel;
   isPromiseDone: boolean = false;
-  files: any[];
+  //files: any[];
   uploader: FileUploader = new FileUploader({ });
   hasBaseDropZoneOver: boolean = false;
   smallScreen: boolean = false;
@@ -105,7 +105,7 @@ export class EmployeeEditComponent implements OnInit {
   }
 
   updateEmployeeFiles() {
-      if (this.files && this.files.length > 0) {
+      if (this.uploader.queue && this.uploader.queue.length > 0) {
           this.uploadEmployeeFiles();
       }
       else {
@@ -116,49 +116,48 @@ export class EmployeeEditComponent implements OnInit {
   updateEmployee() {
     this.isFileUploading = true;
       // only update if employee is editable
-      if (this.allowEmployeeEdit && this.cellNumberVerificationStatus == "Success") {
-          this.employee.EmployeeStatus = 5; // allows for 1 time update of employees created by bulk editor
-          this.route.paramMap
-              .switchMap((params: ParamMap) => this.employeeService.updateEmployeeDetails(params.get('eid'), this.employee).finally(() => { this.snackbar.open("sucessfully updated", "", { duration: 5000 }); }))
-              .subscribe(data => { this.employee = data; if (!this.files) { this._location.back(); } },
-              error => this.snackbar.open(error, "", { duration: 5000 }))
+    if (this.allowEmployeeEdit && this.cellNumberVerificationStatus == "Success") {
+        this.employee.EmployeeStatus = 5; // allows for 1 time update of employees created by bulk editor
+        this.route.paramMap
+            .switchMap((params: ParamMap) => this.employeeService.updateEmployeeDetails(params.get('eid'), this.employee).finally(() => { this.snackbar.open("sucessfully updated", "", { duration: 5000 }); }))
+            .subscribe(data => { this.employee = data; if (!(this.uploader.queue.length > 0)) { this._location.back(); } },
+            error => this.snackbar.open(error, "", { duration: 5000 }))
 
-      if (this.uploader && this.uploader.queue.length > 0) {
-              this.uploadEmployeeFiles();
-          }
-      }
-      else
-      {
-          alert("Cell Phone has not been verified");
-      } 
+        if (this.uploader && this.uploader.queue.length > 0) {
+            this.uploadEmployeeFiles();
+        }
+    }
+    else {
+        alert("Cell Phone has not been verified");
+    } 
   }
 
   uploadEmployeeFiles() {
-      
-          this.companyService.getCompanyById(this.employee.CompanyId).subscribe(data => {
-              this.uploadService.openBatch(this.companyId, this.openbatch).subscribe(data => {
-                  let batchId = data.BatchId;
-                  for (let fileIem of this.uploader.queue)
-                      this.uploadFile(fileItem.file.rawFile, batchId);
-                  };
-                  this.uploadService.closeBatch(batchId).subscribe(data => {
-                      this._location.back();
-                      //success from closed batch
-                  })
+      this.companyService.getCompanyById(this.employee.CompanyId).subscribe(data => {
+          this.uploadService.openBatch(this.companyId, this.openbatch).subscribe(data => {
+              let batchId = data.BatchId;
+              for (let fileItem of this.uploader.queue) {
+                  this.uploadFile(fileItem.file.rawFile, batchId);
+              };
+              this.uploadService.closeBatch(batchId).subscribe(data => {
+                  this._location.back();
+                  //success from closed batch
               })
           })
+      })
       this.isFileUploading = false;
   }
 
-  onFileSelect(event) {
-    this.files = event;
-  }
+  //onFileSelect(event) {
+  //  this.files = event;
+  //}
 
   uploadFile(file, batchId): any {
     let uploadFile = new FileModel()
     uploadFile.EmployeeCURP = this.employee.CRUP;
     //uploadFile.CompanyId = this.companyId;
     uploadFile.FileName = file.name;
+    uploadFile.XMLContent = "";
     var reader = new FileReader();
     reader.readAsDataURL(file)
     reader.onload = (e) => {
