@@ -1,25 +1,17 @@
-//angular imports
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, ParamMap } from '@angular/router';
 import { Location } from '@angular/common';
-//rxjs imports
-import "rxjs/add/operator/switchMap";
-import 'rxjs/add/operator/finally'
-//custom imports
-import { EmployeeService } from '../../../services/employee.service'
-import { EmployeeModel } from '../../../models/employee.model'
-import { OpenBatchModel } from '../../../models/openbatch.model'
-import { UploadService } from '../../../services/upload.service'
-import { FileModel } from '../../../models/file.model'
-import { CompanyModel } from '../../../models/company.model'
-import { CompanyService } from '../../../services/company.service'
-import { UserService } from '../../../services/user.service'
-import { FileUploader } from 'ng2-file-upload'
-//angular material imports
-import { MatSnackBar } from '@angular/material'
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
-
-import {Output, EventEmitter, ViewChild, ElementRef, Input} from '@angular/core';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/finally';
+import { EmployeeService } from '../../../services/employee.service';
+import { EmployeeModel } from '../../../models/employee.model';
+import { OpenBatchModel } from '../../../models/openbatch.model';
+import { UploadService } from '../../../services/upload.service';
+import { FileModel } from '../../../models/file.model';
+import { CompanyModel } from '../../../models/company.model';
+import { CompanyService } from '../../../services/company.service';
+import { UserService } from '../../../services/user.service';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
 
 @Component({
   selector: 'ng-employee-edit',
@@ -28,53 +20,38 @@ import {Output, EventEmitter, ViewChild, ElementRef, Input} from '@angular/core'
   providers: [EmployeeService, CompanyService]
 })
 export class EmployeeEditComponent implements OnInit {
-  //userStatus: any;
   employee: EmployeeModel;
   companyId: string;
   employeeID: string;
-  allowEmployeeEdit: boolean = false;
+  allowEmployeeEdit = false;
   cellNumberVerificationStatus: string;
   openbatch: OpenBatchModel;
   company: CompanyModel;
-  isPromiseDone: boolean = false;
-  //files: any[];
-  uploader: FileUploader = new FileUploader({ });
-  hasBaseDropZoneOver: boolean = false;
-  smallScreen: boolean = false;
-  isFileUploading: boolean = false;
+  isPromiseDone = false;
+  files: any[];
 
-  @ViewChild('inputFile') nativeInputFile: ElementRef;
+  constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MatSnackBar,
+              private uploadService: UploadService,  public dialog: MatDialog,
+              private companyService: CompanyService, private userService: UserService, private _location: Location) {
 
-  constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MatSnackBar, private uploadService: UploadService,
-      private companyService: CompanyService, private userService: UserService, private _location: Location, private breakpointObserver: BreakpointObserver) {
-      //this.userStatus = userService.getUserType();
-
-      const layoutChanges = breakpointObserver.observe([
-        '(max-width: 780px)',
-      ]);
-      
-      layoutChanges.subscribe(result => {
-        this.smallScreen = result.matches;
-      });
       // get company Id
       route.params.subscribe((params: Params) => {
           this.companyId = params['cid'];
       });
   }
-  public fileOverBase(e: any): void {
-    this.hasBaseDropZoneOver = e;
-  }
-
-  selectFile() {
-    this.nativeInputFile.nativeElement.click();
-}
 
   ngOnInit(): void {
     this.route.paramMap
       .switchMap((params: ParamMap) => this.employeeService.getEmployeeById(params.get('cid'), params.get('eid')))
       .subscribe(data => {
           this.employee = data;
-          if (this.employee.EmployeeStatus == 1) this.allowEmployeeEdit = true;
+          if (this.employee.EmployeeStatus == 1) {
+              this.allowEmployeeEdit = true;
+          } else if (this.employee.CellPhoneNumber == null || this.employee.CellPhoneNumber == '') {
+              this.allowEmployeeEdit = true;
+          } else if (this.employee.EmailAddress == null || this.employee.EmailAddress == '') {
+              this.allowEmployeeEdit = true;
+          }
         this.isPromiseDone = true;
           });
 
@@ -92,77 +69,98 @@ export class EmployeeEditComponent implements OnInit {
   }
 
   verifyNewEmployeeCellNumber() {
-
-      console.log("verify employee cell")
       this.route.paramMap
           .switchMap((params: ParamMap) =>
               this.employeeService.verifyNewEmployeeCellNumber(this.employee).finally(() =>
               { return false; }))
-          .subscribe(data => { this.cellNumberVerificationStatus = data; return false; },
-          error => this.cellNumberVerificationStatus = error
+          .subscribe(
+              data => { this.cellNumberVerificationStatus = data; return false; },
+              error => this.cellNumberVerificationStatus = error
           );
-
   }
 
   updateEmployeeFiles() {
-      if (this.uploader.queue && this.uploader.queue.length > 0) {
+      if (this.files && this.files.length > 0) {
           this.uploadEmployeeFiles();
-      }
-      else {
-          alert('No Files Selected');
+      } else {
+          let dialogRef = this.dialog.open(EditEmployeeAlertDialog, {
+              width: '50%',
+              data: { 'message': 'Por favor selecione un archivo.' }
+          });
       }
   }
 
   updateEmployee() {
-    this.isFileUploading = true;
-      // only update if employee is editable
-    if (this.allowEmployeeEdit && this.cellNumberVerificationStatus == "Success") {
-        this.employee.EmployeeStatus = 5; // allows for 1 time update of employees created by bulk editor
-        this.route.paramMap
-            .switchMap((params: ParamMap) => this.employeeService.updateEmployeeDetails(params.get('eid'), this.employee).finally(() => { this.snackbar.open("sucessfully updated", "", { duration: 5000 }); }))
-            .subscribe(data => { this.employee = data; if (!(this.uploader.queue.length > 0)) { this._location.back(); } },
-            error => this.snackbar.open(error, "", { duration: 5000 }))
+      if (this.allowEmployeeEdit && ( this.cellNumberVerificationStatus == "Success" || this.employee.EmailAddress != '')) {
+          this.employee.EmployeeStatus = 5; // allows for 1 time update of employees created by bulk editor
+          this.route.paramMap
+              .switchMap((params: ParamMap) => this.employeeService.updateEmployeeDetails(params.get('eid'), this.employee).finally(() => {
+                  this.snackbar.open("sucessfully updated", "", { duration: 5000 }); }))
+              .subscribe(data => { this.employee = data; if (!this.files) { this._location.back(); } },
+              error => this.snackbar.open(error, "", { duration: 5000 }))
 
-        if (this.uploader && this.uploader.queue.length > 0) {
-            this.uploadEmployeeFiles();
-        }
-    }
-    else {
-        alert("Cell Phone has not been verified");
-    } 
+          if (this.files && this.files.length > 0) {
+              this.uploadEmployeeFiles();
+          }
+      } else {
+          let dialogRef1 = this.dialog.open(EditEmployeeAlertDialog, {
+              width: '50%',
+              data: { 'message': 'Por favor verifique su número celular o correo electrónico.' }
+          });
+      }
   }
 
   uploadEmployeeFiles() {
       this.companyService.getCompanyById(this.employee.CompanyId).subscribe(data => {
           this.uploadService.openBatch(this.companyId, this.openbatch).subscribe(data => {
               let batchId = data.BatchId;
-              for (let fileItem of this.uploader.queue) {
-                  this.uploadFile(fileItem.file.rawFile, batchId);
+              for (let file of this.files) {
+                  this.uploadFile(file, batchId);
               };
               this.uploadService.closeBatch(batchId).subscribe(data => {
+                  console.log('closed');
                   this._location.back();
-                  //success from closed batch
-              })
-          })
-      })
-      this.isFileUploading = false;
+              });
+          });
+      });
   }
 
-  //onFileSelect(event) {
-  //  this.files = event;
-  //}
+  backLocation() {
+      this._location.back();
+  }
+
+  onFileSelect(event) {
+    this.files = event;
+  }
 
   uploadFile(file, batchId): any {
-    let uploadFile = new FileModel()
-    uploadFile.EmployeeCURP = this.employee.CRUP;
-    //uploadFile.CompanyId = this.companyId;
+    let uploadFile = new FileModel();
+    uploadFile.EmployeeCURP = this.employee.CURP;
     uploadFile.FileName = file.name;
-    uploadFile.XMLContent = "";
     var reader = new FileReader();
-    reader.readAsDataURL(file)
+    reader.readAsDataURL(file);
     reader.onload = (e) => {
-      uploadFile.PDFContent = reader.result.split(',')[1] //removes data:image...   
-      this.uploadService.addFile(uploadFile, batchId).subscribe(data => data) //success from file uploads
-    }
+      uploadFile.PDFContent = reader.result.split(',')[1];
+      this.uploadService.addFile(uploadFile, batchId).subscribe(data => data);
+    };
   }
+}
+
+@Component({
+    selector: 'edit-employee-alert-dialog',
+    templateUrl: 'edit-employee-alert-dialog.html'
+})
+export class EditEmployeeAlertDialog implements OnInit {
+
+    constructor(public dialogRef: MatDialogRef<EditEmployeeAlertDialog>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+    loginMessage: string;
+
+    ngOnInit() {
+        this.loginMessage = this.data['message'];
+    }
+
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
+
 }

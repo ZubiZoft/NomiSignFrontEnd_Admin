@@ -46,4 +46,30 @@ export class DocumentService {
 
         return this.http.put(url, body, options).map(response => response.json());
     }
+
+    getAllDocumentsByCompany(companyId): Observable<any> {
+        let _headers = new Headers({})
+        let options = new RequestOptions({ method: 'GET', headers: _headers })
+        let url = rootURL + 'api/documentsByCompany/' + companyId;
+
+        return this.http.get(url, options).map(response => response.json());
+    }
+
+    sendToUnsignedDocuments(docIds): Observable<any> {
+        let _headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ method: 'POST', headers: _headers });
+        let url = rootURL + 'api/documents/rejected';
+        let body = JSON.stringify(docIds);
+
+        return this.http.put(url, body, options).map(response => response.json());
+    }
+
+    notifyUnsignedDocuments(docIds): Observable<any> {
+        let _headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ method: 'POST', headers: _headers });
+        let url = rootURL + 'api/documents/rejected';
+        let body = JSON.stringify(docIds);
+
+        return this.http.put(url, body, options).map(response => response.json());
+    }
 }

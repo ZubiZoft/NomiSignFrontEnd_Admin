@@ -1,25 +1,26 @@
-<div style="max-height: 80vh; overflow-y: auto" class="centeredList"> 
+<div style="max-height: 80vh; overflow-y: auto" class="centeredList">
+    <br>
   <form class="example-form">
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="Company ID" disabled value="{{employee.CompanyId}}" i18n-placeholder="input field | input field which contains the company's id@@CompanyIdField">
+      <input matInput placeholder="ID Compañía" disabled value="{{employee.CompanyId}}" i18n-placeholder="input field | input field which contains the company's id@@CompanyIdField">
     </mat-form-field>
     <mat-form-field class="example-full-width">
-      <input matInput required placeholder="Email Address" [(ngModel)]="employee.EmailAddress" name=employeeEmail i18n-placeholder="input field | input field which contains the employee's email@@EmployeeEmailField">
+      <input matInput required placeholder="Correo Electrónico" [(ngModel)]="employee.EmailAddress" name=employeeEmail i18n-placeholder="input field | input field which contains the employee's email@@EmployeeEmailField">
     </mat-form-field>
     <!--<mat-form-field class="example-full-width">
       <input required matInput placeholder="Password" [(ngModel)]="employee.PasswordHash" name=employeePassword i18n-placeholder="input field | input field which contains the employee's password@@EmployeePasswordField">
     </mat-form-field>-->
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="First Name" [(ngModel)]="employee.FirstName" name=employeeFirst i18n-placeholder="input field | input field which contains the employee's first name@@EmployeeFirstNameField">
+      <input matInput placeholder="Nombre(s)" [(ngModel)]="employee.FirstName" name=employeeFirst i18n-placeholder="input field | input field which contains the employee's first name@@EmployeeFirstNameField">
     </mat-form-field>
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="1st Last Name" [(ngModel)]="employee.LastName1" name=employeeLast1 i18n-placeholder="input field | input field which contains the employee's last name@@EmployeeLastNameField">
+      <input matInput placeholder="Apellido Paterno" [(ngModel)]="employee.LastName1" name=employeeLast1 i18n-placeholder="input field | input field which contains the employee's last name@@EmployeeLastNameField">
     </mat-form-field>
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="2nd Last Name" [(ngModel)]="employee.LastName2" name=employeeLast2 i18n-placeholder="input field | input field which contains the employee's last name@@EmployeeLastNameField">
+      <input matInput placeholder="Apellido Materno" [(ngModel)]="employee.LastName2" name=employeeLast2 i18n-placeholder="input field | input field which contains the employee's last name@@EmployeeLastNameField">
     </mat-form-field>
       <mat-form-field class="example-full-width">
-          <input matInput placeholder="CRUP" [(ngModel)]="employee.CRUP" name=employeeCurp i18n-placeholder="input field | input field which contains the employee's curp value@@EmployeeCURPField">
+          <input matInput placeholder="CURP" [(ngModel)]="employee.CRUP" name=employeeCurp i18n-placeholder="input field | input field which contains the employee's curp value@@EmployeeCURPField">
       </mat-form-field>
       <mat-form-field class="example-full-width">
       <input matInput placeholder="RFC" [(ngModel)]="employee.RFC" name=employeeRfc i18n-placeholder="input field | input field which contains the employee's rfc code@@EmployeeRFCField">
@@ -29,12 +30,12 @@
           <tr>
               <td style="width: 50%">
                   <mat-form-field class="example-full-width">
-                      <input matInput placeholder="Cell Number" value="{{employee.CellPhoneNumber}}" [(ngModel)]="employee.CellPhoneNumber" name=employeeCellPhoneNumber
+                      <input matInput placeholder="Teléfono" value="{{employee.CellPhoneNumber}}" [(ngModel)]="employee.CellPhoneNumber" name=employeeCellPhoneNumber
                              i18n-placeholder="@@EmployeeCellPhoneNumber">
                   </mat-form-field>
               </td>
               <td>
-                  <button mat-raised-button color="primary" (click)=verifyNewEmployeeCellNumber() i18n="action | button which will update the employee's info when clicked@@UpdateButton"> Verify </button>
+                  <button mat-raised-button color="primary" (click)=verifyNewEmployeeCellNumber() i18n="action | button which will update the employee's info when clicked@@UpdateButton"> Verificar </button>
               </td>
               <td>
                   <span><strong> {{cellNumberVerificationStatus}} </strong></span>
@@ -46,6 +47,8 @@
     
   </form>
     <!-- TODO: dont allow a save till phone is verified -->
-  <button mat-raised-button color="primary" (click)=saveEmployee() i18n="action | button which will update the employee's info when clicked@@UpdateButton"> Save </button>
-  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+  <button mat-raised-button color="primary" (click)=saveEmployee() i18n="action | button which will update the employee's info when clicked@@UpdateButton"> Guardar </button>
+  <br/><br/><br/><br/>
+    <br/><br/><br/><br/>
+    <br/><br/><br/>
 </div>

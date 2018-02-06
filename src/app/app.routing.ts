@@ -19,29 +19,40 @@ import { DocumentListComponent } from './components/documentList/documentList.co
 import { CompanyUsersEditComponent } from './components/companyuser/companyUsersEdit/companyUsersEdit.component'
 import { CompanyUsersNewComponent } from './components/companyuser/companyUsersNew/companyUsersNew.component'
 import { CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard } from './services/authguard.service'
+import {NewEmployeesComponent} from './components/employee/employeeFilters/new-employees/new-employees.component';
+import {UnsignedReceiptsComponent} from './components/employee/employeeFilters/unsigned-receipts/unsigned-receipts.component';
+import {DeniedReceiptsComponent} from './components/employee/employeeFilters/denied-receipts/denied-receipts.component';
+import {SearchEmployeesComponent} from './components/employee/employeeFilters/search-employees/search-employees.component';
+import {SearchReceiptsComponent} from './components/employee/employeeFilters/search-receipts/search-receipts.component';
+import {InactiveEmployeesComponent} from './components/employee/employeeFilters/inactive-employees/inactive-employees.component';
 
 const routes: Routes = [
     { path: 'account/:uid', component: AccountComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
-  //{ path: 'account/:uid', redirectTo: '/account/:uid', pathMatch: 'full' },
-  { path: 'login', component: LoginComponent },
-  { path: 'employees', component: EmployeesComponent, canActivate: [UserAuthGuard] },
-  { path: 'companies', component: CompaniesComponent, canActivate: [GAdminAuthGuard] },
-  // { path: 'timesheet', component: TimesheetComponent, canActivate: [UAuthGuard] },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [GAdminAuthGuard] },
-  { path: 'companyEdit/:cid', component: CompanyEditComponent, canActivate: [CAdminAuthGuard] },
-  { path: 'companyNew', component: CompanyNewComponent, canActivate: [GAdminAuthGuard] },
-  { path: 'employeesList/:cid', component: EmployeesListComponent, canActivate: [UserAuthGuard] },
-  { path: 'employeeEdit/:cid/:eid', component: EmployeeEditComponent, canActivate: [UserAuthGuard] },
-  { path: 'employeeNew/:cid', component: EmployeeNewComponent, canActivate: [UserAuthGuard] },
-  { path: 'companyusers', component: CompanyUsersComponent, canActivate: [GAdminAuthGuard] }, //change
-  { path: 'companyusers/:cid', component: CompanyUsersListComponent, canActivate: [CAdminAuthGuard] },
-  { path: 'companyuser/:cid/:cuid', component: CompanyUsersEditComponent, canActivate: [CAdminAuthGuard] },
-  { path: 'companyuserNew/:cid', component: CompanyUsersNewComponent, canActivate: [CAdminAuthGuard] }, //change
-  { path: 'documentUnapprovedList/:sts/:cid', component: DocumentListComponent, canActivate: [UserAuthGuard] },
-  { path: 'documentRejectList/:sts/:cid', component: DocumentListComponent, canActivate: [UserAuthGuard] },
-  { path: '**', component: NotFoundComponent }
- 
+    { path: '', redirectTo: '/login', pathMatch: 'full' },
+    { path: 'login', component: LoginComponent },
+    { path: 'employees', component: EmployeesComponent, canActivate: [UserAuthGuard] },
+    { path: 'companies', component: CompaniesComponent, canActivate: [GAdminAuthGuard] },
+    { path: 'dashboard', component: DashboardComponent, canActivate: [GAdminAuthGuard] },
+    { path: 'companyEdit/:cid', component: CompanyEditComponent, canActivate: [CAdminAuthGuard] },
+    { path: 'companyNew', component: CompanyNewComponent, canActivate: [GAdminAuthGuard] },
+    { path: 'employeesList/:cid', component: EmployeesListComponent, canActivate: [UserAuthGuard] },
+
+    { path: 'employeesList/:cid/newemployees', component: NewEmployeesComponent, canActivate: [UserAuthGuard] },
+    { path: 'employeesList/:cid/unsignedreceipts', component: UnsignedReceiptsComponent, canActivate: [UserAuthGuard] },
+    { path: 'employeesList/:cid/deniedreceipts', component: DeniedReceiptsComponent, canActivate: [UserAuthGuard] },
+    { path: 'employeesList/:cid/searchemployees', component: SearchEmployeesComponent, canActivate: [UserAuthGuard] },
+    { path: 'employeesList/:cid/searchreceipts', component: SearchReceiptsComponent, canActivate: [UserAuthGuard] },
+    { path: 'employeesList/:cid/inactiveemployees', component: InactiveEmployeesComponent, canActivate: [UserAuthGuard] },
+
+    { path: 'employeeEdit/:cid/:eid', component: EmployeeEditComponent, canActivate: [UserAuthGuard] },
+    { path: 'employeeNew/:cid', component: EmployeeNewComponent, canActivate: [UserAuthGuard] },
+    { path: 'companyusers', component: CompanyUsersComponent, canActivate: [GAdminAuthGuard] }, //change
+    { path: 'companyusers/:cid', component: CompanyUsersListComponent, canActivate: [CAdminAuthGuard] },
+    { path: 'companyuser/:cid/:cuid', component: CompanyUsersEditComponent, canActivate: [CAdminAuthGuard] },
+    { path: 'companyuserNew/:cid', component: CompanyUsersNewComponent, canActivate: [CAdminAuthGuard] }, //change
+    { path: 'documentUnapprovedList/:sts/:cid', component: DocumentListComponent, canActivate: [UserAuthGuard] },
+    { path: 'documentRejectList/:sts/:cid', component: DocumentListComponent, canActivate: [UserAuthGuard] },
+    { path: '**', component: NotFoundComponent }
 ];
 
 @NgModule({

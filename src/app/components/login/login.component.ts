@@ -4,7 +4,7 @@ import { Router } from '@angular/router'
 
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/user.service';
-import { User } from '../../models/user.model'
+import { User } from '../../models/user.model';
 
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 
@@ -44,15 +44,14 @@ export class LoginComponent implements OnInit {
   }
 
   gotoForgotPassword(): boolean {
-      var message = "Se envio un enlace de restablecimiento de contrasena a su email en el archivo";
+      var message = "Se envio un enlace de restablecimiento de contraseña a su email en el archivo";
       if (this.usernameFormControl.hasError('required') || this.usernameFormControl.hasError('email')) {
           message = "Pon su email y entonces oprima 'me Olvide Mi Contrasena'";
           let dialogRef = this.dialog.open(LoginAlertDialog, {
               width: '50%',
               data: { 'message': message }
           });
-      }
-      else {
+      } else {
           this.user.EmailAddress = this.userName;
           this.authService.sendPasswordReset(this.user).subscribe(
               userData => {
@@ -67,8 +66,7 @@ export class LoginComponent implements OnInit {
                       width: '50%',
                       data: { 'message': "Si el email proporcionado fue correcto, se enviara un enlace de restablecimiento de contrasena" }
                   });
-              })
-
+              });
       }
       return false;
   }
@@ -115,7 +113,7 @@ export class LoginComponent implements OnInit {
 
 @Component({
     selector: 'login-alert-dialog',
-    templateUrl: 'login-alert.dialog.html',
+    templateUrl: 'login-alert-dialog.html',
 })
 export class LoginAlertDialog implements OnInit {
 

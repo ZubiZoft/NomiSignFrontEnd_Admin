@@ -1,8 +1,8 @@
 //angular imports
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 //rxjs imports
-import "rxjs/add/operator/switchMap";
+import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/finally'
 //custom imports
 import { CompanyService } from '../../../services/company.service'
@@ -10,10 +10,9 @@ import { CompanyModel } from '../../../models/company.model'
 import { States } from '../../../models/states.models'
 import { UploadService } from '../../../services/upload.service'
 import { FileModel } from '../../../models/file.model'
-import { FileUploader } from 'ng2-file-upload'
 //angular material imports
-import { MatSnackBar } from '@angular/material'
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
+
 
 @Component({
   selector: 'ng-company',
@@ -21,56 +20,39 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
   styleUrls: ['./companyEdit.component.css'],
   providers: [ CompanyService ]
 })
+
 export class CompanyEditComponent implements OnInit {
   company: CompanyModel;
   id: string;
-  states : States
+  states: States;
   isPromiseDone: boolean = false;
   files: any[];
-  uploader: FileUploader = new FileUploader({ });
-  hasBaseDropZoneOver: boolean = false;
-  smallScreen : boolean = false
-  isFileUploading: boolean = false;
 
   constructor(private route: ActivatedRoute, private companyService: CompanyService, public snackbar: MatSnackBar,
-             private uploadService: UploadService, private breakpointObserver: BreakpointObserver) { 
+              private uploadService: UploadService, public dialog: MatDialog) {
       this.states = new States();
-
-    const layoutChanges = breakpointObserver.observe([
-      '(max-width: 780px)',
-    ]);
-    
-    layoutChanges.subscribe(result => {
-      this.smallScreen = result.matches;
-    });
   }
 
   ngOnInit(): void {
     this.route.paramMap
     .switchMap((params: ParamMap) => this.companyService.getCompanyById(params.get('cid')))
     .subscribe(data => {
-      this.company = data
-      this.isPromiseDone = true
+      this.company = data;
+      this.isPromiseDone = true;
     });
   }
 
-  public fileOverBase(e: any): void {
-    this.hasBaseDropZoneOver = e;
-  }
-
   addCompanyDocument() {
-    this.isFileUploading = true;
-    
       if (this.files && this.files.length > 0) {
           for (let file of this.files) {
               this.uploadFile(file, this.company.CompanyId);
           };
+      } else {
+          let dialogRef = this.dialog.open(UploadedAlertDialog, {
+              width: '50%',
+              data: { 'message': 'Por favor selecione un archivo.' }
+          });
       }
-      else {
-          alert("No file selected");
-      }
-     this.snackbar.open("Uploaded Successfully", "", {duration: 5000})
-     this.isFileUploading = false;
       return false;
   }
 
@@ -81,26 +63,51 @@ export class CompanyEditComponent implements OnInit {
       reader.readAsDataURL(file)
       reader.onload = (e) => {
           uploadFile.PDFContent = reader.result.split(',')[1] //removes data:image...   
-          this.uploadService.addcompanyfile(uploadFile, companyId).subscribe(data => data) //success from file uploads
-      }
+          this.uploadService.addcompanyfile(uploadFile, companyId).subscribe(
+              userData => {
+                  let dialogRef = this.dialog.open(UploadedAlertDialog, {
+                      width: '50%',
+                      data: { 'message': '!Su documento de aceptación de términos y condiciones ha sido cargado satisfactoriamente!' }
+                  });
+              }
+          )
+      };
   }
 
   onFileSelect(event) {
-      console.log(event)
-      if (this.uploader.queue.length > 1){
-        this.uploader.queue.splice(0,1)
-      }
       this.files = event;
       this.company.NewEmployeeDocument = this.files[0].name;
   }
 
 
-  updateCompany(){    
+  updateCompany(){
+    console.log("updating company")
      this.route.paramMap
-     .switchMap((params: ParamMap) => this.companyService.updateCompanyDetails(params.get('cid'), this.company))
+     .switchMap((params: ParamMap) => this.companyService.updateCompanyDetails(params.get('cid'), this.company).finally(()=> this.snackbar.open("Updated successfully", "", {duration: 5000})))
      .subscribe(
-       data =>  { this.company = data; this.snackbar.open("Updated Successfully", "", {duration: 5000}) },
-       error => this.snackbar.open(error, "", {duration: 5000}),       
+       data =>  this.company = data,
+       error => this.snackbar.open(error, "", {duration: 5000}),
+       
     );
   }
+
+}
+
+@Component({
+    selector: 'uploaded-alert-dialog',
+    templateUrl: 'uploaded-alert-dialog.html'
+})
+export class UploadedAlertDialog implements OnInit {
+
+    constructor(public dialogRef: MatDialogRef<UploadedAlertDialog>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+    loginMessage: string;
+
+    ngOnInit() {
+        this.loginMessage = this.data['message']; //"The email and/or password provided could not be authenticated sucessfully.";
+    }
+
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
+
 }

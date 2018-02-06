@@ -1,9 +1,10 @@
 <mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
 
 <div style="max-height: 75vh; overflow-y: auto"  class="centeredList">
+    <br>
   <form class="example-form" *ngIf="companyUser">
     <mat-form-field class="example-full-width">
-      <input matInput required placeholder="Email Address" value="{{companyUser.EmailAddress}}" [(ngModel)]="companyUser.EmailAddress" name=companyUserEmail
+      <input matInput required placeholder="Correo Electrónico" value="{{companyUser.EmailAddress}}" [(ngModel)]="companyUser.EmailAddress" name=companyUserEmail
         i18n-placeholder="form | field displaying the company user's email@@CompanyUserEmail">
     </mat-form-field>
       <!--<mat-form-field class="example-full-width">
@@ -11,24 +12,24 @@
                  i18n-placeholder="form | field displaying the company user's password@@CompanyUserPasswordHash">
       </mat-form-field>-->
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="Display Name" value="{{companyUser.DisplayName}}" [(ngModel)]="companyUser.DisplayName" name=companyUserDisplayName
+      <input matInput placeholder="Nombre de Usuario" value="{{companyUser.DisplayName}}" [(ngModel)]="companyUser.DisplayName" name=companyUserDisplayName
         i18n-placeholder="form | field displaying the company user's display name@@CompanyUserDisplayName">
     </mat-form-field>
     <mat-form-field class="example-full-width">
-      <input matInput placeholder="Phone Number" value="{{companyUser.PhoneNumber}}" [(ngModel)]="companyUser.PhoneNumber" name=companyUserPhoneNumber
+      <input matInput placeholder="Teléfono" value="{{companyUser.PhoneNumber}}" [(ngModel)]="companyUser.PhoneNumber" name=companyUserPhoneNumber
         i18n-placeholder="form | field displaying the company user's phone number@@CompanyUserPhoneNumber">
     </mat-form-field>
       <mat-form-field class="example-full-width">
-          <mat-select  [(ngModel)]="companyUser.UserType" title="User Type" placeholder="User Type" name=companyUserType i18n-placeholder="@@UserTypeInput">
+          <mat-select  [(ngModel)]="companyUser.UserType" title="User Type" placeholder="Tipo de Usuario" name=companyUserType i18n-placeholder="@@UserTypeInput">
               <mat-option *ngFor="let type of usertype.codes" [value]="type">
                   {{ type }}
               </mat-option>
           </mat-select>
         </mat-form-field>
-      <p align="right"><b>Created By:</b>{{companyUser.CreatedByUserName}} - <b>Last Login:</b>{{companyUser.LastLogin}} - <b>Status:</b>{{companyUser.UserStatus}} </p>
+      <p align="right"><b>Creadó Por:</b>{{companyUser.CreatedByUserName}} - <b>Último Inicio de Sesión:</b>{{companyUser.LastLogin}} - <b>Status:</b>{{companyUser.UserStatus}} </p>
 </form>
-
-  <button mat-raised-button color="primary" (click)=updateCompanyUser() i18n="@@UpdateButton"> Update </button>
-  <br/><br/>
-    
+    <button mat-raised-button color="primary" [routerLink]="['/companyusers', companyId]" routerLinkActive="active" i18n="@@BackButton"> Regresar </button>
+    <button mat-raised-button color="primary" style="float: right;" (click)=updateCompanyUser() i18n="@@UpdateButton"> Guardar </button>
+  <br/><br/><br/><br/>
+    <br/><br/><br/><br/>
 </div>

@@ -1,15 +1,15 @@
 <div class="toolbar">
     <!-- mobile menu -->
-    <span [ngClass]="smallScreen ? 'displayContentMobile' : 'hideContentMobile' ">
+    <span style="display:none" class="displayContentMobile">
         <button mat-button [matMenuTriggerFor]="mobileMenu">
             <mat-icon>menu</mat-icon>
         </button>
 
         <mat-menu #mobileMenu="matMenu">
             <button mat-menu-item routerLink="/dashboard" routerLinkActive="active" i18n="@@GoHomePageMenuHeader"> Home </button>
-            <button mat-menu-item [matMenuTriggerFor]="companyMenu" i18n="@@GoCompaniesPageMenuHeader"> Companies </button>
-            <button mat-menu-item [matMenuTriggerFor]="companyuserMenu" i18n="@@GoCompanyUsersPageMenuHeader"> Users </button>
-            <button mat-menu-item [matMenuTriggerFor]="employeeMenu" i18n="@@GoEmployeesPageMenuHeader"> Employees </button>
+            <button mat-menu-item routerLink="/companies" routerLinkActive="active" i18n="@@GoCompaniesPageMenuHeader"> Compañias </button>
+            <button mat-menu-item routerLink="/companyusers" routerLinkActive="active" i18n="@@GoCompanyUsersPageMenuHeader"> Gestores de Nómina </button>
+            <button mat-menu-item routerLink="/employees" routerLinkActive="active" i18n="@@GoEmployeesPageMenuHeader"> Empleados </button>
             
         </mat-menu>
         <span style="float:right" *ngIf="user">
@@ -20,14 +20,14 @@
             <mat-menu #menu="matMenu">
                 <button mat-menu-item (click)="logout()">
                     <mat-icon>exit_to_app</mat-icon>
-                    <span i18n="action | user will click this to log out of the website@@LogoutAction">Logout</span>
+                    <span i18n="action | user will click this to log out of the website@@LogoutAction">Cerrar Sesión</span>
                 </button>
             </mat-menu>
         </span>
     </span>
     <!-- desktop menu -->
     <div style="margin-left:12%">
-        <span [ngClass]="!smallScreen ? 'displayContentMobile' : 'hideContentMobile' ">
+        <span class="hideContentMobile">
             <span>
                 <button mat-button routerLink="/dashboard" routerLinkActive="active">
                     <span i18n="menu header | User will click this to navigate to the home page@@GoHomePageMenuHeader">
@@ -36,53 +36,29 @@
                 </button>
             </span>
 
-            <button mat-button [matMenuTriggerFor]="companyMenu">
-                <span i18n="menu header | User will click this to navigate to the companies page@@GoCompaniesPageMenuHeader">
-                    Companies
-                </span>
-                <mat-icon>arrow_drop_down</mat-icon>
-            </button>
+            <span>
+                <button mat-button routerLink="/companies" routerLinkActive="active">
+                    <span i18n="menu header | User will click this to navigate to the companies page@@GoCompaniesPageMenuHeader">
+                        Compañias
+                    </span>
+                </button>
+            </span>
 
-            <mat-menu #companyMenu="matMenu">
-                <button mat-menu-item routerLink="/companies" routerLinkActive="active">
-                    <span i18n="@GoCompaniesPageMenuHeader">
-                        Companies
+            <span>
+                <button mat-button routerLink="/companyusers" routerLinkActive="active">
+                    <span i18n="menu header | User will click this to go to the company user's page@@GoCompanyUsersPageMenuHeader">
+                        Gestores de Nómina
                     </span>
                 </button>
-                <button mat-menu-item routerLink="/companyNew" routerLinkActive="active">
-                    <span i18n="menu header | User will click this to create a new company@@NewCompanyPageHeader">
-                        New Company
-                    </span>
-                </button>
-            </mat-menu>
+            </span>
 
-            <button mat-button [matMenuTriggerFor]="companyuserMenu">
-                <span i18n="menu header | User will click this to go to the company user's page@@GoCompanyUsersPageMenuHeader">
-                    Users
-                </span>
-                <mat-icon>arrow_drop_down</mat-icon>
-            </button>
-            <mat-menu #companyuserMenu="matMenu">
-                <button mat-menu-item routerLink="/companyusers" routerLinkActive="active">
-                    <span i18n="@@GoCompanyUsersPageMenuHeader">
-                        Users
+            <span>
+                <button mat-button routerLink="/employees" routerLinkActive="active">
+                    <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
+                        Empleados
                     </span>
                 </button>
-            </mat-menu>
-
-            <button mat-button [matMenuTriggerFor]="employeeMenu">
-                <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
-                    Employees
-                </span>
-                <mat-icon>arrow_drop_down</mat-icon>
-            </button>
-            <mat-menu #employeeMenu="matMenu">
-                <button mat-menu-item routerLink="/employees" routerLinkActive="active">
-                    <span i18n="@@GoEmployeesPageMenuHeader">
-                        Employees
-                    </span>
-                </button>
-            </mat-menu>
+            </span>
 
             <span style="float:right" *ngIf="user">
                 <button mat-button [matMenuTriggerFor]="menu">
@@ -92,7 +68,7 @@
                 <mat-menu #menu="matMenu">
                     <button mat-menu-item (click)="logout()">
                         <mat-icon>exit_to_app</mat-icon>
-                        <span i18n="action | user will click this to log out of the website@@LogoutAction">Logout</span>
+                        <span i18n="action | user will click this to log out of the website@@LogoutAction">Cerrar Sesión</span>
                     </button>
                 </mat-menu>
             </span>

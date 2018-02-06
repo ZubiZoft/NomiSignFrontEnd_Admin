@@ -27,7 +27,7 @@ export class DashboardComponent {
      this.settingsService.updateSystemSettings(this.systemSettings).subscribe(
        data => this.systemSettings = data,
       error => this.snackBar.open(error, "", {duration: 5000}),
-      () => this.snackBar.open("Updated Successfully", "", {duration: 5000})
+      () => this.snackBar.open("Successfully Updated", "",{duration: 5000})
       )
     }
 }

@@ -1,84 +1,79 @@
 <mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
-<div style="max-height: 100vh; overflow-y: auto" class="centeredList" *ngIf="isPromiseDone">
+<div style="max-height: 100vh; overflow-y: auto" class="centeredList">
+    <br>
     <form class="example-form" *ngIf="company">
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Company ID" disabled value="{{company.CompanyId}}" i18n-placeholder="input field | input field which displays the companies id@@CompanyIdInput">
+            <input matInput placeholder="ID Compañía" disabled value="{{company.CompanyId}}" i18n-placeholder="input field | input field which displays the companies id@@CompanyIdInput">
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Company Name" value="{{company.CompanyName}}" [(ngModel)]="company.CompanyName" name="companyName"
+            <input matInput placeholder="Compañía" value="{{company.CompanyName}}" [(ngModel)]="company.CompanyName" name="companyName"
                 i18n-placeholder="@@CompanyNameInput">
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Address" value="{{company.Address1}}" [(ngModel)]="company.Address1" name="companyAddress1"
-                i18n-placeholder="@@CompanyAdressInput">
+            <input matInput placeholder="Dirección" value="{{company.Address1}}" [(ngModel)]="company.Address1" name="companyAddress1" i18n-placeholder="@@CompanyAdressInput">
         </mat-form-field>
         <mat-form-field class="example-full-width" style="margin-top:-40px">
             <input matInput value="{{company.Address2}}" [(ngModel)]="company.Address2" name="companyAddress2" i18n-placeholder="@@CompanyAdressInput">
         </mat-form-field>
-        <table class="example-full-width" cellspacing="0">
-            <tr>
-                <td>
-                    <mat-form-field class="example-full-width">
-                        <input matInput placeholder="City" value="{{company.City}}" [(ngModel)]="company.City" name="companyCity" i18n-placeholder="@@CompanyCityInput">
-                    </mat-form-field>
-                </td>
-                <td>
-                    <mat-select placeholder="State" [(ngModel)]="company.State" name=companyState style="padding: 10px 15px 14px 15px" i18n-placeholder="@@CompanyStateInput">
-                        <mat-option *ngFor="let state of states.codes" [value]="state">
-                            {{ state }}
-                        </mat-option>
-                    </mat-select>
-
-                    <!-- <input matInput placeholder="State" value="{{company.State}}"> -->
-                    <!-- <md-form-field class="example-full-width"></md-form-field></td> -->
-            </tr>
-        </table>
+        <br>
+        <br>
+        <mat-grid-list cols="2" rowHeight="2:1" class="example-full-width" style="margin-top:-40px;">
+            <mat-grid-tile>
+                <mat-form-field style="width: 48%;">
+                    <input matInput placeholder="Ciudad" [(ngModel)]="company.City" name=companyCity i18n-placeholder="input field | input field which contains the companys' city@@CompanyCityInput">
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile style="width: 48%; display: inline-block;">
+                <small id="emailHelp" class="form-text text-muted" >Estado</small>
+                <mat-select placeholder="Estado" [(ngModel)]="company.State" name=companyState style="padding: 10px 15px 14px 15px;" >
+                    <mat-option *ngFor="let state of states.codes" [value]="state">
+                        {{ state }}
+                    </mat-option>
+                </mat-select>
+            </mat-grid-tile>
+        </mat-grid-list>
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Zip Code" value="{{company.PostalCode}}" [(ngModel)]="company.PostalCode" name="companyPostCode"
+            <input matInput placeholder="Código Postal" value="{{company.PostalCode}}" [(ngModel)]="company.PostalCode" name="companyPostCode"
                 i18n-placeholder="@@CompanyPostalCode">
         </mat-form-field>
         <mat-form-field class="example-full-width">
             <input matInput placeholder="RFC" value="{{company.CompanyRFC}}" [(ngModel)]="company.CompanyRFC" name="companyRfc" i18n-placeholder="@@CompanyRFCInput">
         </mat-form-field>
+    
+            <mat-checkbox color="primary" class="mat-checkbox" matInput placeholder="Auto Add Agreement Document" value="{{company.NewEmployeeGetDoc}}"
+                          [(ngModel)]="company.NewEmployeeGetDoc" name=companyNewEmployeeGetDoc i18n="form | field asking the if there should be a forced password reset@@CompanyUserPasswordReset">
+                Cargar documento de aceptación de términos y condicones
+            </mat-checkbox>
 
-        <mat-checkbox color="primary" class="mat-checkbox" matInput placeholder="Auto Add Agreement Document" value="{{company.NewEmployeeGetDoc}}"
-            [(ngModel)]="company.NewEmployeeGetDoc" name=companyNewEmployeeGetDoc i18n="form | field asking the if there should be a forced password reset@@CompanyUserPasswordReset">
-            Auto Add Company Agreement Document for new users
-        </mat-checkbox>
+        <table style="padding: 10px 25px 10px 25px">
+            <tr>
+                <td>
+                    <input-file style="padding-bottom:15px" (onFileSelect)="onFileSelect($event)" accept="application/pdf">
+                        <span class="nofiles">Seleccionar archivo &nbsp;</span> &nbsp; &nbsp; &nbsp;
+                        <span class="selected">Archivos Seleccionados</span>
+                    </input-file>
+                </td>
+                <!--<td>
+                    <div *ngIf="files">
+                        <div *ngFor="let file of files">
+                            {{ file.name }}
+                        </div>
+                    </div>
+                </td>-->
+                <td>
+                    <button [disabled]="!company.NewEmployeeGetDoc" mat-raised-button color="primary" (click)=addCompanyDocument() i18n="@@UpdateButton"> Cargar Archivo </button>
+                </td>
+            </tr>
+        </table>
 
-        <div ng2FileDrop [ngClass]="{'file-over': hasBaseDropZoneOver}" (fileOver)="fileOverBase($event)" [uploader]="uploader" class="drop-zone"
-            (onFileDrop)=onFileSelect($event) *ngIf="company.NewEmployeeGetDoc && !smallScreen">
-            Drag Company Agreement Here
-        </div>
-        <div style="clear:both; margin-top:20px"></div>
-
-        <input-file style="padding-bottom:15px" (onFileSelect)="onFileSelect($event)" accept="application/pdf" *ngIf="smallScreen" class="mobileUploadBtn">
-            <span class="nofiles">Upload Company Agreement File</span>
-            <span class="selected">Files selected</span>
-        </input-file>
-        <mat-form-field class="example-full-width" style="float:left; width: 50%" [ngClass]="{'agreementFieldMobile': smallScreen}">
-            <input disabled matInput placeholder="Company Ageeement Document" value="{{company.NewEmployeeDocument}}" [(ngModel)]="company.NewEmployeeDocument"
-                name="companyNewEmployeeDocument">
+        <mat-form-field class="example-full-width">
+            <input disabled matInput placeholder="Documento de aceptación de términos y condiciones" value="{{company.NewEmployeeDocument}}" [(ngModel)]="company.NewEmployeeDocument" name="companyNewEmployeeDocument" i18n-placeholder="@@CompanyRFCInput">
         </mat-form-field>
-        <button [disabled]="!company.NewEmployeeGetDoc || isFileUploading" mat-raised-button color="primary" (click)=addCompanyDocument() i18n="@@UpdateButton"
-            class="uploadFileButton">
-            Upload File
-        </button>
-        <div style="clear:both"></div>
-        <div style="text-align:center" *ngIf="isFileUploading"> File uploading... <mat-spinner style="margin:0 auto;"> </mat-spinner> </div>
-        <br />
-        <br />
-    </form>
-
-    <button mat-raised-button color="primary" (click)=updateCompany() i18n="@@UpdateButton" style="margin-left: 25px"> Update </button>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
+        <br /><br />
+</form>
+    <button mat-raised-button color="primary" routerLink="/companies" routerLinkActive="active" i18n="@@Back">Regresar</button>
+    <button mat-raised-button color="primary" style="float: right;" (click)=updateCompany() i18n="@@UpdateButton">Guardar</button>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 </div>
+
+

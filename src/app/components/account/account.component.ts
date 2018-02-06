@@ -86,7 +86,7 @@ export class AccountComponent implements OnInit {
 
 @Component({
     selector: 'password-alert-dialog',
-    templateUrl: '../login/login-alert.dialog.html',
+    templateUrl: '../login/login-alert-dialog.html',
 })
 export class PasswordAlertDialog {
 

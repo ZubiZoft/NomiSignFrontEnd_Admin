@@ -9,29 +9,3 @@
         width:auto;
         padding:10px 25px 10px 25px;
   }
-
-  .drop-zone {
-    border: dotted 3px lightgray;
-    padding: 25px;
-    width: 15%;
-    margin-right: 25px;
-  }
-
-  .file-over {
-    border: dotted 3px green;
-  }
-
-  td {
-    border-top: 1px solid #ddd;
-    padding: 8px;
-  }
-
-  .fileNames {
-    max-width:40px;
-    text-overflow: ellipsis;
-    overflow:hidden;
-  }
-  
-  th {
-    text-align: left;
-  }

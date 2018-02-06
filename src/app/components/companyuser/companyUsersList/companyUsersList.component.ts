@@ -17,13 +17,13 @@ import { States } from '../../../models/states.models'
 })
 export class CompanyUsersListComponent implements OnInit {
   companyId: string;
-  companyUsers: any[]
-  isPromiseDone: boolean = false;
+  companyUsers: any[];
+  isPromiseDone = false;
 
-  constructor(private route: ActivatedRoute, private employeeService: CompanyUsersService, private userService: UserService) { 
+  constructor(private route: ActivatedRoute, private employeeService: CompanyUsersService, private userService: UserService) {
      route.params.subscribe((params: Params) => {
        this.companyId = params['cid'];
-     })
+     });
   }
 
   ngOnInit(): void {

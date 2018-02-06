@@ -11,6 +11,7 @@ export class CompanyUserModel {
     ForcePasswordReset: boolean;
     CreatedByUserName: string;
     CompanyId: number;
+    CompanyName: string;
     CreatedByUserId: number;
     Links:{
         SelfUri: string

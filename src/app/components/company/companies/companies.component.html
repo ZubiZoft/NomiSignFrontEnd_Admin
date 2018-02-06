@@ -1,15 +1,14 @@
 <mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
 <div style="max-height: 100vh; overflow-y: auto" *ngIf="companies">
-  <button mat-button routerLink="/companyNew" class="leftFloat">
-    <mat-icon mat-list-icon>add</mat-icon>
-    <mat-icon mat-list-icon>business</mat-icon>
-  </button>
-
-
-  <h1 i18n="CompaniesHeader" class="centerText">Companies</h1>
+  <br>
+  <h1 i18n="CompaniesHeader" class="centerText">Compañias</h1>
   <div style="margin-top:10px;  line-height:1.25;" class="centerText">
     <mat-icon style="vertical-align:middle">search</mat-icon>
-    <input #search placeholder="Search" (keyup)="0" class="inputSearchBox"/>
+    <input #search placeholder="Buscar Compañia" (keyup)="0" class="inputSearchBox"/>
+    <button mat-button routerLink="/companyNew" class="">
+      <mat-icon mat-list-icon>add</mat-icon>
+      <mat-icon mat-list-icon>business</mat-icon>
+    </button>
   </div>
   <mat-list class="centeredList">
 
@@ -18,14 +17,13 @@
       <mat-icon mat-list-icon>business</mat-icon>
       <h4 mat-line><strong>{{company.CompanyName}}</strong></h4>
       <p mat-line>{{ company.CompanyRFC }} </p>
-      <p mat-line>Signatures Purchased: {{ company.TotalSignaturesPurchased }} Signatures Remaining: {{ company.SignatureBalance }}</p>
+      <p mat-line>Firmas Compradas: {{ company.TotalSignaturesPurchased }} Firmas Restantes: {{ company.SignatureBalance }}</p>
     </mat-list-item>
     
   </mat-list>
   <br/>
   <br/>  <br/>  <br/>  <br/>
   <br/>  <br/>  <br/>  <br/>
-  <br/>  <br/>  <br/>
 </div>
 <div class="centerText" *ngIf="!companies && isPromiseDone" i18n="message | message letting the user know there are no companies@@NoCompaniesMessage"> 
     There are no companies to view

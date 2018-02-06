@@ -25,10 +25,10 @@ export class EmployeeNewComponent implements OnInit {
   employeeID: string;
 
   constructor(private route: ActivatedRoute, private employeeService: EmployeeService,private userService: UserService, public snackbar: MatSnackBar, private _location: Location) { 
-      this.employee = new EmployeeModel()
+      this.employee = new EmployeeModel();
       route.params.subscribe((params: Params) => {
         this.employee.CompanyId = params['cid'];
-      })
+      });
   }
 
   ngOnInit(): void {
@@ -41,8 +41,9 @@ export class EmployeeNewComponent implements OnInit {
           console.log("save employee")
           this.route.paramMap
               .switchMap((params: ParamMap) =>
-                  this.employeeService.saveNewEmployee(this.employee))
-              .subscribe(data => { this.employee = data; this._location.back(); this.snackbar.open("Updated Successfully", "", {duration: 5000}) },
+                  this.employeeService.saveNewEmployee(this.employee).finally(() =>
+                  { this.snackbar.open("Updated successfully", "", { duration: 5000 }); }))
+              .subscribe(data => { this.employee = data; this._location.back(); },
               error => this.snackbar.open(error, "", { duration: 5000 }));
       }
       else {
@@ -51,14 +52,13 @@ export class EmployeeNewComponent implements OnInit {
   }
 
   verifyNewEmployeeCellNumber() {
-      
       console.log("verify employee cell")
       this.route.paramMap
           .switchMap((params: ParamMap) =>
-              this.employeeService.verifyNewEmployeeCellNumber(this.employee))
+              this.employeeService.verifyNewEmployeeCellNumber(this.employee).finally(() =>
+              { return false; }))
           .subscribe(data => { this.cellNumberVerificationStatus = data; return false;},
           error => this.cellNumberVerificationStatus = error
       );
-      
   }
 }

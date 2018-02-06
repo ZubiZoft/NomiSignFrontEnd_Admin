@@ -1,13 +1,15 @@
 <mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
+<br>
+<div style="max-height: 80vh; overflow-y: auto" *ngIf="companyUsers?.length > 0">
 
-<div style="max-height: 80vh; overflow-y: auto" *ngIf="companyUsers">
-  <button mat-button [routerLink]="['/companyuserNew', companyId]" class="leftFloat">
-  <mat-icon mat-list-icon >add</mat-icon><mat-icon mat-list-icon>account_circle</mat-icon> 
-</button>
-<h1 i18n="header | header of the company users section@@CompanyUsersHeader" class="centerText">Users</h1>
+
+<h1 i18n="header | header of the company users section@@CompanyUsersHeader" class="centerText">Gestores de Nómina de {{companyUsers[0].CompanyName}}</h1>
 <div style="margin-top:10px" class="centerText">
     <mat-icon style="vertical-align:middle">search</mat-icon>
     <input #search placeholder="Search" (keyup)="0" class="inputSearchBox " />
+    <button mat-button [routerLink]="['/companyuserNew', companyId]" >
+        <mat-icon mat-list-icon >add</mat-icon><mat-icon mat-list-icon>account_circle</mat-icon>
+    </button>
 </div>
 
   <mat-list class="centeredList">
@@ -16,12 +18,15 @@
       routerLinkActive="active">
       <mat-icon mat-list-icon><i class="material-icons">account_circle</i></mat-icon>
       <h4 mat-line>{{user.EmailAddress}}</h4>
-      <p mat-line> {{user.LastLogin | date}}</p>
+      <p mat-line> {{user.LastLogin | date:'yyyy-MM-dd'}}</p>
 
     </mat-list-item>
   </mat-list>
-  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+  <br/><br/><br/><br/><br/><br/><br/><br/><br/>
 </div>
-<div class="centerText" *ngIf="!companyUsers && isPromiseDone" i18n="message | message letting the user know there are no company users@@NoCompanyUsersMessage"> 
-    There are no users to view
+<div class="centerText" *ngIf="companyUsers?.length <= 0" i18n="message | message letting the user know there are no company users@@NoCompanyUsersMessage">
+    <h1>No existen usuarios para esta compañia</h1>
+    <button mat-button [routerLink]="['/companyuserNew', companyId]" >
+        <mat-icon mat-list-icon >add</mat-icon><mat-icon mat-list-icon>account_circle</mat-icon>
+    </button>
 </div>

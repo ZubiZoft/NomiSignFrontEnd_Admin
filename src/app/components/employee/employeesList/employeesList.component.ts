@@ -22,7 +22,7 @@ export class EmployeesListComponent implements OnInit {
   constructor(private route: ActivatedRoute, private employeeService: EmployeeService) { 
      route.params.subscribe((params: Params) => {
        this.companyId = params['cid'];
-     })
+     });
   }
 
   ngOnInit(): void {

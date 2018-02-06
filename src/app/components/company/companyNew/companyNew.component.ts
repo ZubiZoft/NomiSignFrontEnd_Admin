@@ -16,15 +16,16 @@ import { MatSnackBar } from '@angular/material'
 export class CompanyNewComponent {
   company: CompanyModel;
   id: string;
-  states : States
+  states : States;
 
   constructor(private companyService : CompanyService, public snackbar: MatSnackBar) { 
       this.states = new States();
-      this.company = new CompanyModel()
+      this.company = new CompanyModel();
+      this.company.State = 'Aguascalientes';
   }
     saveCompany(){
        this.companyService.saveNewCompany(this.company).subscribe(data => this.company = data,
                                                                   error => this.snackbar.open(error, "",{duration: 5000}),
-                                                                  () => this.snackbar.open("Updated Successfully", "", {duration: 5000}));
+                                                                () => this.snackbar.open("Successfully updated", "",{duration: 5000}));
     }
 }

@@ -4,7 +4,6 @@ import { Router } from '@angular/router'
 
 import { UserService } from '../../../services/user.service'
 import { SettingsService } from '../../../services/settings.service'
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 
 @Component({
   selector: 'company-admin-navbar',
@@ -17,22 +16,14 @@ export class CompanyAdminNavbarComponent implements OnInit {
   url = this.router.url
   appName: string
   user : any
-  smallScreen: boolean = false;
-  
-  constructor(private router: Router, private settingsService: SettingsService, private userService: UserService, private breakpointObserver: BreakpointObserver) {
+
+  constructor(private router: Router, private settingsService: SettingsService, private userService: UserService) {
     settingsService.getSystemSettings().subscribe(data => this.appName = data[0].ProductName)
     this.getCurrentUser()
     userService.userUpdated.subscribe(value => {
       this.getCurrentUser()
     })
     
-    const layoutChanges = breakpointObserver.observe([
-      '(max-width: 780px)',
-    ]);
-    
-    layoutChanges.subscribe(result => {
-      this.smallScreen = result.matches;
-    });
   }
 
   ngOnInit(){

@@ -1,13 +1,41 @@
-<mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="font-size: small">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 12%;">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" [routerLink]="['/employeesList', companyId , 'newemployees']" routerLinkActive="active"> Nuevos Empleados <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/employeesList', companyId , 'unsignedreceipts']" routerLinkActive="active"> Recibos sin firmar </a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link" [routerLink]="['/employeesList', companyId , 'deniedreceipts']" routerLinkActive="active"> Recibos rechazados </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/employeesList', companyId , 'searchemployees']" routerLinkActive="active"> Empleados </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/employeesList', companyId , 'searchreceipts']" routerLinkActive="active"> Recibos </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/employeesList', companyId , 'inactiveemployees']" routerLinkActive="active"> Empleados Inactivo </a>
+            </li>
+        </ul>
+    </div>
+</nav>
 
+<mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
 <div  style="overflow-y: auto; max-height:80vh" *ngIf="employees">
-  <button mat-button [routerLink]="['/employeeNew', companyId]" class="leftFloat">
-  <mat-icon mat-list-icon>add</mat-icon><mat-icon mat-list-icon>account_circle</mat-icon> 
-</button>
-<h1 i18n="header | header of the employees section@@EmployeesHeader" class="centerText">Employees</h1>
+    <br>
+<h1 i18n="header | header of the employees section@@EmployeesHeader" class="centerText">Empleados</h1>
 <div style="margin-top:10px; line-height: 1.25" class="centerText">
     <mat-icon style="vertical-align:middle">search</mat-icon>
-    <input #search placeholder="Search" (keyup)="0" class="inputSearchBox" />
+    <input #search placeholder="Buscar Empleado" (keyup)="0" class="inputSearchBox" />
+    <button mat-button [routerLink]="['/employeeNew', companyId]">
+        <mat-icon mat-list-icon>add</mat-icon><mat-icon mat-list-icon>account_circle</mat-icon>
+    </button>
 </div>
 
   <mat-list class="centeredList">
@@ -21,7 +49,7 @@
 
     </mat-list-item>
   </mat-list>
-  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 </div>
 <div *ngIf="!employees && isPromiseDone" i18n="message | message letting the user know there are no employees@@NoEmployeesMessage">
     There are no employees to view

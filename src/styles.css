@@ -1,6 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+.mat-checkbox-checked.mat-primary .mat-checkbox-background {
+    background-color: #2cbbc3;
+}
+
+.mat-raised-button.mat-primary {
+    background-color: #2cbbc3;
+}
+
+html {
+    height: 100% !important;
+}
+
+body {
+    height: 100% !important;
+    background-color: white;
+}
+
 html{
     background-color:#efefef !important;
      overflow:hidden;
@@ -26,6 +43,12 @@ html{
   .leftFloat{
     float: left
   }
+
+  .vertical-scroll-temp {
+      max-height: 380px;
+  }
+
+  @media (max-device-width: 720px) {
    .displayContentMobile {
       display:block !important;
    }
@@ -44,4 +67,9 @@ html{
    }
    .mobileHeaderText{
      line-height: 30px !important;
-   }   
+   }
+
+      .vertical-scroll-temp {
+          max-height: 280px;
+      }
+  }

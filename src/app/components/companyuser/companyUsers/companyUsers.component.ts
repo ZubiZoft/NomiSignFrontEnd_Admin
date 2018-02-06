@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-
-import { CompanyService } from '../../../services/company.service'
-
-import { CompanyModel } from '../../../models/company.model'
-
+import { CompanyService } from '../../../services/company.service';
+import { CompanyModel } from '../../../models/company.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'ng-company-users',
@@ -15,13 +13,18 @@ import { CompanyModel } from '../../../models/company.model'
 export class CompanyUsersComponent {
 
   companies: CompanyModel[];
-  isPromiseDone: boolean = false;
-  
-    constructor(companyService : CompanyService) { 
-      companyService.getCompanies().subscribe(data => {
-        this.companies = data
-        this.isPromiseDone = true;
-      })
-    }
+  isPromiseDone = false;
+
+  constructor(companyService: CompanyService, public router: Router) {
+    companyService.getCompanies().subscribe(data => {
+      this.companies = data
+      this.isPromiseDone = true;
+    });
+  }
+
+  selectedCompany(value: any) {
+
+    this.router.navigate(['/companyusers/' + value]);
+  }
 
 }
