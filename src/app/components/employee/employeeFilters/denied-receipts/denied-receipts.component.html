@@ -1,0 +1,82 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light" style="font-size: small">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 12%;">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/employeesList', companyId , 'newemployees']" routerLinkActive="active"> Nuevos Empleados <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/employeesList', companyId , 'unsignedreceipts']" routerLinkActive="active"> Recibos sin firmar </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/employeesList', companyId , 'deniedreceipts']" routerLinkActive="active"> Recibos rechazados </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/employeesList', companyId , 'searchemployees']" routerLinkActive="active"> Empleados </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/employeesList', companyId , 'searchreceipts']" routerLinkActive="active"> Recibos </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" [routerLink]="['/employeesList', companyId , 'inactiveemployees']" routerLinkActive="active"> Empleados Inactivo </a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<br>
+<div *ngIf="documents?.length <= 0">
+  <h1 class="text-center">No se encontraron recibos de nómina.</h1>
+</div>
+<div class="container" *ngIf="documents?.length > 0">
+  <br>
+  <h1 class="text-center">Recibos de nómina rechazados de {{documents[0].CompanyName}}</h1>
+  <br>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-9 text-center">
+        <mat-icon style="vertical-align:middle; margin: 5px;">search</mat-icon>
+        <input #search placeholder="Buscar Factura" (keyup)="0" class="inputSearchBox" style="margin: 5px;"/>
+      </div>
+      <div class="col-md-3 text-center">
+        <button mat-raised-button color="primary" *ngIf="updateBtn" (click)="updateStatus();" style="margin: 5px;"
+                i18n="action | button which will send a notification to the employees to sign the selected receipt.">
+          Actualizar Status
+        </button>
+      </div>
+    </div>
+  </div>
+  <br><br>
+  <div class="table-responsive vertical-scroll-temp">
+    <table class="table table-striped">
+      <thead>
+      <tr>
+        <th scope="col" (click)="sortedBy('DocumentId')" >ID</th>
+        <th scope="col" (click)="sortedBy('PayperiodDate')">Periodo de Pago</th>
+        <th scope="col" (click)="sortedBy('EmployeeName')">Nombre de Empleado</th>
+        <th scope="col" (click)="sortedBy('PayAmount')">Monto</th>
+        <th scope="col" (click)="sortedBy('UploadTime')">Fecha de Carga</th>
+        <th scope="col" (click)="sortedBy('SignStatus')">Status</th>
+        <th scope="col" (click)="sortedBy('EmployeeConcern')">Comentarios</th>
+        <th scope="col" >Seleccionar</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let e of documents | listfilter: search.value | sortBy:sortKey:sortAsc; let i = index;">
+        <th scope="row">{{e.DocumentId}}</th>
+        <td>{{e.PayperiodDate}}</td>
+        <td>{{e.EmployeeName}}</td>
+        <td>{{e.PayAmount}}</td>
+        <td>{{e.UploadTime}}</td>
+        <td>{{e.SignStatus}}</td>
+        <td>{{e.EmployeeConcern}}</td>
+        <td class="centerText">
+          <mat-checkbox class="example-margin" [(ngModel)]="e.CheckedBox" color="primary" (change)="selectedCheckBox();"></mat-checkbox>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+  <br><br><br><br>
+</div>
