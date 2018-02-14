@@ -2,27 +2,29 @@
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 12%;">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" [routerLink]="['/employeesList', companyId , 'newemployees']" routerLinkActive="active"> Nuevos Empleados <span class="sr-only">(current)</span></a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/employeesList', companyId , 'unsignedreceipts']" routerLinkActive="active"> Recibos sin firmar </a>
-            </li>
-            <li class="nav-item dropdown">
-                <a class="nav-link" [routerLink]="['/employeesList', companyId , 'deniedreceipts']" routerLinkActive="active"> Recibos rechazados </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/employeesList', companyId , 'searchemployees']" routerLinkActive="active"> Empleados </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/employeesList', companyId , 'searchreceipts']" routerLinkActive="active"> Recibos </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/employeesList', companyId , 'inactiveemployees']" routerLinkActive="active"> Empleados Inactivo </a>
-            </li>
-        </ul>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 12%; margin-right: 12%;">
+        <form class="form-inline">
+            <button class="btn btn-sm btn-outline-secondary" type="button"
+                    [routerLink]="['/employeesList', companyId , 'newemployees']">Nuevos Empleados
+            </button>&nbsp;
+            <button class="btn btn-sm btn-outline-secondary" type="button"
+                    [routerLink]="['/employeesList', companyId , 'searchemployees']">Empleados
+            </button>&nbsp;
+            <button class="btn btn-sm btn-outline-secondary" type="button"
+                    [routerLink]="['/employeesList', companyId , 'inactiveemployees']">Empleados Inactivos
+            </button>
+        </form>
+        <form class="form-inline ml-auto">
+            <button class="btn btn-sm btn-outline-secondary form-control" type="button"
+                    [routerLink]="['/employeesList', companyId , 'unsignedreceipts']">Recibos sin firmar
+            </button>&nbsp;
+            <button class="btn btn-sm btn-outline-secondary" type="button"
+                    [routerLink]="['/employeesList', companyId , 'deniedreceipts']">Recibos rechazados
+            </button>&nbsp;
+            <button class="btn btn-sm btn-outline-secondary" type="button"
+                    [routerLink]="['/employeesList', companyId , 'searchreceipts']">Recibos
+            </button>
+        </form>
     </div>
 </nav>
 

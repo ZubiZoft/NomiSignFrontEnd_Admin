@@ -1,74 +1,85 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-light" style="font-size: small">
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 12%;">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/employeesList', companyId , 'newemployees']" routerLinkActive="active"> Nuevos Empleados <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/employeesList', companyId , 'unsignedreceipts']" routerLinkActive="active"> Recibos sin firmar </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/employeesList', companyId , 'deniedreceipts']" routerLinkActive="active"> Recibos rechazados </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/employeesList', companyId , 'searchemployees']" routerLinkActive="active"> Empleados </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/employeesList', companyId , 'searchreceipts']" routerLinkActive="active"> Recibos </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" [routerLink]="['/employeesList', companyId , 'inactiveemployees']" routerLinkActive="active"> Empleados Inactivo </a>
-      </li>
-    </ul>
-  </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 12%; margin-right: 12%;">
+        <form class="form-inline">
+            <button class="btn btn-sm btn-outline-secondary" type="button"
+                    [routerLink]="['/employeesList', companyId , 'newemployees']">Nuevos Empleados
+            </button>&nbsp;
+            <button class="btn btn-sm btn-outline-secondary" type="button"
+                    [routerLink]="['/employeesList', companyId , 'searchemployees']">Empleados
+            </button>&nbsp;
+            <button class="btn btn-sm btn-outline-secondary" type="button"
+                    [routerLink]="['/employeesList', companyId , 'inactiveemployees']">Empleados Inactivos
+            </button>
+        </form>
+        <form class="form-inline ml-auto">
+            <button class="btn btn-sm btn-outline-secondary" type="button"
+                    [routerLink]="['/employeesList', companyId , 'unsignedreceipts']">Recibos sin firmar
+            </button>&nbsp;
+            <button class="btn btn-sm btn-outline-secondary" type="button"
+                    [routerLink]="['/employeesList', companyId , 'deniedreceipts']">Recibos rechazados
+            </button>&nbsp;
+            <button class="btn btn-sm btn-outline-secondary" type="button"
+                    [routerLink]="['/employeesList', companyId , 'searchreceipts']">Recibos
+            </button>
+        </form>
+    </div>
 </nav>
 <br>
 <div class="text-center" *ngIf="employees?.length <= 0">
-  <h1 class="text-center">No se encontraron nuevos empleados.</h1>
-  <br>
-  <button class="text-center" mat-button [routerLink]="['/employeeNew', companyId]">
-    <mat-icon mat-list-icon>add</mat-icon><mat-icon mat-list-icon>account_circle</mat-icon>
-  </button>
+    <h1 class="text-center">No se encontraron nuevos empleados.</h1>
+    <br>
+    <button class="text-center" mat-button [routerLink]="['/employeeNew', companyId]">
+        <mat-icon mat-list-icon>add</mat-icon>
+        <mat-icon mat-list-icon>account_circle</mat-icon>
+    </button>
 </div>
 <div class="container" style="max-height: 100vh;" *ngIf="employees?.length > 0">
-  <br>
-  <h1 class="text-center">Nuevos Empleados de {{employees[0].CompanyName}}</h1>
-  <br>
-  <div style="margin-top:10px; line-height: 1.25" class="centerText">
-    <mat-icon style="vertical-align:middle">search</mat-icon>
-    <input #search placeholder="Buscar Compañía" (keyup)="0" class="inputSearchBox" />
-  </div>
-  <br><br>
-  <div class="table-responsive vertical-scroll-temp">
-    <table class="table table-striped">
-      <thead>
-      <tr>
-        <th scope="col" (click)="sortedBy('EmployeeId')" >ID</th>
-        <th scope="col" (click)="sortedBy('FirstName')">Nombre(s)</th>
-        <th scope="col" (click)="sortedBy('LastName1')">Apellido Paterno</th>
-        <th scope="col" (click)="sortedBy('LastName2')">Apellido Materno</th>
-        <th scope="col" (click)="sortedBy('EmailAddress')">Email</th>
-        <th scope="col" (click)="sortedBy('CellPhoneNumber')">Número Celular</th>
-        <th scope="col" (click)="sortedBy('RFC')">RFC</th>
-        <th scope="col" (click)="sortedBy('CURP')">CURP</th>
-      </tr>
-      </thead>
-      <tbody>
-      <tr *ngFor="let e of employees | listfilter: search.value | sortBy:sortKey:sortAsc" [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active">
-        <th scope="row">{{e.EmployeeId}}</th>
-        <td>{{e.FirstName}}</td>
-        <td>{{e.LastName1}}</td>
-        <td>{{e.LastName2}}</td>
-        <td>{{e.EmailAddress}}</td>
-        <td>{{e.CellPhoneNumber}}</td>
-        <td>{{e.RFC}}</td>
-        <td>{{e.CURP}}</td>
-      </tr>
-      </tbody>
-    </table>
-  </div>
+    <h1 class="text-center">Nuevos Empleados de {{employees[0].CompanyName}}</h1>
+    <br>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-9 text-center">
+                <mat-form-field style="width: 100%;">
+                    <mat-icon matPrefix>search</mat-icon>
+                    <input matInput #search placeholder="Buscar Factura" (keyup)="0" />
+                </mat-form-field>
+                <br>
+            </div>
+        </div>
+    </div>
+    <br><br>
+    <div class="table-responsive vertical-scroll-temp">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th scope="col" (click)="sortedBy('EmployeeId')">ID</th>
+                <th scope="col" (click)="sortedBy('FirstName')">Nombre(s)</th>
+                <th scope="col" (click)="sortedBy('LastName1')">Apellido Paterno</th>
+                <th scope="col" (click)="sortedBy('LastName2')">Apellido Materno</th>
+                <th scope="col" (click)="sortedBy('EmailAddress')">Email</th>
+                <th scope="col" (click)="sortedBy('CellPhoneNumber')">Número Celular</th>
+                <th scope="col" (click)="sortedBy('RFC')">RFC</th>
+                <th scope="col" (click)="sortedBy('CURP')">CURP</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let e of employees | listfilter: search.value | sortBy:sortKey:sortAsc"
+                [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active">
+                <th scope="row">{{e.EmployeeId}}</th>
+                <td>{{e.FirstName}}</td>
+                <td>{{e.LastName1}}</td>
+                <td>{{e.LastName2}}</td>
+                <td>{{e.EmailAddress}}</td>
+                <td>{{e.CellPhoneNumber}}</td>
+                <td>{{e.RFC}}</td>
+                <td>{{e.CURP}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 <br><br><br><br>

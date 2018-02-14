@@ -6,6 +6,7 @@ import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import { environment } from '../../environments/environment';
+import {DateRangeModel} from '../models/date.range.model';
 
 const rootURL: string = environment.serviceUrl;
 
@@ -55,6 +56,18 @@ export class DocumentService {
         return this.http.get(url, options).map(response => response.json());
     }
 
+    getAllDocumentsByCompanyDateRange(companyId, fromDate, toDate): Observable<any> {
+        let _headers = new Headers({'Content-Type': 'application/json'})
+        let options = new RequestOptions({ method: 'POST', headers: _headers })
+        let url = rootURL + 'api/documentsByCompanyDateRange/' + companyId;
+        let range: DateRangeModel = new DateRangeModel();
+        range.InitDate = fromDate;
+        range.EndDate = toDate;
+        let body = JSON.stringify(range);
+
+        return this.http.post(url, body, options).map(response => response.json());
+    }
+
     sendToUnsignedDocuments(docIds): Observable<any> {
         let _headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ method: 'POST', headers: _headers });
@@ -67,7 +80,7 @@ export class DocumentService {
     notifyUnsignedDocuments(docIds): Observable<any> {
         let _headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ method: 'POST', headers: _headers });
-        let url = rootURL + 'api/documents/rejected';
+        let url = rootURL + 'api/SendNotificationsToUnsignedDocuments';
         let body = JSON.stringify(docIds);
 
         return this.http.put(url, body, options).map(response => response.json());

@@ -6,10 +6,10 @@
         </button>
 
         <mat-menu #mobileMenu="matMenu">
-            <button mat-menu-item [matMenuTriggerFor]="companyMenu" i18n="@@GoCompaniesPageMenuHeader"> Companies </button>
-            <button mat-menu-item [matMenuTriggerFor]="companyuserMenu" i18n="@@GoCompanyUsersPageMenuHeader"> Users </button>
-            <button mat-menu-item [matMenuTriggerFor]="employeeMenu" i18n="@@GoEmployeesPageMenuHeader"> Employees </button>
-            <button mat-menu-item [matMenuTriggerFor]="companyDocumentMenu" i18n="@@GoCompanyDocumentMenuHeader"> Documents </button>
+            <button mat-button i18n="@@GoCompaniesPageMenuHeader" [routerLink]="['/companyEdit', user.CompanyId]" routerLinkActive="active"> Compañías </button>
+            <button mat-button i18n="@@GoCompanyUsersPageMenuHeader" [routerLink]="['/companyusers', user.CompanyId]" routerLinkActive="active"> Gestores de Nómina </button>
+            <button mat-button i18n="@@GoEmployeesPageMenuHeader" [routerLink]="['/employeesList', user.CompanyId, 'newemployees']" routerLinkActive="active"> Empleados </button>
+            <!--<button mat-menu-item [matMenuTriggerFor]="companyDocumentMenu" i18n="@@GoCompanyDocumentMenuHeader"> Documents </button>-->
         </mat-menu>
         <span style="float:right" *ngIf="user">
             <button mat-button [matMenuTriggerFor]="menu">
@@ -27,74 +27,31 @@
     <!--desktop menu -->
     <div style="margin-left:12%">
         <span class="hideContentMobile">
-            <button mat-button [matMenuTriggerFor]="companyMenu">
-                <span i18n="menu header | User will click this to navigate to the companies page@@GoCompaniesPageMenuHeader">
-                    Companies
-                </span>
-                <mat-icon>arrow_drop_down</mat-icon>
-            </button>
-
-            <mat-menu #companyMenu="matMenu">
-                <button mat-menu-item [routerLink]="['/companyEdit', user.CompanyId]" routerLinkActive="active">
-                    <span i18n="menu header | User will click this to view their company's details@@CompanyToolbarHeader">
-                        Company
+            <span>
+                <button mat-button [routerLink]="['/companyEdit', user.CompanyId]" routerLinkActive="active">
+                    <span i18n="menu header | User will click this to navigate to the companies page@@GoCompaniesPageMenuHeader">
+                        Compañias
                     </span>
                 </button>
-            </mat-menu>
-
-            <button mat-button [matMenuTriggerFor]="companyuserMenu">
-                <span i18n="menu header | User will click this to go to the company user's page@@GoCompanyUsersPageMenuHeader">
-                    Users
-                </span>
-                <mat-icon>arrow_drop_down</mat-icon>
-            </button>
-            <mat-menu #companyuserMenu="matMenu">
-                <button mat-menu-item [routerLink]="['/companyusers', user.CompanyId]" routerLinkActive="active">
-                    <span i18n="@@GoCompanyUsersPageMenuHeader">
-                        Users
-                    </span>
-                </button>
-            </mat-menu>
-
-            <button mat-button [matMenuTriggerFor]="employeeMenu">
-                <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
-                    Employees
-                </span>
-                <mat-icon>arrow_drop_down</mat-icon>
-            </button>
-            <mat-menu #employeeMenu="matMenu">
-                <button mat-menu-item [routerLink]="['/employeesList', user.CompanyId]" routerLinkActive="active">
-                    <span i18n="@@GoEmployeesPageMenuHeader">
-                        Employees
-                    </span>
-                </button>
-                <button mat-menu-item [routerLink]="['/employeeNew', user.CompanyId]" routerLinkActive="active">
-                    <span i18n="menu header | User will click this to create a new employee@@NewEmployeesPageMenuHeader">
-                        New Employee
-                    </span>
-                </button>
-            </mat-menu>
-
-            <button mat-button [matMenuTriggerFor]="companyDocumentMenu">
-            <span i18n="menu header | User will click this to go to the documents page@@GoDocumentPageMenuHeader">
-                Documents
             </span>
-            <mat-icon>arrow_drop_down</mat-icon>
-            </button>
-            <mat-menu #companyDocumentMenu="matMenu">
-                <button mat-menu-item [routerLink]="['/documentRejectList/3/', user.CompanyId]" routerLinkActive="active">
-                    <span i18n="@@GoCompanyUsersPageMenuHeader">
-                        Refused
-                    </span>
-                </button>
-                <button mat-menu-item [routerLink]="['/documentUnapprovedList/1/', user.CompanyId]" routerLinkActive="active">
-                    <span i18n="@@GoCompanyUsersPageMenuHeader">
-                        Unsigned
-                    </span>
-                </button>
-            </mat-menu>
 
-            <span style="float:right" *ngIf="user">
+            <span>
+                <button mat-button [routerLink]="['/companyusers', user.CompanyId]" routerLinkActive="active">
+                    <span i18n="menu header | User will click this to go to the company user's page@@GoCompanyUsersPageMenuHeader">
+                        Gestores de Nómina
+                    </span>
+                </button>
+            </span>
+
+            <span>
+                <button mat-button [routerLink]="['/employeesList', user.CompanyId, 'newemployees']" routerLinkActive="active">
+                    <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
+                        Empleados
+                    </span>
+                </button>
+            </span>
+
+            <span style="float:right; margin-right: 12%;" *ngIf="user">
                 <button mat-button [matMenuTriggerFor]="menu">
                     <mat-icon>person</mat-icon>{{user.EmailAddress}}
                     <mat-icon>arrow_drop_down</mat-icon>

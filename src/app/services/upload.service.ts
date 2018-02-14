@@ -5,6 +5,7 @@ import { Headers, Http, RequestOptions } from '@angular/http';
 import { Observable }     from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
+import {FileUploadModel} from '../models/file-upload-model';
 
 @Injectable()
 export class UploadService {
@@ -41,7 +42,14 @@ export class UploadService {
         let _headers = new Headers ({'Content-Type': 'application/json'})
         let options = new RequestOptions({method: 'GET', headers: _headers})
         let url = this.rootURL + 'api/upload/closebatch/' + batchId;
-        
         return this.http.get(url, options).map(response => response); //unexpected end of JSON
+    }
+
+    loadFiles(companyId, files: FileUploadModel[]): Observable<any> {
+        let _headers = new Headers({ 'Content-Type': 'application/json' })
+        let options = new RequestOptions({ method: 'POST', headers: _headers })
+        let url = this.rootURL + 'api/upload/uploadfilesfront/' + companyId;
+        let body = JSON.stringify(files);
+        return this.http.post(url, body, options).map(response => response);
     }
 }

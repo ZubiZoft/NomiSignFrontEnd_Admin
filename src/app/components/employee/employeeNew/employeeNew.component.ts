@@ -24,7 +24,8 @@ export class EmployeeNewComponent implements OnInit {
   companyId: string;
   employeeID: string;
 
-  constructor(private route: ActivatedRoute, private employeeService: EmployeeService,private userService: UserService, public snackbar: MatSnackBar, private _location: Location) { 
+  constructor(private route: ActivatedRoute, private employeeService: EmployeeService,private userService: UserService,
+              public snackbar: MatSnackBar, private _location: Location) {
       this.employee = new EmployeeModel();
       route.params.subscribe((params: Params) => {
         this.employee.CompanyId = params['cid'];
@@ -35,15 +36,18 @@ export class EmployeeNewComponent implements OnInit {
   } 
 
   saveEmployee() {
-      if (this.cellNumberVerificationStatus == "Success") {
+      if ((this.employee.EmailAddress != '' && this.employee.CellPhoneNumber == '') || (this.cellNumberVerificationStatus == "Success")) {
           var loggedInUser = this.userService.getUser();
           this.employee.CreatedByUserId = loggedInUser.UserId;
-          console.log("save employee")
           this.route.paramMap
               .switchMap((params: ParamMap) =>
-                  this.employeeService.saveNewEmployee(this.employee).finally(() =>
-                  { this.snackbar.open("Updated successfully", "", { duration: 5000 }); }))
-              .subscribe(data => { this.employee = data; this._location.back(); },
+                  this.employeeService.saveNewEmployee(this.employee).finally(() => {
+                      this.snackbar.open("Updated successfully", "", { duration: 5000 });
+                  }))
+              .subscribe(data => {
+                  this.employee = data;
+                  this._location.back();
+              },
               error => this.snackbar.open(error, "", { duration: 5000 }));
       }
       else {
@@ -55,9 +59,13 @@ export class EmployeeNewComponent implements OnInit {
       console.log("verify employee cell")
       this.route.paramMap
           .switchMap((params: ParamMap) =>
-              this.employeeService.verifyNewEmployeeCellNumber(this.employee).finally(() =>
-              { return false; }))
-          .subscribe(data => { this.cellNumberVerificationStatus = data; return false;},
+              this.employeeService.verifyNewEmployeeCellNumber(this.employee).finally(() => {
+                    return false;
+                }))
+          .subscribe(data => {
+                this.cellNumberVerificationStatus = data;
+                return false;
+              },
           error => this.cellNumberVerificationStatus = error
       );
   }

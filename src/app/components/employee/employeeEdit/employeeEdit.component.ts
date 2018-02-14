@@ -52,8 +52,11 @@ export class EmployeeEditComponent implements OnInit {
           } else if (this.employee.EmailAddress == null || this.employee.EmailAddress == '') {
               this.allowEmployeeEdit = true;
           }
-        this.isPromiseDone = true;
-          });
+          if (!(this.employee.CellPhoneNumber == null || this.employee.CellPhoneNumber == '')) {
+              this.employee.CellPhoneNumber = this.employee.CellPhoneNumber.substring(0, 3);
+          }
+          this.isPromiseDone = true;
+      });
 
       // Need ApiKey from Company
     this.route.paramMap

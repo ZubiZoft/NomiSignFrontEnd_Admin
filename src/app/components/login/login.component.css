@@ -7,6 +7,11 @@
     width: 50%;
   }
 
+  .loginLogoMobile {
+    margin-left: 10%;
+
+  }
+
   @media (max-device-width: 720px) {
     .loginLogoMobile {
        float: unset !important;
