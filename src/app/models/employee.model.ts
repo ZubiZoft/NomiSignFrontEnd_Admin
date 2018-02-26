@@ -20,4 +20,5 @@ export class EmployeeModel {
     CellPhoneNumber: string;
     CreatedByUserName: string;
     LastLogin: string;
+    HasContractToSign: boolean;
 }

@@ -1,86 +1,102 @@
 <mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
 <br>
 <h1 class="text-center" *ngIf="employee">Editar Información de Empleado</h1>
+<h2 class="text-center" *ngIf="employee" style="color: #555; font-weight: lighter">{{employee.FullName}}</h2>
 <div style="max-height: 80vh; overflow-y: auto" class="centeredList" *ngIf="employee">
     <br>
-        <form class="example-form">
-            <mat-form-field class="example-full-width">
-                <input [readonly]="!allowEmployeeEdit" matInput placeholder="Correo Electrónico" value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress" name=employeeEmailAddress
-                       i18n-placeholder="@@EmployeeEmailField">
-            </mat-form-field>
-            <mat-form-field *ngIf="!allowEmployeeEdit" class="example-full-width">
-                <input readonly matInput placeholder="Número Celular" value="{{employee.CellPhoneNumber}}" [(ngModel)]="employee.CellPhoneNumber" name=employeeCellPhoneNumber
-                       i18n-placeholder="@@EmployeeCellPhoneNumber">
-            </mat-form-field>
-            <table *ngIf="allowEmployeeEdit">
-                <tr>
-                    <td style="width: 50%">
-                        <mat-form-field class="example-full-width">
-                            <input [readonly]="!allowEmployeeEdit" matInput placeholder="Número Celular" value="{{employee.CellPhoneNumber}}" [(ngModel)]="employee.CellPhoneNumber" name=employeeCellPhoneNumber
-                                   i18n-placeholder="@@EmployeeCellPhoneNumber">
-                        </mat-form-field>
-                    </td>
-                    <td>
-                        <button mat-raised-button color="primary" (click)=verifyNewEmployeeCellNumber() i18n="action | button which will update the employee's info when clicked@@UpdateButton"> Verify </button>
-                    </td>
-                    <td>
-                        <span><strong> {{cellNumberVerificationStatus}} </strong></span>
+    <form class="example-form">
+        <mat-form-field class="example-full-width">
+            <input [readonly]="!allowEmployeeEdit" matInput placeholder="Correo Electrónico"
+                   value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress" name=employeeEmailAddress
+                   i18n-placeholder="@@EmployeeEmailField">
+        </mat-form-field>
+        <mat-form-field *ngIf="!allowEmployeeEdit" class="example-full-width">
+            <input readonly matInput placeholder="Número Celular" value="{{employee.CellPhoneNumber}}"
+                   [(ngModel)]="employee.CellPhoneNumber" name=employeeCellPhoneNumber
+                   i18n-placeholder="@@EmployeeCellPhoneNumber">
+        </mat-form-field>
+        <table *ngIf="allowEmployeeEdit">
+            <tr>
+                <td style="width: 50%">
+                    <mat-form-field class="example-full-width">
+                        <input [readonly]="!allowEmployeeEdit" matInput placeholder="Número Celular"
+                               value="{{employee.CellPhoneNumber}}" [(ngModel)]="employee.CellPhoneNumber"
+                               name=employeeCellPhoneNumber
+                               i18n-placeholder="@@EmployeeCellPhoneNumber">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <button mat-raised-button color="primary" (click)=verifyNewEmployeeCellNumber()
+                            i18n="action | button which will update the employee's info when clicked@@UpdateButton">
+                        Verificar
+                    </button>
+                </td>
+                <td>
+                    <span><strong> {{cellNumberVerificationStatus}} </strong></span>
 
-                    </td>
-                </tr>
-            </table>
-            <mat-form-field class="example-full-width">
-                <input  [readonly]="!allowEmployeeEdit" matInput placeholder="Nombre(s)" value="{{employee.FirstName}}" [(ngModel)]="employee.FirstName" name=employeeFirst
-                       i18n-placeholder="@@EmployeeFirstNameField">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input  [readonly]="!allowEmployeeEdit" matInput placeholder="Apellido Paterno" value="{{employee.LastName1}}" [(ngModel)]="employee.LastName1" name=employeeLast1
-                       i18n-placeholder="@@EmployeeLastNameField">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input  [readonly]="!allowEmployeeEdit" matInput placeholder="Apellido Materno" value="{{employee.LastName2}}" [(ngModel)]="employee.LastName2" name=employeeLast2
-                       i18n-placeholder="@@EmployeeLastNameField">
-            </mat-form-field>
+                </td>
+            </tr>
+        </table>
+        <mat-form-field class="example-full-width">
+            <input [readonly]="!allowEmployeeEdit" matInput placeholder="Nombre(s)" value="{{employee.FirstName}}"
+                   [(ngModel)]="employee.FirstName" name=employeeFirst
+                   i18n-placeholder="@@EmployeeFirstNameField">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input [readonly]="!allowEmployeeEdit" matInput placeholder="Apellido Paterno"
+                   value="{{employee.LastName1}}" [(ngModel)]="employee.LastName1" name=employeeLast1
+                   i18n-placeholder="@@EmployeeLastNameField">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input [readonly]="!allowEmployeeEdit" matInput placeholder="Apellido Materno"
+                   value="{{employee.LastName2}}" [(ngModel)]="employee.LastName2" name=employeeLast2
+                   i18n-placeholder="@@EmployeeLastNameField">
+        </mat-form-field>
 
-            <mat-form-field class="example-full-width">
-                <input  [readonly]="!allowEmployeeEdit" matInput placeholder="CURP" value="{{employee.CURP}}" [(ngModel)]="employee.CURP" name=employeeCURP i18n-placeholder="@@EmployeeCURPField">
-            </mat-form-field>
-            <mat-form-field class="example-full-width">
-                <input  [readonly]="!allowEmployeeEdit" matInput placeholder="RFC" value="{{employee.RFC}}" [(ngModel)]="employee.RFC" name=employeeRFC i18n-placeholder="@@EmployeeRFCField">
-            </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input [readonly]="!allowEmployeeEdit" matInput placeholder="CURP" value="{{employee.CURP}}"
+                   [(ngModel)]="employee.CURP" name=employeeCURP i18n-placeholder="@@EmployeeCURPField">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input [readonly]="!allowEmployeeEdit" matInput placeholder="RFC" value="{{employee.RFC}}"
+                   [(ngModel)]="employee.RFC" name=employeeRFC i18n-placeholder="@@EmployeeRFCField">
+        </mat-form-field>
 
-            <br>
-            <!--
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-4">
-                        <input-file style="padding-bottom:15px" (onFileSelect)="onFileSelect($event)" accept="application/pdf" >
-                            <span class="nofiles">Buscar Archivo</span>
-                            <br>
-                            <span class="selected">Archivos Seleccionados</span>
-                        </input-file>
-                    </div>
-                    <div class="col-md-4">
-                        <div *ngIf="files">
-                            <div *ngFor="let file of files">
-                                {{ file.name }}
-                            </div>
+        <br>
+        <!--
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4">
+                    <input-file style="padding-bottom:15px" (onFileSelect)="onFileSelect($event)" accept="application/pdf" >
+                        <span class="nofiles">Buscar Archivo</span>
+                        <br>
+                        <span class="selected">Archivos Seleccionados</span>
+                    </input-file>
+                </div>
+                <div class="col-md-4">
+                    <div *ngIf="files">
+                        <div *ngFor="let file of files">
+                            {{ file.name }}
                         </div>
                     </div>
-                    <div class="col-md-4 text-right">
-                        <button mat-raised-button color="primary" (click)=updateEmployeeFiles() i18n="@@UpdateButton"> Cargar Archivo </button>
-                    </div>
+                </div>
+                <div class="col-md-4 text-right">
+                    <button mat-raised-button color="primary" (click)=updateEmployeeFiles() i18n="@@UpdateButton"> Cargar Archivo </button>
                 </div>
             </div>
-            -->
-            <br>
-            <br>
-            <p align="right"><b>Creadó Por:</b>{{employee.CreatedByUserName}} - <b>Último Inicio de Sesión:</b>{{employee.LastLogin}} </p>
-            <br>
-            <br>
-            <button mat-raised-button color="primary" (click)="backLocation()" i18n="@@BackButton"> Regresar </button>
-            <button *ngIf="allowEmployeeEdit" style="float: right;" mat-raised-button color="primary" (click)=updateEmployee() i18n="@@UpdateButton"> Actualizar Información </button>
-        </form>
+        </div>
+        -->
+        <br>
+        <br>
+        <p align="right"><b>Creadó Por:</b>{{employee.CreatedByUserName}} - <b>Último Inicio de Sesión:</b>{{employee.LastLogin}}
+        </p>
+        <br>
+        <br>
+        <button mat-raised-button color="primary" (click)="backLocation()" i18n="@@BackButton"> Regresar</button>
+        <button *ngIf="allowEmployeeEdit" style="float: right;" mat-raised-button color="primary"
+                (click)=updateEmployee() i18n="@@UpdateButton"> Actualizar Información
+        </button>
+    </form>
     <br> <br> <br>
     <br> <br> <br>
 </div>

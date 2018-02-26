@@ -21,7 +21,7 @@ export class CompanyNewComponent {
                 public dialog: MatDialog, private _location: Location) {
         this.states = new States();
         this.company = new CompanyModel();
-        this.company.State = 'Aguascalientes';
+        this.company.State = 'Ciudad de México';
     }
 
     saveCompany() {

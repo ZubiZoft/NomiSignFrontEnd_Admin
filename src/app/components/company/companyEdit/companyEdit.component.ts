@@ -229,7 +229,7 @@ export class CompanyEditComponent implements OnInit {
                 this.showBtn = true;
                 let dialogRef = this.dialog.open(UploadedAlertDialog, {
                     width: '50%',
-                    data: {'message': '¡Su nóminas ha sido cargadas satisfactoriamente!'}
+                    data: {'message': '¡Sus nóminas ha sido cargadas satisfactoriamente!'}
                 });
                 this.snackbar.open('Updated successfully', '', {duration: 5000});
             }, error => {

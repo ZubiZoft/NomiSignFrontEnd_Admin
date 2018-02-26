@@ -28,4 +28,11 @@ export class SettingsService {
         let body = JSON.stringify(settings)
         return this.http.put(url, settings, options).map(response => response.json());
     }
+
+    clearDemo(): Observable<any>{
+        var _headers = new Headers ({'Content-Type': 'application/json'})
+        var options = new RequestOptions({method: 'GET', headers: _headers})
+        let url = this.rootURL + 'api/cleardemo';
+        return this.http.get(url, options).map(response => response.json());
+    }
 }

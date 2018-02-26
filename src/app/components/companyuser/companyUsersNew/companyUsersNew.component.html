@@ -1,31 +1,36 @@
 <div style="max-height: 70vh; overflow-y: auto" class="centeredList">
     <br>
-  <form class="example-form">
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Correo Electrónico" value="{{companyUser.EmailAddress}}" [(ngModel)]="companyUser.EmailAddress" name=companyUserEmail
-        i18n-placeholder="form | field displaying the company user's email@@CompanyUserEmail">
-    </mat-form-field>
-      <mat-form-field class="example-full-width">
-          <input type="password" matInput placeholder="Contraseña" value="{{companyUser.PasswordHash}}" [(ngModel)]="companyUser.PasswordHash" name=companyPasswordHash
-                 i18n-placeholder="form | field displaying the company user's password@@CompanyUserPasswordHash">
-      </mat-form-field>
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Nombre de Usuario" value="{{companyUser.DisplayName}}" [(ngModel)]="companyUser.DisplayName" name=companyUserDisplayName
-        i18n-placeholder="form | field displaying the company user's display name@@CompanyUserDisplayName">
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Teléfono" value="{{companyUser.PhoneNumber}}" [(ngModel)]="companyUser.PhoneNumber" name=companyUserPhoneNumber
-        i18n-placeholder="form | field displaying the company user's phone number@@CompanyUserPhoneNumber">
-    </mat-form-field>
-      <mat-form-field class="example-full-width">
-          <mat-select [(ngModel)]="companyUser.UserType" title="User Type" placeholder="Tipo de Usuario" name=companyUserType i18n-placeholder="@@UserTypeInput">
-              <mat-option *ngFor="let type of usertype.codes" [value]="type">
-                  {{ type }} 
-              </mat-option>
-          </mat-select>
-      </mat-form-field>
-  </form>
+    <form class="example-form">
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Correo Electrónico" value="{{companyUser.EmailAddress}}"
+                   [(ngModel)]="companyUser.EmailAddress" name=companyUserEmail
+                   i18n-placeholder="form | field displaying the company user's email@@CompanyUserEmail">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input type="password" matInput placeholder="Contraseña" value="{{companyUser.PasswordHash}}"
+                   [(ngModel)]="companyUser.PasswordHash" name=companyPasswordHash
+                   i18n-placeholder="form | field displaying the company user's password@@CompanyUserPasswordHash">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Nombre de Usuario" value="{{companyUser.DisplayName}}"
+                   [(ngModel)]="companyUser.DisplayName" name=companyUserDisplayName
+                   i18n-placeholder="form | field displaying the company user's display name@@CompanyUserDisplayName">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Teléfono" value="{{companyUser.PhoneNumber}}"
+                   [(ngModel)]="companyUser.PhoneNumber" name=companyUserPhoneNumber
+                   i18n-placeholder="form | field displaying the company user's phone number@@CompanyUserPhoneNumber">
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-select [(ngModel)]="companyUser.UserType" title="User Type" placeholder="Tipo de Usuario"
+                        name=companyUserType i18n-placeholder="@@UserTypeInput">
+                <mat-option *ngFor="let type of usertype.codes" [value]="type">
+                    {{ type }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </form>
 
-  <button mat-raised-button color="primary" (click)=saveNewCompanyUser() i18n="@@UpdateButton"> Guardar </button>
-  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+    <button mat-raised-button color="primary" (click)=saveNewCompanyUser() i18n="@@UpdateButton"> Guardar</button>
+    <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 </div>

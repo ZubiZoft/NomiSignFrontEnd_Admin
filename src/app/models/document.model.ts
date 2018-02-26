@@ -9,4 +9,5 @@
     SignStatus: string;
     PayAmount: string;
     CheckedBox: boolean;
+    AlwaysShow: number;
 }

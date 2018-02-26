@@ -20,6 +20,7 @@ export class SearchReceiptsComponent implements OnInit {
     startDateTo: Date;
     fromVal: Date;
     toVal: Date;
+    updateBtn = false;
 
     constructor(private route: ActivatedRoute, private documentService: DocumentService) {
     }
@@ -53,5 +54,30 @@ export class SearchReceiptsComponent implements OnInit {
     sortedBy(event) {
         this.sortAsc = this.sortKey === event ? !this.sortAsc : false;
         this.sortKey = event;
+    }
+
+    selectedCheckBox() {
+        for (const d of this.documents) {
+            if (d.CheckedBox) {
+                this.updateBtn = true;
+                return;
+            }
+        }
+        this.updateBtn = false;
+    }
+
+    downloadDocuments() {
+        let docIds: number[] = [];
+        for (const d of this.documents) {
+            if (d.CheckedBox) {
+                docIds.push(d.DocumentId);
+            }
+        }
+        this.documentService.downloadDocuments(docIds).subscribe(data => {
+                console.log(data);
+            },
+            error => {
+                console.log(error);
+            });
     }
 }

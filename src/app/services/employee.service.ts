@@ -28,7 +28,7 @@ export class EmployeeService {
         let options = new RequestOptions({method: 'PUT', headers: _headers});
         let body = JSON.stringify(employee);
         let e: EmployeeModel = JSON.parse(body);
-        e.CellPhoneNumber = '521' + e.CellPhoneNumber;
+        e.CellPhoneNumber = e.CellPhoneNumber;
         body = JSON.stringify(e);
         let url = rootURL + 'api/employees/' + employeeId;
         return this.http.put(url, body, options).map(response => response.json());
@@ -39,7 +39,7 @@ export class EmployeeService {
         let options = new RequestOptions({method: 'POST', headers: _headers});
         let body = JSON.stringify(employee);
         let e: EmployeeModel = JSON.parse(body);
-        e.CellPhoneNumber = '521' + e.CellPhoneNumber;
+        e.CellPhoneNumber = e.CellPhoneNumber;
         body = JSON.stringify(e);
         let url = rootURL + 'api/employees/';
         return this.http.post(url, body, options).map(response => response.json());
@@ -48,7 +48,7 @@ export class EmployeeService {
     verifyNewEmployeeCellNumber(employee: EmployeeModel): Observable<any> {
         let _headers = new Headers({ 'Content-Type': 'application/json' });
         let options = new RequestOptions({ method: 'POST', headers: _headers });
-        const cell = '521' + employee.CellPhoneNumber;
+        const cell = employee.CellPhoneNumber;
         let e: EmployeeModel = new EmployeeModel();
         e.CellPhoneNumber = cell;
         let body = JSON.stringify(e);

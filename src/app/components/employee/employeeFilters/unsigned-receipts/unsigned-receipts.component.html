@@ -61,7 +61,7 @@
                 <th scope="col" (click)="sortedBy('DocumentId')">ID</th>
                 <th scope="col" (click)="sortedBy('PayperiodDate')">Periodo de Pago</th>
                 <th scope="col" (click)="sortedBy('EmployeeName')">Nombre de Empleado</th>
-                <th scope="col" (click)="sortedBy('PayAmount')">Monto</th>
+                <th scope="col" (click)="sortedBy('AlwaysShow')">Tipo</th>
                 <th scope="col" (click)="sortedBy('UploadTime')">Fecha Carga</th>
                 <th scope="col" class="centerText">Notificar</th>
             </tr>
@@ -71,7 +71,8 @@
                 <th scope="row">{{e.DocumentId}}</th>
                 <td>{{e.PayperiodDate}}</td>
                 <td>{{e.EmployeeName}}</td>
-                <td>{{e.PayAmount}}</td>
+                <!--<td>{{e.PayAmount}}</td>-->
+                <td>{{e.AlwaysShow == 0 ? 'Recibo' : 'Documento'}}</td>
                 <td>{{e.UploadTime}}</td>
                 <td class="centerText">
                     <mat-checkbox class="example-margin" [(ngModel)]="e.CheckedBox" color="primary"

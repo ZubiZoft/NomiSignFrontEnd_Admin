@@ -61,7 +61,7 @@
                 <th scope="col" (click)="sortedBy('DocumentId')">ID</th>
                 <th scope="col" (click)="sortedBy('PayperiodDate')">Periodo de Pago</th>
                 <th scope="col" (click)="sortedBy('EmployeeName')">Nombre de Empleado</th>
-                <th scope="col" (click)="sortedBy('PayAmount')">Monto</th>
+                <th scope="col" (click)="sortedBy('AlwaysShow')">Tipo</th>
                 <th scope="col" (click)="sortedBy('UploadTime')">Fecha de Carga</th>
                 <th scope="col" (click)="sortedBy('SignStatus')">Status</th>
                 <th scope="col" (click)="sortedBy('EmployeeConcern')">Comentarios</th>
@@ -73,7 +73,8 @@
                 <th scope="row">{{e.DocumentId}}</th>
                 <td>{{e.PayperiodDate}}</td>
                 <td>{{e.EmployeeName}}</td>
-                <td>{{e.PayAmount}}</td>
+                <!--<td>{{e.PayAmount}}</td>-->
+                <td>{{e.AlwaysShow == 0 ? 'Recibo' : 'Documento'}}</td>
                 <td>{{e.UploadTime}}</td>
                 <td>{{e.SignStatus}}</td>
                 <td>{{e.EmployeeConcern}}</td>

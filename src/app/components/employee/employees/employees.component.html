@@ -1,24 +1,29 @@
 <mat-spinner style="margin:0 auto" *ngIf="!isPromiseDone"></mat-spinner>
 <br>
 <div style="max-height: 100vh; overflow-y: auto" *ngIf="companies">
-  <h1 i18n="message | telling user to select a company from the list to view the employees@@PickCompanyViewEmployeesMsg" class="centerText">
-    Empleados Por Compañía
-  </h1>
-  <div style="margin-top:10px; line-height:1.25;" class="centerText">
-    <mat-icon style="vertical-align:middle">search</mat-icon>
-    <input #search placeholder="Buscar Compañía" (keyup)="0" class="inputSearchBox" />
-  </div>
-  <mat-list class="centeredList">
-    <mat-list-item *ngFor="let company of (companies | listfilter: search.value)" style="border-bottom: 1px solid grey; cursor: pointer" [routerLink]="['/employeesList', company.CompanyId, 'newemployees']"
-      routerLinkActive="active">
-      <mat-icon mat-list-icon>business</mat-icon>
-      <h4 mat-line>{{company.CompanyName}}</h4>
-      <p mat-line> Date to go here </p>
+    <h1 i18n="message | telling user to select a company from the list to view the employees@@PickCompanyViewEmployeesMsg"
+        class="centerText">
+        Empleados Por Compañía
+    </h1>
+    <div style="margin-top:10px; line-height:1.25;" class="centerText">
+        <mat-icon style="vertical-align:middle">search</mat-icon>
+        <input #search placeholder="Buscar Compañía" (keyup)="0" class="inputSearchBox"/>
+    </div>
+    <div class="company-list">
+        <mat-list class="centeredList">
+            <mat-list-item *ngFor="let company of (companies | listfilter: search.value)"
+                           style="border-bottom: 1px solid grey; cursor: pointer"
+                           [routerLink]="['/employeesList', company.CompanyId, 'newemployees']"
+                           routerLinkActive="active">
+                <mat-icon mat-list-icon>business</mat-icon>
+                <h4 mat-line>{{company.CompanyName}}</h4>
+                <p mat-line> Date to go here </p>
 
-    </mat-list-item>
-  </mat-list>
-  <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+            </mat-list-item>
+        </mat-list>
+        <br/><br/><br/><br/>
+    </div>
 </div>
-<div class="centerText" *ngIf="!companies && isPromiseDone" i18n="@@NoCompaniesMessage"> 
+<div class="centerText" *ngIf="!companies && isPromiseDone" i18n="@@NoCompaniesMessage">
     There are no companies to view
 </div>

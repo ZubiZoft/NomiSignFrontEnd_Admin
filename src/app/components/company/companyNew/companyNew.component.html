@@ -2,13 +2,16 @@
     <br>
     <form class="example-form">
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Compañía" [(ngModel)]="company.CompanyName" name=companyName i18n-placeholder="input field | input field which contains the company's name@@CompanyNameInput">
+            <input matInput placeholder="Compañía" [(ngModel)]="company.CompanyName" name=companyName
+                   i18n-placeholder="input field | input field which contains the company's name@@CompanyNameInput">
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Dirección" [(ngModel)]="company.Address1" name=companyAddress1 i18n-placeholder="input field | input field which contains the company's address@@CompanyAdressInput">
+            <input matInput placeholder="Dirección" [(ngModel)]="company.Address1" name=companyAddress1
+                   i18n-placeholder="input field | input field which contains the company's address@@CompanyAdressInput">
         </mat-form-field>
         <mat-form-field class="example-full-width" style="margin-top:-40px">
-            <input matInput [(ngModel)]="company.Address2" name=companyAddress2 i18n-placeholder="input field | input field which contains the company's address@@CompanyAdressInput">
+            <input matInput [(ngModel)]="company.Address2" name=companyAddress2
+                   i18n-placeholder="input field | input field which contains the company's address@@CompanyAdressInput">
         </mat-form-field>
 
         <br>
@@ -16,12 +19,14 @@
         <mat-grid-list cols="2" rowHeight="2:1" class="example-full-width" style="margin-top:-40px;">
             <mat-grid-tile>
                 <mat-form-field style="width: 48%;">
-                    <input matInput placeholder="Ciudad" [(ngModel)]="company.City" name=companyCity i18n-placeholder="input field | input field which contains the companys' city@@CompanyCityInput">
+                    <input matInput placeholder="Ciudad" [(ngModel)]="company.City" name=companyCity
+                           i18n-placeholder="input field | input field which contains the companys' city@@CompanyCityInput">
                 </mat-form-field>
             </mat-grid-tile>
             <mat-grid-tile style="width: 48%; display: inline-block;">
-                <small id="emailHelp" class="form-text text-muted" >Estado</small>
-                <mat-select placeholder="Estado" [(ngModel)]="company.State" name=companyState style="padding: 10px 15px 14px 15px;" >
+                <small id="emailHelp" class="form-text text-muted">Estado</small>
+                <mat-select placeholder="Estado" [(ngModel)]="company.State" name=companyState
+                            style="padding: 10px 15px 14px 15px;">
                     <mat-option *ngFor="let state of states.codes" [value]="state">
                         {{ state }}
                     </mat-option>
@@ -30,10 +35,12 @@
         </mat-grid-list>
 
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Código Postal" [(ngModel)]="company.PostalCode" name=companyZipCode i18n-placeholder="input field | input field which contains the company's zip code@@CompanyPostalCode">
+            <input matInput placeholder="Código Postal" [(ngModel)]="company.PostalCode" name=companyZipCode
+                   i18n-placeholder="input field | input field which contains the company's zip code@@CompanyPostalCode">
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="RFC" [(ngModel)]="company.CompanyRFC" name=companyRFC i18n-placeholder="input field | input field which contains the company's RFC code@@CompanyRFCInput">
+            <input matInput placeholder="RFC" [(ngModel)]="company.CompanyRFC" name=companyRFC
+                   i18n-placeholder="input field | input field which contains the company's RFC code@@CompanyRFCInput">
         </mat-form-field>
         <!--<mat-checkbox color="primary" class="mat-checkbox" matInput placeholder="Auto Add Agreement Document" value="{{company.NewEmployeeGetDoc}}"
                       [(ngModel)]="company.NewEmployeeGetDoc" name=companyNewEmployeeGetDoc i18n="form | field asking the if there should be a forced password reset@@CompanyUserPasswordReset">
@@ -42,9 +49,11 @@
         <mat-form-field class="example-full-width">
             <input [disabled]="!company.NewEmployeeGetDoc" matInput placeholder="Company Ageeement Document" value="{{company.NewEmployeeDocument}}" [(ngModel)]="company.NewEmployeeDocument" name="companyNewEmployeeDocument" i18n-placeholder="@@CompanyRFCInput">
         </mat-form-field>-->
-        <br /><br />
+        <br/><br/>
     </form>
 
-    <button mat-raised-button color="primary" (click)=saveCompany() i18n="action | button which will save the company info@@SaveButton"> Guardar </button>
+    <button mat-raised-button color="primary" (click)=saveCompany()
+            i18n="action | button which will save the company info@@SaveButton"> Guardar
+    </button>
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 </div>

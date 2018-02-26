@@ -7,3 +7,12 @@
         width:auto;
         padding:10px 25px 10px 25px;
   }
+
+  .company-list {
+      overflow-y: auto;
+      position: absolute;
+      bottom: 15px;
+      right: 9%;
+      left: 9%;
+      top: 280px;
+  }

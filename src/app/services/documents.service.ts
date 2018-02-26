@@ -83,6 +83,15 @@ export class DocumentService {
         let url = rootURL + 'api/SendNotificationsToUnsignedDocuments';
         let body = JSON.stringify(docIds);
 
-        return this.http.put(url, body, options).map(response => response.json());
+        return this.http.post(url, body, options).map(response => response.json());
+    }
+
+    downloadDocuments(docIds): Observable<any> {
+        let _headers = new Headers({ 'Content-Type': 'application/json' });
+        let options = new RequestOptions({ method: 'POST', headers: _headers });
+        let url = rootURL + 'api/documents/download/';
+        let body = JSON.stringify(docIds);
+
+        return this.http.post(url, body, options).map(response => response.json());
     }
 }

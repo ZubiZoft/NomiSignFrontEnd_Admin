@@ -30,17 +30,22 @@
 </nav>
 <br>
 <div class="container" >
-    <h1 class="text-center">Recibos de nómina de {{documents[0].CompanyName}}</h1>
-    <br>
+    <h2 class="text-center" >Busqueda de recibos</h2>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-9 text-center">
+            <div class="col-md-6 text-center">
                 <mat-form-field style="width: 100%;">
                     <mat-icon matPrefix>search</mat-icon>
                     <input matInput #search placeholder="Buscar Factura" (keyup)="0"/>
                 </mat-form-field>
                 <br>
             </div>
+            <!--<div class="col-md-3 text-center">
+                <button mat-raised-button color="primary" style=" width: 100%;" (click)="downloadDocuments()" [disabled]="!updateBtn"
+                        i18n="action | button which will send a notification to the employees to sign the selected receipt.">
+                    Descargar
+                </button>
+            </div>-->
         </div>
         <div class="row justify-content-center">
             <div class="col-md-3 text-center">
@@ -63,7 +68,7 @@
                 <button mat-raised-button color="primary" style=" width: 100%;" (click)="loadDocuments()"
                         [disabled]="(fromVal == '' || fromVal == null) || (toVal == '' || toVal == null)"
                         i18n="action | button which will send a notification to the employees to sign the selected receipt.">
-                    Actualizar Status
+                    Aplicar filtros
                 </button>
             </div>
         </div>
@@ -76,9 +81,11 @@
                 <th scope="col" (click)="sortedBy('DocumentId')">ID</th>
                 <th scope="col" (click)="sortedBy('PayperiodDate')">Periodo de Pago</th>
                 <th scope="col" (click)="sortedBy('EmployeeName')">Nombre de Empleado</th>
-                <th scope="col" (click)="sortedBy('PayAmount')">Monto</th>
+                <!--<th scope="col" (click)="sortedBy('PayAmount')">Monto</th>-->
+                <th scope="col" (click)="sortedBy('AlwaysShow')">Tipo</th>
                 <th scope="col" (click)="sortedBy('UploadTime')">Fecha Carga</th>
                 <th scope="col" (click)="sortedBy('SignStatus')">Status</th>
+                <!--<th scope="col" class="centerText">Descargar</th>-->
             </tr>
             </thead>
             <tbody>
@@ -86,9 +93,14 @@
                 <th scope="row">{{e.DocumentId}}</th>
                 <td>{{e.PayperiodDate}}</td>
                 <td>{{e.EmployeeName}}</td>
-                <td>{{e.PayAmount}}</td>
+                <!--<td>{{e.PayAmount}}</td>-->
+                <td>{{e.AlwaysShow == 1 ? 'Recibo' : 'Documento'}}</td>
                 <td>{{e.UploadTime}}</td>
                 <td>{{e.SignStatus}}</td>
+                <!--<td class="centerText">
+                    <mat-checkbox class="example-margin" [(ngModel)]="e.CheckedBox" color="primary"
+                                  (change)="selectedCheckBox();"></mat-checkbox>
+                </td>-->
             </tr>
             </tbody>
         </table>
