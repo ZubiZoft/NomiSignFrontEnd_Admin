@@ -59,6 +59,8 @@ import {
 import {SearchEmployeesComponent} from './components/employee/employeeFilters/search-employees/search-employees.component';
 import {SearchReceiptsComponent} from './components/employee/employeeFilters/search-receipts/search-receipts.component';
 import {InactiveEmployeesComponent} from './components/employee/employeeFilters/inactive-employees/inactive-employees.component';
+import {CustomBrowserXhr} from './services/custom-browser-xhr';
+import {DownloadComponent} from './components/download-component';
 
 @NgModule({
     declarations: [
@@ -96,6 +98,7 @@ import {InactiveEmployeesComponent} from './components/employee/employeeFilters/
         SearchEmployeesComponent,
         SearchReceiptsComponent,
         InactiveEmployeesComponent,
+        DownloadComponent,
         SortByPipe,
         ListFilterPipe,
         ChangeStatusAlertDialog
@@ -124,7 +127,8 @@ import {InactiveEmployeesComponent} from './components/employee/employeeFilters/
         MatNativeDateModule,
         CommonModule
     ],
-    providers: [UserService, AuthService, CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard, UploadService, DocumentService, EmployeeService],
+    providers: [UserService, AuthService, CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard, UploadService, DocumentService,
+        CustomBrowserXhr, EmployeeService],
     bootstrap: [AppComponent],
     entryComponents: [LoginAlertDialog, RefusedDocumentAlertDialog, UploadedAlertDialog, EditEmployeeAlertDialog, VerifyNotAlertDialog,
         ChangeStatusAlertDialog]

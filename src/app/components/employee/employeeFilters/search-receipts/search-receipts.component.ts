@@ -65,19 +65,4 @@ export class SearchReceiptsComponent implements OnInit {
         }
         this.updateBtn = false;
     }
-
-    downloadDocuments() {
-        let docIds: number[] = [];
-        for (const d of this.documents) {
-            if (d.CheckedBox) {
-                docIds.push(d.DocumentId);
-            }
-        }
-        this.documentService.downloadDocuments(docIds).subscribe(data => {
-                console.log(data);
-            },
-            error => {
-                console.log(error);
-            });
-    }
 }
