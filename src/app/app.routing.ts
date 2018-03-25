@@ -5,7 +5,6 @@ import { AccountComponent } from './components/account/account.component'
 import { LoginComponent } from './components/login/login.component'
 import { EmployeesComponent } from './components/employee/employees/employees.component'
 import { CompaniesComponent } from './components/company/companies/companies.component'
-import { TimesheetComponent } from './components/timesheet/timesheet.component'
 import { DashboardComponent } from './components/dashboard/dashboard.component'
 import { NotFoundComponent } from './components/notfound/notfound.component'
 import { CompanyEditComponent } from './components/company/companyEdit/companyEdit.component'
@@ -25,6 +24,7 @@ import {DeniedReceiptsComponent} from './components/employee/employeeFilters/den
 import {SearchEmployeesComponent} from './components/employee/employeeFilters/search-employees/search-employees.component';
 import {SearchReceiptsComponent} from './components/employee/employeeFilters/search-receipts/search-receipts.component';
 import {InactiveEmployeesComponent} from './components/employee/employeeFilters/inactive-employees/inactive-employees.component';
+import {DocumentViewerComponent} from './components/document-viewer/document-viewer.component';
 
 const routes: Routes = [
     { path: 'account/:uid', component: AccountComponent },
@@ -43,6 +43,8 @@ const routes: Routes = [
     { path: 'employeesList/:cid/searchemployees', component: SearchEmployeesComponent, canActivate: [UserAuthGuard] },
     { path: 'employeesList/:cid/searchreceipts', component: SearchReceiptsComponent, canActivate: [UserAuthGuard] },
     { path: 'employeesList/:cid/inactiveemployees', component: InactiveEmployeesComponent, canActivate: [UserAuthGuard] },
+
+    { path: 'document-viewer/:cid/:id', component: DocumentViewerComponent, canActivate: [UserAuthGuard] },
 
     { path: 'employeeEdit/:cid/:eid', component: EmployeeEditComponent, canActivate: [UserAuthGuard] },
     { path: 'employeeNew/:cid', component: EmployeeNewComponent, canActivate: [UserAuthGuard] },

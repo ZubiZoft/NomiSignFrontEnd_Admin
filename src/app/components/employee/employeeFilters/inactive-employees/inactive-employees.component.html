@@ -32,10 +32,10 @@
 <div class="text-center" *ngIf="employees?.length <= 0">
     <h1 class="text-center">No se encontraron nuevos empleados.</h1>
     <br>
-    <button class="text-center" mat-button [routerLink]="['/employeeNew', companyId]">
+    <!--<button class="text-center" mat-button [routerLink]="['/employeeNew', companyId]">
         <mat-icon mat-list-icon>add</mat-icon>
         <mat-icon mat-list-icon>account_circle</mat-icon>
-    </button>
+    </button>-->
 </div>
 <div class="container" style="max-height: 100vh;" *ngIf="employees?.length > 0">
     <h1 class="text-center">Nuevos Empleados de {{employees[0].CompanyName}}</h1>
@@ -51,7 +51,7 @@
             </div>
         </div>
     </div>
-    <br><br>
+    <br>
     <div class="table-responsive vertical-scroll-temp">
         <table class="table table-striped">
             <thead>
@@ -68,7 +68,8 @@
             </thead>
             <tbody>
             <tr *ngFor="let e of employees | listfilter: search.value | sortBy:sortKey:sortAsc"
-                [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active">
+                [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                class="pointer">
                 <th scope="row">{{e.EmployeeId}}</th>
                 <td>{{e.FirstName}}</td>
                 <td>{{e.LastName1}}</td>

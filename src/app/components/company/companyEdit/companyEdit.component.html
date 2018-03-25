@@ -47,12 +47,42 @@
             <input matInput placeholder="RFC" value="{{company.CompanyRFC}}" [(ngModel)]="company.CompanyRFC"
                    name="companyRfc" i18n-placeholder="@@CompanyRFCInput">
         </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="Correo de Facturación" value="{{company.BillingEmailAddress}}"
+                   [(ngModel)]="company.BillingEmailAddress" name="companyBillingEmailAddress" i18n-placeholder="@@CompanyRFCInput">
+        </mat-form-field>
+
+        <br>
+        <br>
+        <mat-grid-list cols="2" rowHeight="2:1" class="example-full-width" style="margin-top:-40px;">
+            <mat-grid-tile>
+                <mat-form-field style="width: 49%;">
+                    <input matInput placeholder="Firmas Restantes" [(ngModel)]="company.SignatureBalance" name=companySignatures
+                           i18n-placeholder="input field | input field which contains the companys' city@@CompanyCityInput" readonly>
+                </mat-form-field>
+            </mat-grid-tile>
+            <mat-grid-tile style="width: 49%; display: inline-block;">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="SMS Restantes" [(ngModel)]="company.SMSBalance" name=companySMS
+                           i18n-placeholder="input field | input field which contains the companys' city@@CompanyCityInput" readonly>
+                </mat-form-field>
+            </mat-grid-tile>
+        </mat-grid-list>
+
+        <mat-form-field class="example-full-width">
+            <input matInput placeholder="API Key" value="{{company.ApiKey}}" readonly
+                   [(ngModel)]="company.ApiKey" name="companyApiKey" i18n-placeholder="@@CompanyRFCInput">
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" (click)=showPurchaseDialog()>Historial de compras</button>
+        <br>
+        <br>
 
         <mat-checkbox color="primary" class="mat-checkbox" matInput placeholder="Auto Add Agreement Document"
                       value="{{company.NewEmployeeGetDoc}}"
                       [(ngModel)]="company.NewEmployeeGetDoc" name=companyNewEmployeeGetDoc
                       i18n="form | field asking the if there should be a forced password reset@@CompanyUserPasswordReset">
-            Cargar documento de aceptación de términos y condicones
+            Cargar documento de intercambio de claves y contraseñas.
         </mat-checkbox>
 
         <table style="padding: 10px 25px 10px 25px">
@@ -73,7 +103,7 @@
                 </td>-->
                 <td>
                     <button [disabled]="!company.NewEmployeeGetDoc" mat-raised-button color="primary"
-                            (click)=addCompanyDocument() i18n="@@UpdateButton"> Cargar Archivo
+                            (click)=addCompanyDocument() i18n="@@UpdateButton"> Cargar Documento
                     </button>
                 </td>
             </tr>

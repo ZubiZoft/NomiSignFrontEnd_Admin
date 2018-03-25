@@ -21,7 +21,8 @@ export class CompanyModel {
     CompanyId: number;
     NewEmployeeGetDoc: boolean;
     NewEmployeeDocument: string;
+    SMSBalance: number;
     Links: {
         SelfUri: string;
-    }
+    };
 }

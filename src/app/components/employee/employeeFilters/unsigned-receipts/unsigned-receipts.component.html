@@ -53,7 +53,7 @@
             </div>
         </div>
     </div>
-    <br><br>
+    <br>
     <div class="table-responsive vertical-scroll-temp">
         <table class="table table-striped">
             <thead>
@@ -67,13 +67,13 @@
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let e of documents | listfilter: search.value | sortBy:sortKey:sortAsc">
-                <th scope="row">{{e.DocumentId}}</th>
-                <td>{{e.PayperiodDate}}</td>
-                <td>{{e.EmployeeName}}</td>
+            <tr *ngFor="let e of documents | listfilter: search.value | sortBy:sortKey:sortAsc" class="pointer">
+                <th [routerLink]="['/document-viewer', companyId, e.DocumentId]" scope="row">{{e.DocumentId}}</th>
+                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.PayperiodDate | date:'shortDate':'':'mx'}}</td>
+                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.EmployeeName}}</td>
                 <!--<td>{{e.PayAmount}}</td>-->
-                <td>{{e.AlwaysShow == 0 ? 'Recibo' : 'Documento'}}</td>
-                <td>{{e.UploadTime}}</td>
+                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.AlwaysShow == 1 ? 'Documento' : 'Recibo'}}</td>
+                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.UploadTime | date:'shortDate':'':'mx'}}</td>
                 <td class="centerText">
                     <mat-checkbox class="example-margin" [(ngModel)]="e.CheckedBox" color="primary"
                                   (change)="selectedCheckBox();"></mat-checkbox>

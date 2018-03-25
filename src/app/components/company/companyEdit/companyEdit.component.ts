@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ActivatedRoute, ParamMap} from '@angular/router';
+import {ActivatedRoute, ParamMap, Router} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/finally';
 import {CompanyService} from '../../../services/company.service';
@@ -10,6 +10,9 @@ import {FileModel} from '../../../models/file.model';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
 import {FileUploadModel} from '../../../models/file-upload-model';
 import * as shajs from 'sha.js';
+import {UserService} from '../../../services/user.service';
+import {SessionTimeoutDialogComponent} from '../../session-timeout-dialog/session-timeout-dialog.component';
+import {HistoryPurchaseModel} from '../../../models/HistoryPurchaseModel';
 
 declare global {
     interface Window {
@@ -43,7 +46,7 @@ export class CompanyEditComponent implements OnInit {
     showBtn = true;
 
     constructor(private route: ActivatedRoute, private companyService: CompanyService, public snackbar: MatSnackBar,
-                private uploadService: UploadService, public dialog: MatDialog) {
+                private uploadService: UploadService, public dialog: MatDialog, private userService: UserService, private router: Router) {
         this.states = new States();
     }
 
@@ -53,6 +56,16 @@ export class CompanyEditComponent implements OnInit {
             .subscribe(data => {
                 this.company = data;
                 this.isPromiseDone = true;
+            }, error => {
+                if (error.status === 405) {
+                    this.dialog.closeAll();
+                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                        width: '75%'
+                    });
+                } else {
+                    this.userService.clearUser();
+                    this.router.navigate(['/login']);
+                }
             });
     }
 
@@ -82,8 +95,18 @@ export class CompanyEditComponent implements OnInit {
                 userData => {
                     let dialogRef = this.dialog.open(UploadedAlertDialog, {
                         width: '50%',
-                        data: {'message': '¡Su documento de aceptación de términos y condiciones ha sido cargado satisfactoriamente!'}
+                        data: {'message': 'Su documento de intercambio de claves y contraseñas ha sido cargado satisfactoriamente.'}
                     });
+                }, error => {
+                    if (error.status === 405) {
+                        this.dialog.closeAll();
+                        let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                            width: '75%'
+                        });
+                    } else {
+                        this.userService.clearUser();
+                        this.router.navigate(['/login']);
+                    }
                 }
             );
         };
@@ -99,10 +122,19 @@ export class CompanyEditComponent implements OnInit {
         this.route.paramMap.switchMap(
             (params: ParamMap) => this.companyService.updateCompanyDetails(params.get('cid'),
                 this.company).finally(
-                () => this.snackbar.open('Updated successfully', '', {duration: 5000})))
+                () => this.snackbar.open('Cargados Exitosamente', '', {duration: 5000})))
             .subscribe(
-                data => this.company = data,
-                error => this.snackbar.open(error, '', {duration: 5000}),
+                data => this.company = data, error => {
+                    if (error.status === 405) {
+                        this.dialog.closeAll();
+                        let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                            width: '75%'
+                        });
+                    } else {
+                        this.userService.clearUser();
+                        this.router.navigate(['/login']);
+                    }
+                }
             );
     }
 
@@ -221,6 +253,23 @@ export class CompanyEditComponent implements OnInit {
         return realName;
     }
 
+    showPurchaseDialog() {
+        this.companyService.getPurchaseSignature(this.company.CompanyId)
+            .subscribe(data => {
+                let dialogRef = this.dialog.open(PurchaseHistoryDialog, {
+                    width: '75%',
+                    data: {'history': data}
+                });
+            }, error => {
+                if (error.status === 405) {
+                    this.dialog.closeAll();
+                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                        width: '75%'
+                    });
+                }
+            });
+    }
+
     uploadDocuments() {
         this.showBtn = false;
         this.uploadService.loadFiles(this.company.CompanyId, this.fileUpload)
@@ -228,18 +277,35 @@ export class CompanyEditComponent implements OnInit {
                 this.fileUpload = [];
                 this.showBtn = true;
                 let dialogRef = this.dialog.open(UploadedAlertDialog, {
-                    width: '50%',
-                    data: {'message': '¡Sus nóminas ha sido cargadas satisfactoriamente!'}
+                    width: '75%',
+                    data: {'message': 'Los recibos de nóminas han sido cargados satisfactoriamente'}
                 });
-                this.snackbar.open('Updated successfully', '', {duration: 5000});
+                //this.snackbar.open('Updated successfully', '', {duration: 5000});
             }, error => {
-                let dialogRef = this.dialog.open(UploadedAlertDialog, {
-                    width: '50%',
-                    data: {'message': '¡Hubo un error al cargar sus nóminas, por favor verifique su conexión de internet!, '
-                        + 'en caso de que el error persista, favor de contactar al equipo de Nomisign.'}
-                });
-                this.showBtn = true;
-                this.snackbar.open('Error uploading files', '', {duration: 5000});
+                if (error.status === 405) {
+                    this.dialog.closeAll();
+                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                        width: '75%'
+                    });
+                } else if (error.status === 409) {
+                    let dialogRef = this.dialog.open(UploadedAlertDialog, {
+                        width: '60%',
+                        data: {
+                            'message': 'El número de firmas disponibles no son suficientes para el número de documentos que intentas ' +
+                            'cargar. Por favor contacta a tu represante de ventas para obtner más firmas.'
+                        }
+                    });
+                    this.showBtn = true;
+                } else {
+                    let dialogRef = this.dialog.open(UploadedAlertDialog, {
+                        width: '60%',
+                        data: {
+                            'message': '¡Hubo un error al cargar sus nóminas, por favor verifique su conexión de internet!, '
+                            + 'en caso de que el error persista, favor de contactar al equipo de Nomisign.'
+                        }
+                    });
+                    this.showBtn = true;
+                }
             });
     }
 }
@@ -257,6 +323,27 @@ export class UploadedAlertDialog implements OnInit {
 
     ngOnInit() {
         this.loginMessage = this.data['message'];
+    }
+
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
+
+}
+
+@Component({
+    selector: 'purchase-history-dialog',
+    templateUrl: 'purchase-history-dialog.html'
+})
+export class PurchaseHistoryDialog implements OnInit {
+
+    history: HistoryPurchaseModel[];
+
+    constructor(public dialogRef: MatDialogRef<PurchaseHistoryDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {
+    }
+
+    ngOnInit() {
+        this.history = this.data['history'];
     }
 
     onNoClick(): void {

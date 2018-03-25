@@ -30,34 +30,26 @@
 </nav>
 <br>
 <div class="container" >
-    <h2 class="text-center" >Busqueda de recibos</h2>
+    <!--<h2 class="text-center" >Búsqueda de recibos</h2>-->
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6 text-center">
+            <div class="col-md-8 text-center">
                 <mat-form-field style="width: 100%;">
                     <mat-icon matPrefix>search</mat-icon>
                     <input matInput #search placeholder="Buscar Factura" (keyup)="0"/>
                 </mat-form-field>
                 <br>
             </div>
-            <div class="col-md-3 text-center">
-                <!--<button mat-raised-button color="primary" style=" width: 100%;" (click)="downloadDocuments()" [disabled]="!updateBtn"
-                        i18n="action | button which will send a notification to the employees to sign the selected receipt.">
-                    Descargar
-                </button>-->
-                <download-btn [docs]="documents" [disable]="!updateBtn"> </download-btn>
-            </div>
         </div>
         <div class="row justify-content-center">
-            <div class="col-md-3 text-center">
+            <div class="col-md-2 text-center">
                 <mat-form-field style="width: 100%;">
-                    <input matInput [matDatepicker]="pickerFrom" placeholder="De:" [(ngModel)]="fromVal"
-                           (change)="selectedFromDate()">
+                    <input matInput [matDatepicker]="pickerFrom" placeholder="De:" [(ngModel)]="fromVal">
                     <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
                     <mat-datepicker #pickerFrom startView="month" [startAt]="startDateFrom"></mat-datepicker>
                 </mat-form-field>
             </div>
-            <div class="col-md-3 text-center">
+            <div class="col-md-2 text-center">
                 <mat-form-field style="width: 100%;">
                     <input matInput [matDatepicker]="pickerTo" placeholder="A:" [(ngModel)]="toVal"
                            [disabled]="fromVal == '' || fromVal == null">
@@ -65,39 +57,73 @@
                     <mat-datepicker #pickerTo startView="month" [startAt]="startDateTo"></mat-datepicker>
                 </mat-form-field>
             </div>
-            <div class="col-md-3 text-center">
-                <button mat-raised-button color="primary" style=" width: 100%;"
+            <div class="col-md-2 text-center">
+                <mat-form-field style="width: 100%;">
+                    <mat-select placeholder="Tipo" [(value)]="typeVal">
+                        <mat-option value="Recibo">Recibo</mat-option>
+                        <mat-option value="Documento">Documento</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2 text-center">
+                <button mat-raised-button color="primary" style=" width: 100%;" (click)="loadDocuments()"
                         [disabled]="(fromVal == '' || fromVal == null) || (toVal == '' || toVal == null)"
                         i18n="action | button which will send a notification to the employees to sign the selected receipt.">
                     Aplicar filtros
                 </button>
             </div>
         </div>
+        <div class="row justify-content-center">
+            <div class="col-md-2 text-center">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="RFC" [(ngModel)]="rfcVal">
+                </mat-form-field>
+            </div>
+            <div class="col-md-2 text-center">
+                <mat-form-field style="width: 100%;">
+                    <input matInput placeholder="CURP" [(ngModel)]="curpVal">
+                </mat-form-field>
+            </div>
+            <div class="col-md-2 text-center">
+                <mat-form-field style="width: 100%;">
+                    <mat-select placeholder="Status" [(value)]="statusVal">
+                        <mat-option value="Sin Firma">Sin Firma</mat-option>
+                        <mat-option value="Firmado">Firmado</mat-option>
+                        <mat-option value="Rechazado">Rechazado</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-2 text-center">
+                <!--<button mat-raised-button color="primary" style=" width: 100%;" (click)="downloadDocuments()" [disabled]="!updateBtn"
+                        i18n="action | button which will send a notification to the employees to sign the selected receipt.">
+                    Descargar
+                </button>-->
+                <download-btn [docs]="documents" [disable]="!updateBtn"> </download-btn>
+            </div>
+        </div>
     </div>
-    <br><br>
-    <div class="table-responsive vertical-scroll-temp">
+    <br>
+    <div class="table-responsive vertical-scroll-temp-1">
         <table class="table table-striped">
             <thead>
             <tr>
                 <th scope="col" (click)="sortedBy('DocumentId')">ID</th>
                 <th scope="col" (click)="sortedBy('PayperiodDate')">Periodo de Pago</th>
                 <th scope="col" (click)="sortedBy('EmployeeName')">Nombre de Empleado</th>
-                <!--<th scope="col" (click)="sortedBy('PayAmount')">Monto</th>-->
                 <th scope="col" (click)="sortedBy('AlwaysShow')">Tipo</th>
                 <th scope="col" (click)="sortedBy('UploadTime')">Fecha Carga</th>
                 <th scope="col" (click)="sortedBy('SignStatus')">Status</th>
-                <th scope="col" class="centerText">Descargar</th>
+                <th scope="col" class="centerText" (click)="selectAllDocuments()">Descargar</th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let e of documents | listfilter: search.value | sortBy:sortKey:sortAsc">
-                <th scope="row">{{e.DocumentId}}</th>
-                <td>{{e.PayperiodDate}}</td>
-                <td>{{e.EmployeeName}}</td>
-                <!--<td>{{e.PayAmount}}</td>-->
-                <td>{{e.AlwaysShow == 1 ? 'Recibo' : 'Documento'}}</td>
-                <td>{{e.UploadTime}}</td>
-                <td>{{e.SignStatus}}</td>
+            <tr *ngFor="let e of documents | listfilter: search.value | sortBy:sortKey:sortAsc" class="pointer">
+                <th scope="row" [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.DocumentId}}</th>
+                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.PayperiodDate | date:'shortDate':'':'mx'}}</td>
+                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.EmployeeName}}</td>
+                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.AlwaysShow == 1 ? 'Documento' : 'Recibo'}}</td>
+                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.UploadTime | date:'shortDate':'':'mx'}}</td>
+                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.SignStatus}}</td>
                 <td class="centerText">
                     <mat-checkbox class="example-margin" [(ngModel)]="e.CheckedBox" color="primary"
                                   (change)="selectedCheckBox();"></mat-checkbox>

@@ -10,19 +10,12 @@
                 <div style="max-height: 100vh; overflow-y: auto" class="centeredList" *ngIf="user">
 
                     <form  class="example-form">
-                        <!--<mat-form-field class="example-full-width">
-                            <input type="password" required matInput placeholder="Codigo de seguridad" [formControl]="securityCodeFormControl" [(ngModel)]="employeePasswordDetails.SecurityCode" name=securityCode
-                                   i18n-placeholder="@@EmployeePasswordHashField" />
-                            <mat-error *ngIf="securityCodeFormControl.hasError('required')" i18n="message | letting the user know that they need to enter their password@@PasswordRequiredMessage">
-                                Codigo de seguridad <strong>Requerida</strong>
-                            </mat-error>
-                        </mat-form-field>-->
 
                             <mat-form-field class="example-full-width">
                                 <input type="password" required matInput placeholder="Contraseña" [formControl]="passwordFormControl" [(ngModel)]="userPasswordDetails.PasswordHash" name=employeePasswordHash
                                        i18n-placeholder="@@EmployeePasswordHashField" />
                                 <mat-error *ngIf="passwordFormControl.hasError('required')" i18n="message | letting the user know that they need to enter their password@@PasswordRequiredMessage">
-                                    Contrasena <strong>Requerida</strong>
+                                    Contraseña <strong>Requerida</strong>
                                 </mat-error>
                             </mat-form-field>
 
@@ -30,7 +23,7 @@
                                 <input type="password" required matInput [formControl]="passwordVerifyFormControl" pattern="{{userPasswordDetails.PasswordHash}}" placeholder="Verificación de Contraseña" name=employeeVerifyPasswordHash
                                        i18n-placeholder="@@EmployeeVerifypasswordHashField" />
                                 <mat-error *ngIf="passwordVerifyFormControl.hasError('required')" i18n="message | letting the user know that they need to enter their password@@PasswordRequiredMessage">
-                                    Contrasena <strong>Requerida</strong>
+                                    Contraseña <strong>Requerida</strong>
                                 </mat-error>
                                 <mat-error *ngIf="passwordVerifyFormControl.hasError('pattern')" i18n="message | letting the user know that they need to enter matching password@@PasswordMatchingRequiredMessage">
                                     <strong>Verificar</strong> Contraseñas

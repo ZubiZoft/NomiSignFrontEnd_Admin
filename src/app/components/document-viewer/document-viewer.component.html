@@ -1,0 +1,30 @@
+<mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
+<br>
+<div *ngIf="isPromiseDone" style="text-align:center; align-content: center">
+    <div class="container-btns">
+        <div style="float:left">
+            <button mat-raised-button (click)="backNav()"
+                    i18n="action | the user can click to reject the document @@DocumentSignStatusHeader"> Regresar
+            </button>
+        </div>
+        <div *ngIf="!isUnsigned && document.AlwaysShow === 0" style="float:right">
+            <button mat-raised-button (click)="showNomCert()"
+                    i18n="action | the user can click to reject the document @@DocumentSignStatusHeader"> NOM 151
+            </button>
+        </div>
+    </div>
+
+    <div class="pdf-viewer">
+        <div class="embed-responsive embed-responsive1by1" style="
+        height: 100%!important;
+        overflow-y: hidden;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch; white-space: nowrap;">
+            <iframe type="application/pdf"
+                    class="embed-responsive-item"
+                    [src]="document.DocumentBytes | safeUrl"
+                    alt="Problem loading image"
+                    i18n-alt="text when image fails|The image could not be loaded"></iframe>
+        </div>
+    </div>
+</div>

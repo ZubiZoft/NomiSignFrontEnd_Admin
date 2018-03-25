@@ -3,3 +3,12 @@
         font-size: 1.5rem !important;
     }
 }
+
+.vertical-scroll-temp-1 {
+    position: absolute !important;
+    bottom: 20px;
+    top: 415px;
+    left: 10%;
+    right: 10%;
+    width: 80%;
+}

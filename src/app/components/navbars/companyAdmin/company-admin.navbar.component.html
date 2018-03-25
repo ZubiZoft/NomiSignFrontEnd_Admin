@@ -6,7 +6,7 @@
         </button>
 
         <mat-menu #mobileMenu="matMenu">
-            <button mat-button i18n="@@GoCompaniesPageMenuHeader" [routerLink]="['/companyEdit', user.CompanyId]" routerLinkActive="active"> Compañías </button>
+            <button mat-button i18n="@@GoCompaniesPageMenuHeader" [routerLink]="['/companyEdit', user.CompanyId]" routerLinkActive="active"> Compañía </button>
             <button mat-button i18n="@@GoCompanyUsersPageMenuHeader" [routerLink]="['/companyusers', user.CompanyId]" routerLinkActive="active"> Gestores de Nómina </button>
             <button mat-button i18n="@@GoEmployeesPageMenuHeader" [routerLink]="['/employeesList', user.CompanyId, 'newemployees']" routerLinkActive="active"> Empleados </button>
             <!--<button mat-menu-item [matMenuTriggerFor]="companyDocumentMenu" i18n="@@GoCompanyDocumentMenuHeader"> Documents </button>-->
@@ -19,7 +19,7 @@
             <mat-menu #menu="matMenu">
                 <button mat-menu-item (click)="logout()">
                     <mat-icon>exit_to_app</mat-icon>
-                    <span i18n="action | user will click this to log out of the website@@LogoutAction">Logout</span>
+                    <span i18n="action | user will click this to log out of the website@@LogoutAction">Cerrar Sesión</span>
                 </button>
             </mat-menu>
         </span>
@@ -30,7 +30,7 @@
             <span>
                 <button mat-button [routerLink]="['/companyEdit', user.CompanyId]" routerLinkActive="active">
                     <span i18n="menu header | User will click this to navigate to the companies page@@GoCompaniesPageMenuHeader">
-                        Compañias
+                        Compañia
                     </span>
                 </button>
             </span>

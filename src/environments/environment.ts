@@ -5,6 +5,6 @@
 
 export const environment = {
     production: false,
-    //serviceUrl: "http://192.168.93.1:10699/"
-    serviceUrl: "http://18.216.139.244/nomiadmin/"
+    serviceUrl: "http://dev.nomisign.com/nomiadmin/"
+    //serviceUrl: "http://192.168.1.136:10699/"
 };

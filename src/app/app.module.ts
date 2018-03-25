@@ -18,7 +18,7 @@ import {CompaniesComponent} from './components/company/companies/companies.compo
 import {TimesheetComponent} from './components/timesheet/timesheet.component';
 import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {NotFoundComponent} from './components/notfound/notfound.component';
-import {CompanyEditComponent} from './components/company/companyEdit/companyEdit.component';
+import {CompanyEditComponent, PurchaseHistoryDialog} from './components/company/companyEdit/companyEdit.component';
 import {CompanyNewComponent} from './components/company/companyNew/companyNew.component';
 import {EmployeesListComponent} from './components/employee/employeesList/employeesList.component';
 import {
@@ -61,6 +61,10 @@ import {SearchReceiptsComponent} from './components/employee/employeeFilters/sea
 import {InactiveEmployeesComponent} from './components/employee/employeeFilters/inactive-employees/inactive-employees.component';
 import {CustomBrowserXhr} from './services/custom-browser-xhr';
 import {DownloadComponent} from './components/download-component';
+import { DocumentViewerComponent } from './components/document-viewer/document-viewer.component';
+import { SafeUrlPipe } from './pipes/safe-url.pipe';
+import { SessionTimeoutDialogComponent } from './components/session-timeout-dialog/session-timeout-dialog.component';
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 
 @NgModule({
     declarations: [
@@ -101,9 +105,14 @@ import {DownloadComponent} from './components/download-component';
         DownloadComponent,
         SortByPipe,
         ListFilterPipe,
-        ChangeStatusAlertDialog
+        ChangeStatusAlertDialog,
+        PurchaseHistoryDialog,
+        DocumentViewerComponent,
+        SafeUrlPipe,
+        SessionTimeoutDialogComponent
     ],
     imports: [
+        MatNativeDateModule,
         BrowserModule,
         MatCardModule,
         MatButtonModule,
@@ -131,7 +140,7 @@ import {DownloadComponent} from './components/download-component';
         CustomBrowserXhr, EmployeeService],
     bootstrap: [AppComponent],
     entryComponents: [LoginAlertDialog, RefusedDocumentAlertDialog, UploadedAlertDialog, EditEmployeeAlertDialog, VerifyNotAlertDialog,
-        ChangeStatusAlertDialog]
+        ChangeStatusAlertDialog, SessionTimeoutDialogComponent, PurchaseHistoryDialog]
 })
 export class AppModule {
 }

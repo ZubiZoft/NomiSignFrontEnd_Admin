@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import {ActivatedRoute, Params, ParamMap} from '@angular/router';
+import {ActivatedRoute, Params, ParamMap, Router} from '@angular/router';
 import {Location} from '@angular/common';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/finally';
@@ -12,6 +12,7 @@ import {CompanyModel} from '../../../models/company.model';
 import {CompanyService} from '../../../services/company.service';
 import {UserService} from '../../../services/user.service';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MatSnackBar} from '@angular/material';
+import {SessionTimeoutDialogComponent} from '../../session-timeout-dialog/session-timeout-dialog.component';
 
 @Component({
     selector: 'ng-employee-edit',
@@ -31,10 +32,8 @@ export class EmployeeEditComponent implements OnInit {
     files: any[];
 
     constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MatSnackBar,
-                private uploadService: UploadService, public dialog: MatDialog,
-                private companyService: CompanyService, private userService: UserService, private _location: Location) {
-
-        // get company Id
+                private uploadService: UploadService, public dialog: MatDialog, private userService: UserService, private router: Router,
+                private companyService: CompanyService, private _location: Location) {
         route.params.subscribe((params: Params) => {
             this.companyId = params['cid'];
         });
@@ -56,6 +55,16 @@ export class EmployeeEditComponent implements OnInit {
                     this.employee.CellPhoneNumber = this.employee.CellPhoneNumber.substring(0, 3);
                 }
                 this.isPromiseDone = true;
+            }, error => {
+                if (error.status === 405) {
+                    this.dialog.closeAll();
+                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                        width: '75%'
+                    });
+                } else {
+                    this.userService.clearUser();
+                    this.router.navigate(['/login']);
+                }
             });
 
         // Need ApiKey from Company
@@ -68,6 +77,16 @@ export class EmployeeEditComponent implements OnInit {
                 this.openbatch.ApiKey = this.company.ApiKey;
                 this.openbatch.FileCount = 1;
                 this.isPromiseDone = true;
+            }, error => {
+                if (error.status === 405) {
+                    this.dialog.closeAll();
+                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                        width: '75%'
+                    });
+                } else {
+                    this.userService.clearUser();
+                    this.router.navigate(['/login']);
+                }
             });
     }
 
@@ -80,12 +99,12 @@ export class EmployeeEditComponent implements OnInit {
             .subscribe(
                 data => {
                     this.cellNumberVerificationStatus = data;
-                    this.cellNumberVerificationStatus = 'Valido';
+                    this.cellNumberVerificationStatus = 'Válido';
                     return false;
                 },
                 error => {
                     this.cellNumberVerificationStatus = error;
-                    this.cellNumberVerificationStatus = 'Invalido';
+                    this.cellNumberVerificationStatus = 'Inválido';
                 }
             );
     }
@@ -110,18 +129,27 @@ export class EmployeeEditComponent implements OnInit {
                         this.snackbar.open('sucessfully updated', '', {duration: 5000});
                     }))
                 .subscribe(data => {
-                        this.employee = data;
-                        if (!this.files) {
-                            let dialogRef1 = this.dialog.open(EditEmployeeAlertDialog, {
-                                width: '50%',
-                                data: {'message': '¡La información del empleado ha sido actualizada satisfactoriamente!'}
-                            });
-                            dialogRef1.afterClosed().subscribe(result => {
-                                this._location.back();
-                            });
-                        }
-                    },
-                    error => this.snackbar.open(error, '', {duration: 5000}));
+                    this.employee = data;
+                    if (!this.files) {
+                        let dialogRef1 = this.dialog.open(EditEmployeeAlertDialog, {
+                            width: '50%',
+                            data: {'message': '¡La información del empleado ha sido actualizada satisfactoriamente!'}
+                        });
+                        dialogRef1.afterClosed().subscribe(result => {
+                            this._location.back();
+                        });
+                    }
+                }, error => {
+                    if (error.status === 405) {
+                        this.dialog.closeAll();
+                        let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                            width: '75%'
+                        });
+                    } else {
+                        this.userService.clearUser();
+                        this.router.navigate(['/login']);
+                    }
+                });
 
             if (this.files && this.files.length > 0) {
                 this.uploadEmployeeFiles();
@@ -142,7 +170,6 @@ export class EmployeeEditComponent implements OnInit {
                     for (let file of this.files) {
                         this.uploadFile(file, batchId);
                     }
-                    ;
                     this.uploadService.closeBatch(batchId).subscribe(
                         data => {
                             let dialogRef1 = this.dialog.open(EditEmployeeAlertDialog, {
@@ -152,7 +179,27 @@ export class EmployeeEditComponent implements OnInit {
                             dialogRef1.afterClosed().subscribe(result => {
                                 this._location.back();
                             });
+                        }, error => {
+                            if (error.status === 405) {
+                                this.dialog.closeAll();
+                                let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                                    width: '75%'
+                                });
+                            } else {
+                                this.userService.clearUser();
+                                this.router.navigate(['/login']);
+                            }
                         });
+                }, error => {
+                    if (error.status === 405) {
+                        this.dialog.closeAll();
+                        let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                            width: '75%'
+                        });
+                    } else {
+                        this.userService.clearUser();
+                        this.router.navigate(['/login']);
+                    }
                 });
         });
     }

@@ -1,37 +1,54 @@
 //angular imports
-import { Injectable } from '@angular/core';
-import { Headers, Http, RequestOptions } from '@angular/http';
+import {Injectable} from '@angular/core';
+import {Headers, Http, RequestOptions} from '@angular/http';
 //rxjs imports
-import { Observable }     from 'rxjs/Observable';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { environment } from '../../environments/environment';
+import {environment} from '../../environments/environment';
 import {FileUploadModel} from '../models/file-upload-model';
+import {UserService} from './user.service';
 
 @Injectable()
 export class UploadService {
     private rootURL: string = environment.serviceUrl;
 
-    constructor(private http: Http) {}
+    constructor(private http: Http, private userService: UserService) {
+    }
 
     openBatch(companyId, openbatch): Observable<any> {
-        let _headers = new Headers ({'Content-Type': 'application/json'})
-        let options = new RequestOptions({method: 'POST', headers: _headers})
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'POST', headers: _headers});
         let url = this.rootURL + 'api/upload/openbatch/' + companyId;
         let body = JSON.stringify(openbatch);
         return this.http.post(url, body, options).map(response => response.json());
     }
 
     addFile(file, batchId): Observable<any> {
-        let _headers = new Headers ({'Content-Type': 'application/json'})
-        let options = new RequestOptions({method: 'POST', headers: _headers})
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'POST', headers: _headers});
         let url = this.rootURL + 'api/upload/addfile/' + batchId;
         let body = JSON.stringify(file);
         return this.http.post(url, body, options).map(response => response); //unexpected end of JSON
     }
 
     addcompanyfile(file, companyId): Observable<any> {
-        let _headers = new Headers({ 'Content-Type': 'application/json' })
-        let options = new RequestOptions({ method: 'POST', headers: _headers })
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'POST', headers: _headers});
         let url = this.rootURL + 'api/upload/addcompanyfile/' + companyId;
         let body = JSON.stringify(file);
         return this.http.post(url, body, options).map(response => response); //unexpected end of JSON
@@ -39,15 +56,25 @@ export class UploadService {
 
 
     closeBatch(batchId): Observable<any> {
-        let _headers = new Headers ({'Content-Type': 'application/json'})
-        let options = new RequestOptions({method: 'GET', headers: _headers})
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'GET', headers: _headers});
         let url = this.rootURL + 'api/upload/closebatch/' + batchId;
         return this.http.get(url, options).map(response => response); //unexpected end of JSON
     }
 
     loadFiles(companyId, files: FileUploadModel[]): Observable<any> {
-        let _headers = new Headers({ 'Content-Type': 'application/json' })
-        let options = new RequestOptions({ method: 'POST', headers: _headers })
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'POST', headers: _headers});
         let url = this.rootURL + 'api/upload/uploadfilesfront/' + companyId;
         let body = JSON.stringify(files);
         return this.http.post(url, body, options).map(response => response);

@@ -7,16 +7,22 @@ import 'rxjs/add/operator/map';
 
 import { environment } from '../../environments/environment';
 import {DateRangeModel} from '../models/date.range.model';
+import {UserService} from './user.service';
 
 const rootURL: string = environment.serviceUrl;
 
 @Injectable()
 export class DocumentService {
 
-    constructor(private http: Http) { }
+    constructor(private http: Http, private userService: UserService) { }
 
     getRejectedDocumentsForCompany(companyId): Observable<any> {
-        let _headers = new Headers({})
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
         let options = new RequestOptions({ method: 'GET', headers: _headers })
         let url = rootURL + 'api/documents/rejected/' + companyId;
 
@@ -24,7 +30,12 @@ export class DocumentService {
     }
 
     getUnsignedDocumentsForCompany(companyId): Observable<any> {
-        let _headers = new Headers({})
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
         let options = new RequestOptions({ method: 'GET', headers: _headers })
         let url = rootURL + 'api/documents/unsigned/' + companyId;
 
@@ -32,7 +43,12 @@ export class DocumentService {
     }
 
     notifyUnsignedDocumentsForCompany(companyId): Observable<any> {
-        let _headers = new Headers({})
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
         let options = new RequestOptions({ method: 'GET', headers: _headers })
         let url = rootURL + 'api/documents/unsigned/notify/' + companyId;
 
@@ -40,7 +56,12 @@ export class DocumentService {
     }
 
     updateDocument(document): Observable<any> {
-        let _headers = new Headers({ 'Content-Type': 'application/json' })
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
         let options = new RequestOptions({ method: 'PUT', headers: _headers })
         let url = rootURL + 'api/documents/' + document.DocumentId;
         let body = JSON.stringify(document);
@@ -49,27 +70,46 @@ export class DocumentService {
     }
 
     getAllDocumentsByCompany(companyId): Observable<any> {
-        let _headers = new Headers({})
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
         let options = new RequestOptions({ method: 'GET', headers: _headers })
         let url = rootURL + 'api/documentsByCompany/' + companyId;
 
         return this.http.get(url, options).map(response => response.json());
     }
 
-    getAllDocumentsByCompanyDateRange(companyId, fromDate, toDate): Observable<any> {
-        let _headers = new Headers({'Content-Type': 'application/json'})
+    getAllDocumentsByCompanyDateRange(companyId, fromDate, toDate, rfc, curp, type, status): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
         let options = new RequestOptions({ method: 'POST', headers: _headers })
         let url = rootURL + 'api/documentsByCompanyDateRange/' + companyId;
         let range: DateRangeModel = new DateRangeModel();
         range.InitDate = fromDate;
         range.EndDate = toDate;
+        range.Type = type;
+        range.Status = status;
+        range.Rfc = rfc;
+        range.Curp = curp;
         let body = JSON.stringify(range);
 
         return this.http.post(url, body, options).map(response => response.json());
     }
 
     sendToUnsignedDocuments(docIds): Observable<any> {
-        let _headers = new Headers({ 'Content-Type': 'application/json' });
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
         let options = new RequestOptions({ method: 'POST', headers: _headers });
         let url = rootURL + 'api/documents/rejected';
         let body = JSON.stringify(docIds);
@@ -78,7 +118,12 @@ export class DocumentService {
     }
 
     notifyUnsignedDocuments(docIds): Observable<any> {
-        let _headers = new Headers({ 'Content-Type': 'application/json' });
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
         let options = new RequestOptions({ method: 'POST', headers: _headers });
         let url = rootURL + 'api/SendNotificationsToUnsignedDocuments';
         let body = JSON.stringify(docIds);
@@ -87,11 +132,29 @@ export class DocumentService {
     }
 
     downloadDocuments(docIds): Observable<any> {
-        let _headers = new Headers({ 'Content-Type': 'application/json' });
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
         let options = new RequestOptions({ method: 'POST', headers: _headers });
         let url = rootURL + 'api/documents/download/';
         let body = JSON.stringify(docIds);
 
         return this.http.post(url, body, options).map(response => response.json());
+    }
+
+    getUserDocumentData(documentId): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'GET', headers: _headers});
+        let url = rootURL + 'api/documentsEmployee/' + documentId;
+
+        return this.http.get(url, options).map(response => response.json());
     }
 }

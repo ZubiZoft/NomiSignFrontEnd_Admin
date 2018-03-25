@@ -7,10 +7,8 @@ export class User {
     LastName2: string;
     CURP: string;
     UserType: string;
-    //EmployeeStatus: string;
     RFC: string;
-    CreatedByUserId: number;
-    //PasswordHash: string;
+    SessionToken: string;
     EmailAddress: string;
     Links: {
         SelfUri: string

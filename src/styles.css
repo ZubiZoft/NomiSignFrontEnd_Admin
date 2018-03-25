@@ -1,6 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 @import "~@angular/material/prebuilt-themes/indigo-pink.css";
 
+.pointer {
+    cursor: pointer;
+}
+
 .mat-checkbox-checked.mat-primary .mat-checkbox-background {
     background-color: #2cbbc3;
 }
@@ -45,7 +49,7 @@ html{
   }
 
   .vertical-scroll-temp {
-      max-height: 380px;
+      max-height: 360px;
   }
 
   @media (max-device-width: 720px) {

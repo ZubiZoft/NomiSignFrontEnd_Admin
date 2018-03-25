@@ -5,6 +5,9 @@ import {States} from '../../../models/states.models';
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {UploadedAlertDialog} from '../companyEdit/companyEdit.component';
 import {Location} from '@angular/common';
+import {Router} from '@angular/router';
+import {UserService} from '../../../services/user.service';
+import {SessionTimeoutDialogComponent} from '../../session-timeout-dialog/session-timeout-dialog.component';
 
 @Component({
     selector: 'ng-newcompany',
@@ -18,7 +21,7 @@ export class CompanyNewComponent {
     states: States;
 
     constructor(private companyService: CompanyService, public snackbar: MatSnackBar,
-                public dialog: MatDialog, private _location: Location) {
+                public dialog: MatDialog, private userService: UserService, private router: Router, private _location: Location) {
         this.states = new States();
         this.company = new CompanyModel();
         this.company.State = 'Ciudad de México';
@@ -35,15 +38,20 @@ export class CompanyNewComponent {
                 dialogRef.afterClosed().subscribe(result => {
                     this._location.back();
                 });
-            },
-            error => {
-                this.snackbar.open(error, '', {duration: 5000});
-                const dialogRef = this.dialog.open(UploadedAlertDialog, {
-                    width: '50%',
-                    data: {'message': '¡Hubo un error al crear su compañía, por favor intente más tarde!'}
-                });
-            },
-            () => this.snackbar.open('Successfully updated', '', {duration: 5000})
+            }, error => {
+                if (error.status === 405) {
+                    this.dialog.closeAll();
+                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                        width: '75%'
+                    });
+                } else {
+                    this.snackbar.open(error, '', {duration: 5000});
+                    const dialogRef = this.dialog.open(UploadedAlertDialog, {
+                        width: '50%',
+                        data: {'message': '¡Hubo un error al crear su compañía, por favor intente más tarde!'}
+                    });
+                }
+            }, () => this.snackbar.open('Cargados Exitosamente', '', {duration: 5000})
         );
     }
 }

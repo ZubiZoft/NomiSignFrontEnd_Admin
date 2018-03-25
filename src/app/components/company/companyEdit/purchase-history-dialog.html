@@ -1,0 +1,26 @@
+<div class="table-responsive" style="height: 450px; text-align: center;">
+    <h1>Historial de Compras</h1>
+    <hr>
+    <table class="table table-striped">
+        <thead>
+        <tr style="background-color: #2cbbc3; color: white;">
+            <th scope="col">ID de Compra</th>
+            <th scope="col">Firmas Compradas</th>
+            <th scope="col">SMS Compradas</th>
+            <th scope="col">Monto</th>
+            <th scope="col">Fecha de Compra</th>
+            <th scope="col">Fecha de Pago</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let h of history">
+            <th scope="row">{{h.SignaturePurchaseId}}</th>
+            <td>{{h.LicensesPurchased}}</td>
+            <td>{{h.SMSPurchased}}</td>
+            <td>{{h.Price | currency:'USD':true}}</td>
+            <td>{{h.PurchaseDate}}</td>
+            <td>{{h.PaidDate}}</td>
+        </tr>
+        </tbody>
+    </table>
+</div>

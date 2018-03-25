@@ -1,5 +1,5 @@
 import {Component, Inject, OnInit} from '@angular/core';
-import { ActivatedRoute, ParamMap, Params } from '@angular/router';
+import {ActivatedRoute, ParamMap, Params, Router} from '@angular/router';
 import { DocumentService } from '../../../../services/documents.service';
 import { DocumentModel } from '../../../../models/document.model';
 import 'rxjs/add/operator/switchMap';
@@ -7,6 +7,8 @@ import { SortByPipe } from '../../../../pipes/sort-by.pipe';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import {VerifyNotAlertDialog} from '../unsigned-receipts/unsigned-receipts.component';
 import { Location } from '@angular/common';
+import {UserService} from '../../../../services/user.service';
+import {SessionTimeoutDialogComponent} from '../../../session-timeout-dialog/session-timeout-dialog.component';
 
 @Component({
   selector: 'app-denied-receipts',
@@ -22,7 +24,8 @@ export class DeniedReceiptsComponent implements OnInit {
     sortKey: string;
     updateBtn = false;
 
-    constructor(private route: ActivatedRoute, private documentService: DocumentService, public dialog: MatDialog) {
+    constructor(private route: ActivatedRoute, private documentService: DocumentService, public dialog: MatDialog,
+                private userService: UserService, private router: Router) {
         this.dialog.afterAllClosed.subscribe(
             () => {
                 this.loadDocuments();
@@ -47,6 +50,16 @@ export class DeniedReceiptsComponent implements OnInit {
                     d.CheckedBox = false;
                 }
                 this.documents = data;
+            }, error => {
+                if (error.status === 405) {
+                    this.dialog.closeAll();
+                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                        width: '75%'
+                    });
+                } else {
+                    this.userService.clearUser();
+                    this.router.navigate(['/login']);
+                }
             });
     }
 
@@ -78,12 +91,18 @@ export class DeniedReceiptsComponent implements OnInit {
                     width: '50%',
                     data: { 'message': '¡Los recibos de nómina seleccionados han sido actualizados!' }
                 });
-            },
-            error => {
-                const dialogRef = this.dialog.open(VerifyNotAlertDialog, {
-                    width: '50%',
-                    data: { 'message': '¡Un error ocurrió actualizando las nóminas!' }
-                });
+            }, error => {
+                if (error.status === 405) {
+                    this.dialog.closeAll();
+                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                        width: '75%'
+                    });
+                } else {
+                    const dialogRef = this.dialog.open(VerifyNotAlertDialog, {
+                        width: '50%',
+                        data: { 'message': '¡Un error ocurrió actualizando los recibos de nómina!' }
+                    });
+                }
             });
 
     }
