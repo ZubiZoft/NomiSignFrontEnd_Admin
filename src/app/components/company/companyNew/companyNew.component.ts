@@ -28,6 +28,7 @@ export class CompanyNewComponent {
     }
 
     saveCompany() {
+        this.company.BillingEmailAddress = '';
         this.companyService.saveNewCompany(this.company).subscribe(
             data => {
                 this.company = data;

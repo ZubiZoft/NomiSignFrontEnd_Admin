@@ -5,7 +5,7 @@
 }
 
 .example-full-width {
-    display: flow-root;
+    display: block;
 }
 
 .mat-checkbox {

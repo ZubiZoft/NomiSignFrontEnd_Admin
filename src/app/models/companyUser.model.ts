@@ -7,7 +7,7 @@ export class CompanyUserModel {
     UserStatus: number;
     UserType: number;
     LastLogin:string;
-    LastPasswordChange:Date;
+    LastPasswordChange: Date;
     ForcePasswordReset: boolean;
     CreatedByUserName: string;
     CompanyId: number;

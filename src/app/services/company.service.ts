@@ -1,16 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, RequestOptions} from '@angular/http';
-
 import {Observable} from 'rxjs/Observable';
-
 import {CompanyModel} from '../models/company.model';
-
 import 'rxjs/add/operator/map';
-
+import 'rxjs/add/operator/toPromise';
 import {environment} from '../../environments/environment';
 import {UserService} from './user.service';
 
-//const rootURL: string = 'http://ogrean.com/nomisign/'
 const rootURL: string = environment.serviceUrl;
 
 

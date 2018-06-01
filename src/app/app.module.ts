@@ -65,6 +65,9 @@ import { DocumentViewerComponent } from './components/document-viewer/document-v
 import { SafeUrlPipe } from './pipes/safe-url.pipe';
 import { SessionTimeoutDialogComponent } from './components/session-timeout-dialog/session-timeout-dialog.component';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import {CompanyUsersService} from './services/companyUser.service';
+import {CompanyService} from './services/company.service';
 
 @NgModule({
     declarations: [
@@ -109,7 +112,8 @@ import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-mome
         PurchaseHistoryDialog,
         DocumentViewerComponent,
         SafeUrlPipe,
-        SessionTimeoutDialogComponent
+        SessionTimeoutDialogComponent,
+        ChangePasswordComponent
     ],
     imports: [
         MatNativeDateModule,
@@ -137,7 +141,7 @@ import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-mome
         CommonModule
     ],
     providers: [UserService, AuthService, CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard, UploadService, DocumentService,
-        CustomBrowserXhr, EmployeeService],
+        CustomBrowserXhr, EmployeeService, CompanyUsersService, CompanyService],
     bootstrap: [AppComponent],
     entryComponents: [LoginAlertDialog, RefusedDocumentAlertDialog, UploadedAlertDialog, EditEmployeeAlertDialog, VerifyNotAlertDialog,
         ChangeStatusAlertDialog, SessionTimeoutDialogComponent, PurchaseHistoryDialog]

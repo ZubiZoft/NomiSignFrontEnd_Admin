@@ -7,6 +7,7 @@ import 'rxjs/add/operator/map';
 import {environment} from '../../environments/environment';
 import {FileUploadModel} from '../models/file-upload-model';
 import {UserService} from './user.service';
+import {FileModel} from '../models/file.model';
 
 @Injectable()
 export class UploadService {
@@ -51,6 +52,21 @@ export class UploadService {
         let options = new RequestOptions({method: 'POST', headers: _headers});
         let url = this.rootURL + 'api/upload/addcompanyfile/' + companyId;
         let body = JSON.stringify(file);
+        return this.http.post(url, body, options).map(response => response); //unexpected end of JSON
+    }
+
+    addEmployeeCSVFile(file, companyId): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'POST', headers: _headers});
+        let url = this.rootURL + 'api/upload/ReadCSVFile/' + companyId;
+        let mF = new FileModel();
+        mF.PDFContent = file;
+        let body = JSON.stringify(mF);
         return this.http.post(url, body, options).map(response => response); //unexpected end of JSON
     }
 

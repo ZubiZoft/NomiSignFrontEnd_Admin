@@ -101,6 +101,20 @@ export class UnsignedReceiptsComponent implements OnInit {
         }
         this.updateBtn = false;
     }
+
+    selectAllDocuments() {
+        if (this.documents.length <= 0) {
+            return;
+        }
+        var l = true;
+        if (this.documents[0].CheckedBox) {
+            l = false;
+        }
+        for (const d of this.documents) {
+            d.CheckedBox = l;
+        }
+        this.updateBtn = l;
+    }
 }
 
 @Component({

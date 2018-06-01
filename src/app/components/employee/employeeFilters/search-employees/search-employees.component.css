@@ -1,0 +1,10 @@
+.pagination-bar {
+    width: 100%;
+}
+
+.button-letter {
+    padding-left: 0.5%;
+    padding-right: 0.5%;
+    cursor: pointer;
+    font-weight: bold;
+}

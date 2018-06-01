@@ -40,7 +40,7 @@
             <div class="col-md-6 text-center">
                 <mat-form-field style="width: 100%;">
                     <mat-icon matPrefix>search</mat-icon>
-                    <input matInput #search placeholder="Buscar Factura" (keyup)="0" />
+                    <input matInput #search placeholder="Buscar Documento" (keyup)="0" />
                 </mat-form-field>
                 <br>
             </div>
@@ -63,7 +63,11 @@
                 <th scope="col" (click)="sortedBy('EmployeeName')">Nombre de Empleado</th>
                 <th scope="col" (click)="sortedBy('AlwaysShow')">Tipo</th>
                 <th scope="col" (click)="sortedBy('UploadTime')">Fecha Carga</th>
-                <th scope="col" class="centerText">Notificar</th>
+                <th scope="col" class="centerText" (click)="selectAllDocuments();">
+                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+                        Seleccionar Todos
+                    </button>
+                </th>
             </tr>
             </thead>
             <tbody>

@@ -98,9 +98,16 @@ export class SearchReceiptsComponent implements OnInit {
     }
 
     selectAllDocuments() {
-        for (const d of this.documents) {
-            d.CheckedBox = true;
+        if (this.documents.length <= 0) {
+            return;
         }
-        this.updateBtn = true;
+        var l = true;
+        if (this.documents[0].CheckedBox) {
+            l = false;
+        }
+        for (const d of this.documents) {
+            d.CheckedBox = l;
+        }
+        this.updateBtn = l;
     }
 }

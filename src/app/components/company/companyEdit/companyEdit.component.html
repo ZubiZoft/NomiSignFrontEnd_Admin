@@ -78,7 +78,7 @@
         <br>
         <br>
 
-        <mat-checkbox color="primary" class="mat-checkbox" matInput placeholder="Auto Add Agreement Document"
+        <!--<mat-checkbox color="primary" class="mat-checkbox" matInput placeholder="Auto Add Agreement Document"
                       value="{{company.NewEmployeeGetDoc}}"
                       [(ngModel)]="company.NewEmployeeGetDoc" name=companyNewEmployeeGetDoc
                       i18n="form | field asking the if there should be a forced password reset@@CompanyUserPasswordReset">
@@ -94,13 +94,6 @@
                         <span class="selected">Archivos Seleccionados</span>
                     </input-file>
                 </td>
-                <!--<td>
-                    <div *ngIf="files">
-                        <div *ngFor="let file of files">
-                            {{ file.name }}
-                        </div>
-                    </div>
-                </td>-->
                 <td>
                     <button [disabled]="!company.NewEmployeeGetDoc" mat-raised-button color="primary"
                             (click)=addCompanyDocument() i18n="@@UpdateButton"> Cargar Documento
@@ -110,10 +103,10 @@
         </table>
 
         <mat-form-field class="example-full-width">
-            <input disabled matInput placeholder="Documento de aceptación de términos y condiciones"
+            <input disabled matInput placeholder="Cargar documento de intercambio de claves y contraseñas."
                    value="{{company.NewEmployeeDocument}}" [(ngModel)]="company.NewEmployeeDocument"
                    name="companyNewEmployeeDocument" i18n-placeholder="@@CompanyRFCInput">
-        </mat-form-field>
+        </mat-form-field> -->
         <br/>
         <br/>
         <h2>Cargar tus recibos de nóminas:</h2>

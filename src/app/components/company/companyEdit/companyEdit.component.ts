@@ -74,7 +74,6 @@ export class CompanyEditComponent implements OnInit {
             for (let file of this.files) {
                 this.uploadFile(file, this.company.CompanyId);
             }
-            ;
         } else {
             let dialogRef = this.dialog.open(UploadedAlertDialog, {
                 width: '50%',

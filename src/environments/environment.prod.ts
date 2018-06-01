@@ -1,4 +1,4 @@
 export const environment = {
     production: true,
-    serviceUrl: "https://app.nomisign.com/nomiadmin/"
+    serviceUrl: "https://app.nomisign.com/nomiservice/"
 };

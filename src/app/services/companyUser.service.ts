@@ -9,8 +9,8 @@ import {User} from '../models/user.model';
 import 'rxjs/add/operator/map';
 import {environment} from '../../environments/environment';
 import {UserService} from './user.service';
+import {ChangePasswordModel} from '../models/ChangePassword.model';
 
-//const rootURL: string = 'http://ogrean.com/nomisign/'
 const rootURL: string = environment.serviceUrl;
 
 @Injectable()
@@ -65,8 +65,21 @@ export class CompanyUsersService {
         });
         var options = new RequestOptions({method: 'POST', headers: _headers});
         var body = JSON.stringify(companyUser);
-        console.log(companyUser);
         var url = rootURL + 'api/companyusers';
         return this.http.post(url, body, options).map(response => response.json());
+    }
+
+
+    changePasswordService(change: ChangePasswordModel, companyUserId: number): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        var options = new RequestOptions({method: 'PUT', headers: _headers});
+        var body = JSON.stringify(change);
+        var url = rootURL + 'api/employees/passwordsessionadmin/' + companyUserId;
+        return this.http.put(url, body, options).map(response => response.json());
     }
 }

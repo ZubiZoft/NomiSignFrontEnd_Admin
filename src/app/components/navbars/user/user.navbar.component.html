@@ -13,9 +13,13 @@
                 <mat-icon>arrow_drop_down</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
+                <button mat-menu-item routerLink="/changePassword">
+                    <mat-icon>loop</mat-icon>
+                    <span i18n="action | user will click this to log out of the website@@LogoutAction">Cambiar Contraseña</span>
+                </button>
                 <button mat-menu-item (click)="logout()">
                     <mat-icon>exit_to_app</mat-icon>
-                    <span i18n="action | user will click this to log out of the website@@LogoutAction">Logout</span>
+                    <span i18n="action | user will click this to log out of the website@@LogoutAction">Cerrar Sessión</span>
                 </button>
             </mat-menu>
         </span>
@@ -38,9 +42,13 @@
                     <mat-icon>arrow_drop_down</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
+                    <button mat-menu-item routerLink="/changePassword">
+                        <mat-icon>loop</mat-icon>
+                        <span i18n="action | user will click this to log out of the website@@LogoutAction">Cambiar Contraseña</span>
+                    </button>
                     <button mat-menu-item (click)="logout()">
                         <mat-icon>exit_to_app</mat-icon>
-                        <span i18n="action | user will click this to log out of the website@@LogoutAction">Logout</span>
+                        <span i18n="action | user will click this to log out of the website@@LogoutAction">Cerrar Sessión</span>
                     </button>
                 </mat-menu>
             </span>

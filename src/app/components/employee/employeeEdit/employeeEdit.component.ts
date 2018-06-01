@@ -30,6 +30,8 @@ export class EmployeeEditComponent implements OnInit {
     company: CompanyModel;
     isPromiseDone = false;
     files: any[];
+    phoneValid = true;
+    emailValid = true;
 
     constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MatSnackBar,
                 private uploadService: UploadService, public dialog: MatDialog, private userService: UserService, private router: Router,
@@ -222,6 +224,30 @@ export class EmployeeEditComponent implements OnInit {
             uploadFile.PDFContent = reader.result.split(',')[1];
             this.uploadService.addFile(uploadFile, batchId).subscribe(data => data);
         };
+    }
+
+    ValidateEmail() {
+        let emp: EmployeeModel = new EmployeeModel();
+        emp.EmailAddress = this.employee.EmailAddress;
+        emp.RFC = this.employee.RFC;
+        this.employeeService.validateEmail(emp).subscribe(
+            () => {
+            this.emailValid = false;
+        }, error => {
+            this.emailValid = true;
+        });
+    }
+
+    ValidatePhone() {
+        let emp: EmployeeModel = new EmployeeModel();
+        emp.CellPhoneNumber = this.employee.CellPhoneNumber;
+        emp.RFC = this.employee.RFC;
+        this.employeeService.validatePhone(emp).subscribe(
+            () => {
+                this.phoneValid = false;
+            }, error => {
+                this.phoneValid = true;
+            });
     }
 }
 

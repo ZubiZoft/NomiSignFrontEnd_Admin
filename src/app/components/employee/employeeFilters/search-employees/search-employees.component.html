@@ -57,29 +57,25 @@
     </div>
 </nav>
 <br>
-<div class="text-center" *ngIf="employees?.length <= 0">
-    <h1 class="text-center">No se encontraron nuevos empleados.</h1>
-    <br>
-    <!--<button class="text-center" mat-button [routerLink]="['/employeeNew', companyId]">
-        <mat-icon mat-list-icon>add</mat-icon>
-        <mat-icon mat-list-icon>account_circle</mat-icon>
-    </button>-->
-</div>
-<div class="container" style="max-height: 100vh;" *ngIf="employees?.length > 0">
-    <h1 class="text-center"> Empleados de {{employees[0].CompanyName}} </h1>
+<div class="container" style="max-height: 100vh;" *ngIf="company">
+    <h1 class="text-center"> Empleados de {{company.CompanyName}} </h1>
     <br>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-9 text-center">
                 <mat-form-field style="width: 100%;">
                     <mat-icon matPrefix>search</mat-icon>
-                    <input matInput #search placeholder="Buscar Factura" (keyup)="0" />
+                    <input matInput #search placeholder="Buscar Empleado" (keyup)="0" />
                 </mat-form-field>
                 <br>
             </div>
         </div>
     </div>
     <br>
+    <div class="pagination-bar text-justify text-center">
+        <small (click)="onClickSmallTags(l)" class="button-letter" [ngStyle]="{'color': l.color}"
+               *ngFor="let l of letters">{{l.value}}</small>
+    </div>
     <div class="table-responsive vertical-scroll-temp">
         <table class="table table-striped">
             <thead>
@@ -106,10 +102,13 @@
                 <td>{{e.CellPhoneNumber}}</td>
                 <td>{{e.RFC}}</td>
                 <td>{{e.CURP}}</td>
-                <td>{{e.Sta}}</td>
             </tr>
             </tbody>
         </table>
+    </div>
+    <div class="text-center" *ngIf="employees?.length <= 0">
+        <h1 class="text-center">No se encontraron nuevos empleados.</h1>
+        <br>
     </div>
 </div>
 <br><br><br><br>

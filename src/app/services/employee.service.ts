@@ -24,6 +24,17 @@ export class EmployeeService {
         return this.http.get(rootURL + 'api/employees/' + companyId, {headers: _headers}).map(response => response.json());
     }
 
+    getEmployeesByCompanyNl(companyId: string, l: string): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        return this.http.get(rootURL + 'api/employeesLetter/' + companyId + '/' + l,
+            {headers: _headers}).map(response => response.json());
+    }
+
     //GET/:cid/:eid
     getEmployeeById(companyId: string, employeeId: string): Observable<any> {
         const user = this.userService.getUser();
@@ -95,6 +106,43 @@ export class EmployeeService {
         });
         return this.http.get(rootURL + 'api/employees/' + companyId + '/New',
             {headers: _headers}).map(response => response.json());
+    }
+
+    getNewEmployeesByCompanyNl(companyId: string, l: string): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        return this.http.get(rootURL + 'api/employees/' + companyId + '/New/' + l,
+            {headers: _headers}).map(response => response.json());
+    }
+
+    validateEmail(employee: EmployeeModel): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'POST', headers: _headers});
+        let body = JSON.stringify(employee);
+        let url = rootURL + 'api/emailEmployeeValidator';
+        return this.http.post(url, body, options).map(response => response.json());
+    }
+
+    validatePhone(employee: EmployeeModel): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'POST', headers: _headers});
+        let body = JSON.stringify(employee);
+        let url = rootURL + 'api/phoneEmployeeValidator';
+        return this.http.post(url, body, options).map(response => response.json());
     }
 
     getInactiveEmployeesByCompany(companyId: string): Observable<any> {
