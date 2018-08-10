@@ -1,0 +1,39 @@
+<br>
+<div class="container">
+  <div class="row">
+    <div class="col text-center">
+      <h1>Validador</h1>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col">
+      <small style="color: #555555">Por favor adjunta el recibo de nómina y pegue su NOM151.</small>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col-4 text-center">
+      <input-file type="file"
+                  (change)="onFileSelectDemo($event)" accept="application/pdf">
+        <span class="nofiles">Recibo de Nómina PDF</span>
+        <span class="selected">Archivos</span>
+      </input-file>
+    </div>
+    <div class="col-8">
+      <div class="input-group">
+        <div class="input-group-prepend">
+          <span class="input-group-text">NOM151</span>
+        </div>
+        <textarea class="form-control" aria-label="With textarea" [(ngModel)]="nom" (change)="updateModelReq()"></textarea>
+      </div>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col col-md-8 text-center">
+      <br>
+      <br>
+      <download-btn [verifySignReq]="req" [disable]="false"> </download-btn>
+    </div>
+  </div>
+</div>

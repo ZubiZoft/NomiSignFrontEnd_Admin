@@ -1,0 +1,8 @@
+.vertical-scroll-temp {
+    position: absolute !important;
+    bottom: 20px;
+    top: 380px;
+    left: 10%;
+    right: 10%;
+    width: 80%;
+}
