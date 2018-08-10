@@ -1,16 +1,12 @@
-//angular imports
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap, Params, Router} from '@angular/router';
 import {Location} from '@angular/common';
-//rxjs imports
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/finally';
-//custom imports
 import {UserType} from '../../../models/usertype.models';
 import {UserService} from '../../../services/user.service';
 import {CompanyUsersService} from '../../../services/companyUser.service';
 import {CompanyUserModel} from '../../../models/companyUser.model';
-//angular material imports
 import {MatDialog, MatSnackBar} from '@angular/material';
 import {SessionTimeoutDialogComponent} from '../../session-timeout-dialog/session-timeout-dialog.component';
 

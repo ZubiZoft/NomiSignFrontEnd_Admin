@@ -10,4 +10,7 @@
     PayAmount: string;
     CheckedBox: boolean;
     AlwaysShow: number;
+    CompanyName: string;
+    Client: string;
+    EmployeeRfc: string;
 }

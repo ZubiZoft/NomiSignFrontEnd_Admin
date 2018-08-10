@@ -8,6 +8,7 @@ import {environment} from '../../environments/environment';
 import {FileUploadModel} from '../models/file-upload-model';
 import {UserService} from './user.service';
 import {FileModel} from '../models/file.model';
+import {VerifySignatureRequest} from '../models/VerifySignatureRequest.model';
 
 @Injectable()
 export class UploadService {
@@ -93,6 +94,19 @@ export class UploadService {
         let options = new RequestOptions({method: 'POST', headers: _headers});
         let url = this.rootURL + 'api/upload/uploadfilesfront/' + companyId;
         let body = JSON.stringify(files);
+        return this.http.post(url, body, options).map(response => response);
+    }
+
+    verifySignatureOnDocument(req: VerifySignatureRequest): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'POST', headers: _headers});
+        let url = this.rootURL + 'api/upload/verifySignatureOnDocument';
+        let body = JSON.stringify(req);
         return this.http.post(url, body, options).map(response => response);
     }
 }

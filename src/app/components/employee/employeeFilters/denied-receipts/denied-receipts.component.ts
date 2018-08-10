@@ -25,7 +25,7 @@ export class DeniedReceiptsComponent implements OnInit {
     updateBtn = false;
 
     constructor(private route: ActivatedRoute, private documentService: DocumentService, public dialog: MatDialog,
-                private userService: UserService, private router: Router) {
+                public userService: UserService, private router: Router) {
         this.dialog.afterAllClosed.subscribe(
             () => {
                 this.loadDocuments();

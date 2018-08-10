@@ -5,7 +5,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 12%; margin-right: 12%;">
         <form class="form-inline">
-            <button class="btn btn-sm btn-outline-secondary" type="button"
+            <button class="btn btn-sm btn-outline-secondary active" type="button"
                     [routerLink]="['/employeesList', companyId , 'newemployees']">Nuevos Empleados
             </button>&nbsp;
             <button class="btn btn-sm btn-outline-secondary" type="button"
@@ -30,8 +30,10 @@
 </nav>
 <br>
 <div class="container" style="max-height: 100vh;" *ngIf="company">
-    <h1 class="text-center">Nuevos Empleados de {{company.CompanyName}}</h1>
-    <br>
+    <div [hidden]="this.userService.getUser().UserType !== 3">
+        <h1 class="text-center">Nuevos Empleados de {{company.CompanyName}}</h1>
+        <br>
+    </div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-7 text-center">
@@ -50,10 +52,10 @@
             </div>
         </div>
     </div>
-    <br>
     <div class="pagination-bar text-justify text-center">
         <small (click)="onClickSmallTags(l)" class="button-letter" [ngStyle]="{'color': l.color}"
                *ngFor="let l of letters">{{l.value}}</small>
+        <small class="font-light text-right" style="color: #2cbbc3; float: right;">Resultados: {{employees ? (employees | listfilter: search.value)?.length : '0'}}</small>
     </div>
     <div class="table-responsive vertical-scroll-temp">
         <table class="table table-striped">

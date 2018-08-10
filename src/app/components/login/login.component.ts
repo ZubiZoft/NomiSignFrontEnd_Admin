@@ -93,7 +93,7 @@ export class LoginComponent implements OnInit {
                         break;
                     }
                     case 1: { //HR user
-                        this.router.navigate(['/employeesList', user.CompanyId]);
+                        this.router.navigate(['/employeesList', user.CompanyId, 'newemployees']);
                         break;
                     }
                     default: { //default case

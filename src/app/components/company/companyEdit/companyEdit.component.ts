@@ -117,7 +117,7 @@ export class CompanyEditComponent implements OnInit {
     }
 
     updateCompany() {
-        console.log('updating company');
+        console.log(this.company);
         this.route.paramMap.switchMap(
             (params: ParamMap) => this.companyService.updateCompanyDetails(params.get('cid'),
                 this.company).finally(

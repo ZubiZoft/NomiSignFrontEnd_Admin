@@ -25,6 +25,8 @@ import {SearchReceiptsComponent} from './components/employee/employeeFilters/sea
 import {InactiveEmployeesComponent} from './components/employee/employeeFilters/inactive-employees/inactive-employees.component';
 import {DocumentViewerComponent} from './components/document-viewer/document-viewer.component';
 import {ChangePasswordComponent} from './components/change-password/change-password.component';
+import {ValidatorComponent} from './components/validator/validator.component';
+import {GlobalSearchComponent} from './components/global-search/global-search.component';
 
 const routes: Routes = [
     { path: 'account/:uid', component: AccountComponent },
@@ -32,11 +34,13 @@ const routes: Routes = [
     { path: 'login', component: LoginComponent },
     { path: 'employees', component: EmployeesComponent, canActivate: [UserAuthGuard] },
     { path: 'companies', component: CompaniesComponent, canActivate: [GAdminAuthGuard] },
+    { path: 'validator', component: ValidatorComponent, canActivate: [UserAuthGuard] },
     { path: 'dashboard', component: DashboardComponent, canActivate: [GAdminAuthGuard] },
     { path: 'companyEdit/:cid', component: CompanyEditComponent, canActivate: [CAdminAuthGuard] },
     { path: 'companyNew', component: CompanyNewComponent, canActivate: [GAdminAuthGuard] },
     { path: 'employeesList/:cid', component: EmployeesListComponent, canActivate: [UserAuthGuard] },
     { path: 'changePassword', component: ChangePasswordComponent, canActivate: [UserAuthGuard] },
+    { path: 'globalSearch', component: GlobalSearchComponent, canActivate: [UserAuthGuard] },
 
     { path: 'employeesList/:cid/newemployees', component: NewEmployeesComponent, canActivate: [UserAuthGuard] },
     { path: 'employeesList/:cid/unsignedreceipts', component: UnsignedReceiptsComponent, canActivate: [UserAuthGuard] },

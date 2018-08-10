@@ -22,7 +22,7 @@
             <button class="btn btn-sm btn-outline-secondary" type="button"
                     [routerLink]="['/employeesList', companyId , 'deniedreceipts']">Recibos rechazados
             </button>&nbsp;
-            <button class="btn btn-sm btn-outline-secondary" type="button"
+            <button class="btn btn-sm btn-outline-secondary  active" type="button"
                     [routerLink]="['/employeesList', companyId , 'searchreceipts']">Recibos
             </button>
         </form>
@@ -102,8 +102,8 @@
             </div>
         </div>
     </div>
-    <br>
-    <div class="table-responsive vertical-scroll-temp-1">
+    <small class="font-light text-right" style="color: #2cbbc3; float: right;">Resultados: {{documents ? (documents | listfilter: search.value)?.length : '0'}}</small>
+    <div class="table-responsive vertical-scroll-temp">
         <table class="table table-striped">
             <thead>
             <tr>

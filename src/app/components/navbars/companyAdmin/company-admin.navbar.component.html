@@ -6,10 +6,12 @@
         </button>
 
         <mat-menu #mobileMenu="matMenu">
-            <button mat-button i18n="@@GoCompaniesPageMenuHeader" [routerLink]="['/companyEdit', user.CompanyId]" routerLinkActive="active"> Compañía </button>
-            <button mat-button i18n="@@GoCompanyUsersPageMenuHeader" [routerLink]="['/companyusers', user.CompanyId]" routerLinkActive="active"> Gestores de Nómina </button>
-            <button mat-button i18n="@@GoEmployeesPageMenuHeader" [routerLink]="['/employeesList', user.CompanyId, 'newemployees']" routerLinkActive="active"> Empleados </button>
-            <!--<button mat-menu-item [matMenuTriggerFor]="companyDocumentMenu" i18n="@@GoCompanyDocumentMenuHeader"> Documents </button>-->
+            <button mat-button i18n="@@GoCompaniesPageMenuHeader" [routerLink]="['/companyEdit', user.CompanyId]"
+                    routerLinkActive="active"> Compañía </button>
+            <button mat-button i18n="@@GoCompanyUsersPageMenuHeader" [routerLink]="['/companyusers', user.CompanyId]"
+                    routerLinkActive="active"> Gestores de Nómina </button>
+            <button mat-button i18n="@@GoEmployeesPageMenuHeader"
+                    [routerLink]="['/employeesList', user.CompanyId, 'newemployees']" routerLinkActive="active"> Empleados </button>
         </mat-menu>
         <span style="float:right" *ngIf="user">
             <button mat-button [matMenuTriggerFor]="menu">
@@ -17,6 +19,10 @@
                 <mat-icon>arrow_drop_down</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
+                <button mat-menu-item routerLink="/validator">
+                    <mat-icon>verified_user</mat-icon>
+                    <span i18n="action | user will click this to log out of the website@@LogoutAction">Validador NOM151</span>
+                </button>
                 <button mat-menu-item routerLink="/changePassword">
                     <mat-icon>loop</mat-icon>
                     <span i18n="action | user will click this to log out of the website@@LogoutAction">Cambiar Contraseña</span>
@@ -34,7 +40,7 @@
             <span>
                 <button mat-button [routerLink]="['/companyEdit', user.CompanyId]" routerLinkActive="active">
                     <span i18n="menu header | User will click this to navigate to the companies page@@GoCompaniesPageMenuHeader">
-                        Compañia
+                        Compañía
                     </span>
                 </button>
             </span>
@@ -48,7 +54,8 @@
             </span>
 
             <span>
-                <button mat-button [routerLink]="['/employeesList', user.CompanyId, 'newemployees']" routerLinkActive="active">
+                <button mat-button [routerLink]="['/employeesList', user.CompanyId, 'newemployees']"
+                        routerLinkActive="active">
                     <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
                         Empleados
                     </span>
@@ -61,10 +68,14 @@
                     <mat-icon>arrow_drop_down</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
+                    <button mat-menu-item routerLink="/validator">
+                        <mat-icon>verified_user</mat-icon>
+                        <span i18n="action | user will click this to log out of the website@@LogoutAction">Validador NOM151</span>
+                    </button>
                     <button mat-menu-item routerLink="/changePassword">
-                    <mat-icon>loop</mat-icon>
-                    <span i18n="action | user will click this to log out of the website@@LogoutAction">Cambiar Contraseña</span>
-                </button>
+                        <mat-icon>loop</mat-icon>
+                        <span i18n="action | user will click this to log out of the website@@LogoutAction">Cambiar Contraseña</span>
+                    </button>
                     <button mat-menu-item (click)="logout()">
                         <mat-icon>exit_to_app</mat-icon>
                         <span i18n="action | user will click this to log out of the website@@LogoutAction">Cerrar Sessión</span>

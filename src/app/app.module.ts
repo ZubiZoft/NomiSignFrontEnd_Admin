@@ -3,7 +3,6 @@ import {NgModule} from '@angular/core';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {
     MatButtonModule, MatCheckboxModule, MatInputModule, MatSidenavModule, MatCardModule, MatListModule, MatIconModule,
@@ -61,13 +60,15 @@ import {SearchReceiptsComponent} from './components/employee/employeeFilters/sea
 import {InactiveEmployeesComponent} from './components/employee/employeeFilters/inactive-employees/inactive-employees.component';
 import {CustomBrowserXhr} from './services/custom-browser-xhr';
 import {DownloadComponent} from './components/download-component';
-import { DocumentViewerComponent } from './components/document-viewer/document-viewer.component';
+import {DownloadReportComponent} from './components/download-report';
+import {DocumentViewerComponent, Nom151DialogComponent} from './components/document-viewer/document-viewer.component';
 import { SafeUrlPipe } from './pipes/safe-url.pipe';
 import { SessionTimeoutDialogComponent } from './components/session-timeout-dialog/session-timeout-dialog.component';
-import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
 import {CompanyUsersService} from './services/companyUser.service';
 import {CompanyService} from './services/company.service';
+import { ValidatorComponent } from './components/validator/validator.component';
+import { GlobalSearchComponent } from './components/global-search/global-search.component';
 
 @NgModule({
     declarations: [
@@ -106,6 +107,7 @@ import {CompanyService} from './services/company.service';
         SearchReceiptsComponent,
         InactiveEmployeesComponent,
         DownloadComponent,
+        DownloadReportComponent,
         SortByPipe,
         ListFilterPipe,
         ChangeStatusAlertDialog,
@@ -113,7 +115,10 @@ import {CompanyService} from './services/company.service';
         DocumentViewerComponent,
         SafeUrlPipe,
         SessionTimeoutDialogComponent,
-        ChangePasswordComponent
+        ChangePasswordComponent,
+        ValidatorComponent,
+        GlobalSearchComponent,
+        Nom151DialogComponent
     ],
     imports: [
         MatNativeDateModule,
@@ -144,7 +149,7 @@ import {CompanyService} from './services/company.service';
         CustomBrowserXhr, EmployeeService, CompanyUsersService, CompanyService],
     bootstrap: [AppComponent],
     entryComponents: [LoginAlertDialog, RefusedDocumentAlertDialog, UploadedAlertDialog, EditEmployeeAlertDialog, VerifyNotAlertDialog,
-        ChangeStatusAlertDialog, SessionTimeoutDialogComponent, PurchaseHistoryDialog]
+        ChangeStatusAlertDialog, SessionTimeoutDialogComponent, PurchaseHistoryDialog, Nom151DialogComponent]
 })
 export class AppModule {
 }

@@ -21,7 +21,7 @@ export class InactiveEmployeesComponent implements OnInit {
     sortKey: string;
 
     constructor(private employeeService: EmployeeService, private route: ActivatedRoute, public dialog: MatDialog,
-                private userService: UserService, private router: Router) { }
+                public userService: UserService, private router: Router) { }
 
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {

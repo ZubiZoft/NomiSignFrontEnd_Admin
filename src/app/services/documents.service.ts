@@ -1,13 +1,10 @@
-﻿//angular imports
-import { Injectable } from '@angular/core';
+﻿import { Injectable } from '@angular/core';
 import { Headers, Http, RequestOptions } from '@angular/http';
-//rxjs imports
-import { Observable }     from 'rxjs/Observable';
+import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-
 import { environment } from '../../environments/environment';
-import {DateRangeModel} from '../models/date.range.model';
-import {UserService} from './user.service';
+import { DateRangeModel } from '../models/date.range.model';
+import { UserService } from './user.service';
 
 const rootURL: string = environment.serviceUrl;
 
@@ -98,6 +95,33 @@ export class DocumentService {
         range.Status = status;
         range.Rfc = rfc;
         range.Curp = curp;
+        let body = JSON.stringify(range);
+
+        return this.http.post(url, body, options).map(response => response.json());
+    }
+
+    globalSearch(companyId, fromDate, toDate, rfcEmp, curpEmp, rfcComp, rfcClient, uuid, status): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({ method: 'POST', headers: _headers });
+        let url = '';
+        if (companyId != null)
+            url = rootURL + 'api/documentsByCompanyDateRange/' + companyId;
+        else
+            url = rootURL + 'api/documentsByCompanyDateRange';
+        let range: DateRangeModel = new DateRangeModel();
+        range.InitDate = fromDate;
+        range.EndDate = toDate;
+        range.Status = status;
+        range.Rfc = rfcEmp;
+        range.Curp = curpEmp;
+        range.RFCCompany = rfcComp;
+        range.RFCLabora = rfcClient;
+        range.UUID = uuid;
         let body = JSON.stringify(range);
 
         return this.http.post(url, body, options).map(response => response.json());

@@ -1,19 +1,19 @@
 export class CompanyUserModel {
     UserId: number;
-    EmailAddress:string;
-    DisplayName:string;
-    PhoneNumber:string;
-    PasswordHash:string;
+    EmailAddress: string;
+    DisplayName: string;
+    PhoneNumber: string;
+    PasswordHash: string;
     UserStatus: number;
     UserType: number;
-    LastLogin:string;
+    LastLogin: string;
     LastPasswordChange: Date;
     ForcePasswordReset: boolean;
     CreatedByUserName: string;
     CompanyId: number;
     CompanyName: string;
     CreatedByUserId: number;
-    Links:{
+    Links: {
         SelfUri: string
-    }
+    };
 }

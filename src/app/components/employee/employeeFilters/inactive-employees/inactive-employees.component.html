@@ -11,7 +11,7 @@
             <button class="btn btn-sm btn-outline-secondary" type="button"
                     [routerLink]="['/employeesList', companyId , 'searchemployees']">Empleados
             </button>&nbsp;
-            <button class="btn btn-sm btn-outline-secondary" type="button"
+            <button class="btn btn-sm btn-outline-secondary active" type="button"
                     [routerLink]="['/employeesList', companyId , 'inactiveemployees']">Empleados Inactivos
             </button>
         </form>
@@ -32,14 +32,12 @@
 <div class="text-center" *ngIf="employees?.length <= 0">
     <h1 class="text-center">No se encontraron nuevos empleados.</h1>
     <br>
-    <!--<button class="text-center" mat-button [routerLink]="['/employeeNew', companyId]">
-        <mat-icon mat-list-icon>add</mat-icon>
-        <mat-icon mat-list-icon>account_circle</mat-icon>
-    </button>-->
 </div>
 <div class="container" style="max-height: 100vh;" *ngIf="employees?.length > 0">
-    <h1 class="text-center">Nuevos Empleados de {{employees[0].CompanyName}}</h1>
-    <br>
+    <div [hidden]="this.userService.getUser().UserType !== 3">
+        <h1 class="text-center">Nuevos Empleados de {{employees[0].CompanyName}}</h1>
+        <br>
+    </div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-9 text-center">
@@ -51,7 +49,7 @@
             </div>
         </div>
     </div>
-    <br>
+    <small class="font-light text-right" style="color: #2cbbc3; float: right;">Resultados: {{employees ? (employees | listfilter: search.value)?.length : '0'}}</small>
     <div class="table-responsive vertical-scroll-temp">
         <table class="table table-striped">
             <thead>

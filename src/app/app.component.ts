@@ -1,7 +1,5 @@
-//angular imports
 import {Component, OnInit} from '@angular/core';
 import {Router} from '@angular/router';
-
 import {UserService} from './services/user.service';
 import {SettingsService} from './services/settings.service';
 
@@ -34,8 +32,7 @@ export class AppComponent implements OnInit {
         let user = this.userService.getUser();
         if (user) {
             this.user = user;
-        }
-        else {
+        } else {
             this.user = null;
         }
     }

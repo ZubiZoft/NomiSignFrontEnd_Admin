@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { UserService } from './user.service'
+import { UserService } from './user.service';
 
 @Injectable()
 export class CAdminAuthGuard {
@@ -19,6 +19,8 @@ export class CAdminAuthGuard {
       if (user.UserType === 2) {
           if (user.CompanyId === +route.params.cid) {
             return true;
+          } else if (route.params.cid === undefined) {
+              return true;
           }
         }
     } else {
@@ -47,6 +49,8 @@ export class UserAuthGuard {
       if (user.UserType === 1 || user.UserType === 2) {
         if (user.CompanyId === +route.params.cid) {
           return true;
+        } else if (route.params.cid === undefined) {
+          return true;
         }
       }
     } else {
@@ -69,7 +73,6 @@ export class GAdminAuthGuard {
        if (this.userService.getUserType() === 3) {
          return true;
        }
-       console.log(this.userService.getUserType());
     }
     this.router.navigate(['/login']);
     return false;

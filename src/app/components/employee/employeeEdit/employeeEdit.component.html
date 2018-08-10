@@ -5,12 +5,17 @@
 <div style="max-height: 80vh; overflow-y: auto" class="centeredList" *ngIf="employee">
     <br>
     <form class="example-form">
-        <mat-form-field class="example-full-width">
-            <input [readonly]="!allowEmployeeEdit" matInput placeholder="Correo Electrónico"
-                   value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress" name=employeeEmailAddress
-                   i18n-placeholder="@@EmployeeEmailField" (focusout)="ValidateEmail();">
-            <mat-icon matSuffix style="color: red" [hidden]="!emailValid">block</mat-icon>
-            <mat-icon matSuffix style="color: green" [hidden]="emailValid">check_circle_outline</mat-icon>
+        <mat-form-field class="example-full-width" [hidden]="!allowEmployeeEdit">
+                <input matInput placeholder="Correo Electrónico"
+                       value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress" name=employeeEmailAddress
+                       i18n-placeholder="@@EmployeeEmailField" (focusout)="ValidateEmail();">
+                <mat-icon matSuffix style="color: red" [hidden]="!emailValid">block</mat-icon>
+                <mat-icon matSuffix style="color: green" [hidden]="emailValid">check_circle_outline</mat-icon>
+        </mat-form-field>
+        <mat-form-field class="example-full-width" [hidden]="allowEmployeeEdit">
+                <input matInput placeholder="Correo Electrónico"
+                       value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress" name=employeeEmailAddress
+                       i18n-placeholder="@@EmployeeEmailField" readonly>
         </mat-form-field>
         <mat-form-field *ngIf="!allowEmployeeEdit" class="example-full-width">
             <input readonly matInput placeholder="Número Celular" value="{{employee.CellPhoneNumber}}"
@@ -95,10 +100,14 @@
         </p>
         <br>
         <br>-->
-        <button mat-raised-button color="primary" (click)="backLocation()" i18n="@@BackButton"> Regresar</button>
+        <div class="text-center">
+        <button mat-raised-button color="primary" style="float: left;" (click)="backLocation()" i18n="@@BackButton">Regresar</button>
+        <button mat-raised-button color="primary" [hidden]="userService.getUser().UserType != 3"
+                i18n="@@BackButton" (click)="ResetAccount()">Reiniciar Cuenta</button>
         <button *ngIf="allowEmployeeEdit" style="float: right;" mat-raised-button color="primary"
-                (click)=updateEmployee() i18n="@@UpdateButton" [disabled]="emailValid || phoneValid"> Actualizar Información
+                (click)=updateEmployee() i18n="@@UpdateButton" [disabled]="emailValid">Actualizar Información
         </button>
+        </div>
     </form>
     <br> <br> <br>
     <br> <br> <br>

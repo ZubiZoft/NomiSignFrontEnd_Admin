@@ -51,7 +51,6 @@
             <input matInput placeholder="Correo de Facturación" value="{{company.BillingEmailAddress}}"
                    [(ngModel)]="company.BillingEmailAddress" name="companyBillingEmailAddress" i18n-placeholder="@@CompanyRFCInput">
         </mat-form-field>
-
         <br>
         <br>
         <mat-grid-list cols="2" rowHeight="2:1" class="example-full-width" style="margin-top:-40px;">
@@ -74,6 +73,11 @@
                    [(ngModel)]="company.ApiKey" name="companyApiKey" i18n-placeholder="@@CompanyRFCInput">
         </mat-form-field>
 
+        <!--<br>
+        <mat-checkbox class="example-margin" color="primary" [checked]="company.Emails"
+                      (change)="company.Emails = !company.Emails">¿Enviar recibos firmados por correo?</mat-checkbox>-->
+        <br>
+        <br>
         <button mat-raised-button color="primary" (click)=showPurchaseDialog()>Historial de compras</button>
         <br>
         <br>

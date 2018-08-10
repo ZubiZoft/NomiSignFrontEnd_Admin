@@ -31,7 +31,7 @@ export class NewEmployeesComponent implements OnInit {
     company: CompanyModel;
 
     constructor(private employeeService: EmployeeService, private route: ActivatedRoute, public dialog: MatDialog,
-                private userService: UserService, private router: Router, private uploadService: UploadService,
+                public userService: UserService, private router: Router, private uploadService: UploadService,
                 private companyService: CompanyService) { }
 
     ngOnInit() {

@@ -34,7 +34,7 @@ export class EmployeeEditComponent implements OnInit {
     emailValid = true;
 
     constructor(private route: ActivatedRoute, private employeeService: EmployeeService, public snackbar: MatSnackBar,
-                private uploadService: UploadService, public dialog: MatDialog, private userService: UserService, private router: Router,
+                private uploadService: UploadService, public dialog: MatDialog, public userService: UserService, private router: Router,
                 private companyService: CompanyService, private _location: Location) {
         route.params.subscribe((params: Params) => {
             this.companyId = params['cid'];
@@ -42,6 +42,7 @@ export class EmployeeEditComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        //this.userService.getUser().
         this.route.paramMap
             .switchMap((params: ParamMap) => this.employeeService.getEmployeeById(params.get('cid'), params.get('eid')))
             .subscribe(data => {
@@ -54,7 +55,7 @@ export class EmployeeEditComponent implements OnInit {
                     this.allowEmployeeEdit = true;
                 }
                 if (!(this.employee.CellPhoneNumber == null || this.employee.CellPhoneNumber == '')) {
-                    this.employee.CellPhoneNumber = this.employee.CellPhoneNumber.substring(0, 3);
+                    this.employee.CellPhoneNumber = this.employee.CellPhoneNumber.substring(2, this.employee.CellPhoneNumber.length);
                 }
                 this.isPromiseDone = true;
             }, error => {
@@ -128,7 +129,7 @@ export class EmployeeEditComponent implements OnInit {
             this.route.paramMap
                 .switchMap((params: ParamMap) => this.employeeService.updateEmployeeDetails(params.get('eid'), this.employee).finally(
                     () => {
-                        this.snackbar.open('sucessfully updated', '', {duration: 5000});
+                        this.snackbar.open('¡Actualizado Satisfactoriamente!', '', {duration: 5000});
                     }))
                 .subscribe(data => {
                     this.employee = data;
@@ -247,6 +248,15 @@ export class EmployeeEditComponent implements OnInit {
                 this.phoneValid = false;
             }, error => {
                 this.phoneValid = true;
+            });
+    }
+
+    ResetAccount() {
+        this.employeeService.resetEmployee(this.employee.EmployeeId).subscribe(
+            () => {
+                this.snackbar.open('¡Actualizado Satisfactoriamente!', '', {duration: 5000});
+            }, error => {
+                this.snackbar.open('¡Error reinicindo la cuenta!', '', {duration: 5000});
             });
     }
 }

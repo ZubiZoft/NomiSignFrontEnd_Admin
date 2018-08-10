@@ -35,6 +35,17 @@ export class EmployeeService {
             {headers: _headers}).map(response => response.json());
     }
 
+    resetEmployee(employeeId: number): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        return this.http.delete(rootURL + 'api/resetemployee/' + employeeId,
+            {headers: _headers}).map(response => response.json());
+    }
+
     //GET/:cid/:eid
     getEmployeeById(companyId: string, employeeId: string): Observable<any> {
         const user = this.userService.getUser();

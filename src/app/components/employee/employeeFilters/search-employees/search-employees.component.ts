@@ -27,7 +27,7 @@ export class SearchEmployeesComponent implements OnInit {
     company: CompanyModel;
 
     constructor(private employeeService: EmployeeService, private route: ActivatedRoute, public dialog: MatDialog,
-                private userService: UserService, private router: Router, private companyService: CompanyService) { }
+                public userService: UserService, private router: Router, private companyService: CompanyService) { }
 
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {

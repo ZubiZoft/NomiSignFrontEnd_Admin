@@ -5,4 +5,8 @@ export class DateRangeModel {
     Curp: string;
     Type: string;
     Status: string;
+    CompanyId: string;
+    RFCLabora: string;
+    RFCCompany: string;
+    UUID: string;
 }
