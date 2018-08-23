@@ -13,6 +13,11 @@
     background-color: #2cbbc3;
 }
 
+
+.mat-spinner circle {
+    stroke: #999999 !important;
+}
+
 html {
     height: 100% !important;
 }

@@ -1,15 +1,26 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap, Params, Router} from '@angular/router';
-import { DocumentService } from '../../../../services/documents.service';
-import { DocumentModel } from '../../../../models/document.model';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import {DocumentService} from '../../../../services/documents.service';
+import {DocumentModel} from '../../../../models/document.model';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MAT_DATE_LOCALE, MAT_DATE_FORMATS} from '@angular/material';
 import {UserService} from '../../../../services/user.service';
 import {SessionTimeoutDialogComponent} from '../../../session-timeout-dialog/session-timeout-dialog.component';
+import {DateAdapter} from '@angular/material/core';
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 
 @Component({
-  selector: 'app-unsigned-receipts',
-  templateUrl: './unsigned-receipts.component.html',
-  styleUrls: ['./unsigned-receipts.component.css']
+    selector: 'app-unsigned-receipts',
+    templateUrl: './unsigned-receipts.component.html',
+    styleUrls: ['./unsigned-receipts.component.css'],
+    providers: [{
+        provide: LOCALE_ID, useValue: 'es-MX'
+    }, {
+        provide: MAT_DATE_LOCALE, useValue: 'es-MX'
+    }, {
+        provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]
+    }, {
+        provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS
+    }]
 })
 export class UnsignedReceiptsComponent implements OnInit {
 
@@ -73,23 +84,23 @@ export class UnsignedReceiptsComponent implements OnInit {
         }
         this.documentService.notifyUnsignedDocuments(selectedIds)
             .subscribe(() => {
+                const dialogRef = this.dialog.open(VerifyNotAlertDialog, {
+                    width: '50%',
+                    data: {'message': '¡Se ha enviado una notificación a los empleados de los recibos de nómina seleccionados!'}
+                });
+            }, error => {
+                if (error.status === 405) {
+                    this.dialog.closeAll();
+                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                        width: '75%'
+                    });
+                } else {
                     const dialogRef = this.dialog.open(VerifyNotAlertDialog, {
                         width: '50%',
-                        data: { 'message': '¡Se ha enviado una notificación a los empleados de los recibos de nómina seleccionados!' }
+                        data: {'message': '¡Un error ocurrió enviando la notificación al empleado!'}
                     });
-                }, error => {
-                    if (error.status === 405) {
-                        this.dialog.closeAll();
-                        let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
-                            width: '75%'
-                        });
-                    } else {
-                        const dialogRef = this.dialog.open(VerifyNotAlertDialog, {
-                            width: '50%',
-                            data: { 'message': '¡Un error ocurrió enviando la notificación al empleado!' }
-                        });
-                    }
-                });
+                }
+            });
     }
 
     selectedCheckBox() {
@@ -123,7 +134,9 @@ export class UnsignedReceiptsComponent implements OnInit {
 })
 export class VerifyNotAlertDialog implements OnInit {
 
-    constructor(public dialogRef: MatDialogRef<VerifyNotAlertDialog>, @Inject(MAT_DIALOG_DATA) public data: any) { }
+    constructor(public dialogRef: MatDialogRef<VerifyNotAlertDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {
+    }
+
     loginMessage: string;
 
     ngOnInit() {

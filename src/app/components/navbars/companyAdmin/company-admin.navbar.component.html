@@ -6,6 +6,8 @@
         </button>
 
         <mat-menu #mobileMenu="matMenu">
+            <button mat-button i18n="@@GoCompaniesPageMenuHeader" [routerLink]="['/home', user.CompanyId]"
+                    routerLinkActive="active"> Tablero </button>
             <button mat-button i18n="@@GoCompaniesPageMenuHeader" [routerLink]="['/companyEdit', user.CompanyId]"
                     routerLinkActive="active"> Compañía </button>
             <button mat-button i18n="@@GoCompanyUsersPageMenuHeader" [routerLink]="['/companyusers', user.CompanyId]"
@@ -37,6 +39,14 @@
     <!--desktop menu -->
     <div style="margin-left:12%">
         <span class="hideContentMobile">
+            <span>
+                <button mat-button [routerLink]="['/home', user.CompanyId]" routerLinkActive="active">
+                    <span i18n="menu header | User will click this to navigate to the companies page@@GoCompaniesPageMenuHeader">
+                        Tablero
+                    </span>
+                </button>
+            </span>
+
             <span>
                 <button mat-button [routerLink]="['/companyEdit', user.CompanyId]" routerLinkActive="active">
                     <span i18n="menu header | User will click this to navigate to the companies page@@GoCompaniesPageMenuHeader">
@@ -78,7 +88,7 @@
                     </button>
                     <button mat-menu-item (click)="logout()">
                         <mat-icon>exit_to_app</mat-icon>
-                        <span i18n="action | user will click this to log out of the website@@LogoutAction">Cerrar Sessión</span>
+                        <span i18n="action | user will click this to log out of the website@@LogoutAction">Cerrar Sesión</span>
                     </button>
                 </mat-menu>
             </span>

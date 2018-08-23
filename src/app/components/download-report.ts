@@ -15,7 +15,7 @@ const rootURL: string = environment.serviceUrl;
     selector: 'download-report',
     template: '<button mat-raised-button color="primary" style=" width: 100%;" (click)="downloadFile()" [disabled]="disable"' +
         '                  i18n="action | button which will send a notification to the employees to sign the selected receipt.">' +
-        '              Descargar' +
+        '              Exportar a Excel' +
         '          </button> ',
     providers: [
         {provide: CustomBrowserXhr, useClass: CustomBrowserXhr}

@@ -1,11 +1,11 @@
 ﻿export class DocumentModel {
     DocumentId: number;
-    UploadTime: string;
+    UploadTime: Date;
     EmployeeName: string;
     EmployeeConcern: string;
     EmployeeId: number;
     CompanyId: number;
-    PayperiodDate: string;
+    PayperiodDate: Date;
     SignStatus: string;
     PayAmount: string;
     CheckedBox: boolean;

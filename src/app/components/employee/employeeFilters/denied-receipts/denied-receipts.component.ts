@@ -1,19 +1,30 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, Inject, LOCALE_ID, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap, Params, Router} from '@angular/router';
-import { DocumentService } from '../../../../services/documents.service';
-import { DocumentModel } from '../../../../models/document.model';
+import {DocumentService} from '../../../../services/documents.service';
+import {DocumentModel} from '../../../../models/document.model';
 import 'rxjs/add/operator/switchMap';
-import { SortByPipe } from '../../../../pipes/sort-by.pipe';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import {SortByPipe} from '../../../../pipes/sort-by.pipe';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MAT_DATE_LOCALE, MAT_DATE_FORMATS} from '@angular/material';
 import {VerifyNotAlertDialog} from '../unsigned-receipts/unsigned-receipts.component';
-import { Location } from '@angular/common';
+import {Location} from '@angular/common';
 import {UserService} from '../../../../services/user.service';
 import {SessionTimeoutDialogComponent} from '../../../session-timeout-dialog/session-timeout-dialog.component';
+import {DateAdapter} from '@angular/material/core';
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 
 @Component({
-  selector: 'app-denied-receipts',
-  templateUrl: './denied-receipts.component.html',
-  styleUrls: ['./denied-receipts.component.css']
+    selector: 'app-denied-receipts',
+    templateUrl: './denied-receipts.component.html',
+    styleUrls: ['./denied-receipts.component.css'],
+    providers: [{
+        provide: LOCALE_ID, useValue: 'es-MX'
+    }, {
+        provide: MAT_DATE_LOCALE, useValue: 'es-MX'
+    }, {
+        provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]
+    }, {
+        provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS
+    }]
 })
 export class DeniedReceiptsComponent implements OnInit {
 
@@ -89,7 +100,7 @@ export class DeniedReceiptsComponent implements OnInit {
             .subscribe(data => {
                 const dialogRef = this.dialog.open(VerifyNotAlertDialog, {
                     width: '50%',
-                    data: { 'message': '¡Los recibos de nómina seleccionados han sido actualizados!' }
+                    data: {'message': '¡Los recibos de nómina seleccionados han sido actualizados!'}
                 });
             }, error => {
                 if (error.status === 405) {
@@ -100,7 +111,7 @@ export class DeniedReceiptsComponent implements OnInit {
                 } else {
                     const dialogRef = this.dialog.open(VerifyNotAlertDialog, {
                         width: '50%',
-                        data: { 'message': '¡Un error ocurrió actualizando los recibos de nómina!' }
+                        data: {'message': '¡Un error ocurrió actualizando los recibos de nómina!'}
                     });
                 }
             });
@@ -115,7 +126,9 @@ export class DeniedReceiptsComponent implements OnInit {
 export class ChangeStatusAlertDialog implements OnInit {
 
     constructor(public dialogRef: MatDialogRef<ChangeStatusAlertDialog>, @Inject(MAT_DIALOG_DATA) public data: any,
-                private location: Location) { }
+                private location: Location) {
+    }
+
     loginMessage: string;
 
     ngOnInit() {

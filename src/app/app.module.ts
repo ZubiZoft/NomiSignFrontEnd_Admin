@@ -62,13 +62,19 @@ import {CustomBrowserXhr} from './services/custom-browser-xhr';
 import {DownloadComponent} from './components/download-component';
 import {DownloadReportComponent} from './components/download-report';
 import {DocumentViewerComponent, Nom151DialogComponent} from './components/document-viewer/document-viewer.component';
-import { SafeUrlPipe } from './pipes/safe-url.pipe';
-import { SessionTimeoutDialogComponent } from './components/session-timeout-dialog/session-timeout-dialog.component';
-import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import {SafeUrlPipe} from './pipes/safe-url.pipe';
+import {SessionTimeoutDialogComponent} from './components/session-timeout-dialog/session-timeout-dialog.component';
+import {ChangePasswordComponent} from './components/change-password/change-password.component';
 import {CompanyUsersService} from './services/companyUser.service';
 import {CompanyService} from './services/company.service';
-import { ValidatorComponent } from './components/validator/validator.component';
-import { GlobalSearchComponent } from './components/global-search/global-search.component';
+import {ValidatorComponent} from './components/validator/validator.component';
+import {GlobalSearchComponent} from './components/global-search/global-search.component';
+import {DashboardsAdminComponent} from './components/dashboards-admin/dashboards-admin.component';
+import {EmployeesByStatusDashboard} from './components/dashboards-admin/EmployeesByStatusDashboard';
+import {ReceiptsByStatusDashboard} from './components/dashboards-admin/ReceiptsByStatusDashboard';
+import {SignaturesStatusDashboard} from './components/dashboards-admin/SignaturesStatusDashboard';
+import {DaysStatusDashboard} from './components/dashboards-admin/DaysStatusDashboard';
+import {DashboardsService} from './services/dashboards.service';
 
 @NgModule({
     declarations: [
@@ -118,7 +124,12 @@ import { GlobalSearchComponent } from './components/global-search/global-search.
         ChangePasswordComponent,
         ValidatorComponent,
         GlobalSearchComponent,
-        Nom151DialogComponent
+        Nom151DialogComponent,
+        DashboardsAdminComponent,
+        EmployeesByStatusDashboard,
+        ReceiptsByStatusDashboard,
+        SignaturesStatusDashboard,
+        DaysStatusDashboard
     ],
     imports: [
         MatNativeDateModule,
@@ -146,7 +157,7 @@ import { GlobalSearchComponent } from './components/global-search/global-search.
         CommonModule
     ],
     providers: [UserService, AuthService, CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard, UploadService, DocumentService,
-        CustomBrowserXhr, EmployeeService, CompanyUsersService, CompanyService],
+        CustomBrowserXhr, EmployeeService, CompanyUsersService, CompanyService, DashboardsService],
     bootstrap: [AppComponent],
     entryComponents: [LoginAlertDialog, RefusedDocumentAlertDialog, UploadedAlertDialog, EditEmployeeAlertDialog, VerifyNotAlertDialog,
         ChangeStatusAlertDialog, SessionTimeoutDialogComponent, PurchaseHistoryDialog, Nom151DialogComponent]

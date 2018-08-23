@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col-md-1">
+            <i class="material-icons carousel-btn" (click)="prev()">
+                arrow_back_ios
+            </i>
+        </div>
+        <div class="col-md-10" [ngSwitch]="chart">
+            <employees-by-status *ngSwitchCase="'EmployeeByStatus'"></employees-by-status>
+            <receipts-by-status *ngSwitchCase="'ReceiptsByStatus'"></receipts-by-status>
+            <signatures-status *ngSwitchCase="'SignaturesStatus'"></signatures-status>
+            <days-status *ngSwitchCase="'DaysStatus'"></days-status>
+        </div>
+        <div class="col-md-1 align-middle">
+            <i class="material-icons carousel-btn" (click)="next()">
+                arrow_forward_ios
+            </i>
+        </div>
+    </div>
+</div>
