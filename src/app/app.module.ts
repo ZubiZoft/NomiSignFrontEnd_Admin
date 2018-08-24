@@ -75,6 +75,7 @@ import {ReceiptsByStatusDashboard} from './components/dashboards-admin/ReceiptsB
 import {SignaturesStatusDashboard} from './components/dashboards-admin/SignaturesStatusDashboard';
 import {DaysStatusDashboard} from './components/dashboards-admin/DaysStatusDashboard';
 import {DashboardsService} from './services/dashboards.service';
+import { EmployeeBarComponent } from './components/employee/employee-bar/employee-bar.component';
 
 @NgModule({
     declarations: [
@@ -129,7 +130,8 @@ import {DashboardsService} from './services/dashboards.service';
         EmployeesByStatusDashboard,
         ReceiptsByStatusDashboard,
         SignaturesStatusDashboard,
-        DaysStatusDashboard
+        DaysStatusDashboard,
+        EmployeeBarComponent
     ],
     imports: [
         MatNativeDateModule,
