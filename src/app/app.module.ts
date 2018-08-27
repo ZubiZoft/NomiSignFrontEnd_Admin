@@ -37,7 +37,7 @@ import {DocumentListComponent} from './components/documentList/documentList.comp
 import {CompanyAdminNavbarComponent} from './components/navbars/companyAdmin/company-admin.navbar.component';
 import {UserNavbarComponent} from './components/navbars/user/user.navbar.component';
 import {InputFile} from './components/fileupload.component';
-import {VerifyNotAlertDialog} from './components/employee/employeeFilters/unsigned-receipts/unsigned-receipts.component';
+import {VerifyNotAlertDialog} from './components/receipts/receiptsFilters/unsigned-receipts/unsigned-receipts.component';
 
 import {UserService} from './services/user.service';
 import {AuthService} from './services/auth.service';
@@ -50,13 +50,13 @@ import {ListFilterPipe} from './pipes/list-filter.pipe';
 import {SortByPipe} from './pipes/sort-by.pipe';
 import {AppRoutingModule} from './app.routing';
 import {NewEmployeesComponent} from './components/employee/employeeFilters/new-employees/new-employees.component';
-import {UnsignedReceiptsComponent} from './components/employee/employeeFilters/unsigned-receipts/unsigned-receipts.component';
+import {UnsignedReceiptsComponent} from './components/receipts/receiptsFilters/unsigned-receipts/unsigned-receipts.component';
 import {
     ChangeStatusAlertDialog,
     DeniedReceiptsComponent
-} from './components/employee/employeeFilters/denied-receipts/denied-receipts.component';
+} from './components/receipts/receiptsFilters/denied-receipts/denied-receipts.component';
 import {SearchEmployeesComponent} from './components/employee/employeeFilters/search-employees/search-employees.component';
-import {SearchReceiptsComponent} from './components/employee/employeeFilters/search-receipts/search-receipts.component';
+import {SearchReceiptsComponent} from './components/receipts/receiptsFilters/search-receipts/search-receipts.component';
 import {InactiveEmployeesComponent} from './components/employee/employeeFilters/inactive-employees/inactive-employees.component';
 import {CustomBrowserXhr} from './services/custom-browser-xhr';
 import {DownloadComponent} from './components/download-component';

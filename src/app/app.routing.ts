@@ -16,10 +16,10 @@ import {CompanyUsersEditComponent} from './components/companyuser/companyUsersEd
 import {CompanyUsersNewComponent} from './components/companyuser/companyUsersNew/companyUsersNew.component';
 import {CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard} from './services/authguard.service';
 import {NewEmployeesComponent} from './components/employee/employeeFilters/new-employees/new-employees.component';
-import {UnsignedReceiptsComponent} from './components/employee/employeeFilters/unsigned-receipts/unsigned-receipts.component';
-import {DeniedReceiptsComponent} from './components/employee/employeeFilters/denied-receipts/denied-receipts.component';
+import {UnsignedReceiptsComponent} from './components/receipts/receiptsFilters/unsigned-receipts/unsigned-receipts.component';
+import {DeniedReceiptsComponent} from './components/receipts/receiptsFilters/denied-receipts/denied-receipts.component';
 import {SearchEmployeesComponent} from './components/employee/employeeFilters/search-employees/search-employees.component';
-import {SearchReceiptsComponent} from './components/employee/employeeFilters/search-receipts/search-receipts.component';
+import {SearchReceiptsComponent} from './components/receipts/receiptsFilters/search-receipts/search-receipts.component';
 import {InactiveEmployeesComponent} from './components/employee/employeeFilters/inactive-employees/inactive-employees.component';
 import {DocumentViewerComponent} from './components/document-viewer/document-viewer.component';
 import {ChangePasswordComponent} from './components/change-password/change-password.component';
