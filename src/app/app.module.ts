@@ -76,6 +76,10 @@ import {SignaturesStatusDashboard} from './components/dashboards-admin/Signature
 import {DaysStatusDashboard} from './components/dashboards-admin/DaysStatusDashboard';
 import {DashboardsService} from './services/dashboards.service';
 import { EmployeeBarComponent } from './components/employee/employee-bar/employee-bar.component';
+import { UnregisteredComponent } from './components/employee/employeeFilters/unregistered/unregistered.component';
+import { RegisteredComponent } from './components/employee/employeeFilters/registered/registered.component';
+import { CompanyListReceiptsComponent } from './components/receipts/company-list-receipts/company-list-receipts.component';
+import { ReceiptsBarComponent } from './components/receipts/receipts-bar/receipts-bar.component';
 
 @NgModule({
     declarations: [
@@ -131,7 +135,11 @@ import { EmployeeBarComponent } from './components/employee/employee-bar/employe
         ReceiptsByStatusDashboard,
         SignaturesStatusDashboard,
         DaysStatusDashboard,
-        EmployeeBarComponent
+        EmployeeBarComponent,
+        UnregisteredComponent,
+        RegisteredComponent,
+        CompanyListReceiptsComponent,
+        ReceiptsBarComponent
     ],
     imports: [
         MatNativeDateModule,

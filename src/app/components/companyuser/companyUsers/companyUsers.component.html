@@ -3,7 +3,7 @@
 <div style="max-height: 80vh; " *ngIf="companies?.length > 0">
     <br>
     <h1 i18n="message | telling user to select a company from the list to view the employees@@PickCompanyViewEmployeesMsg"
-        class="centerText">Gestores de Nómina por Compañía</h1>
+        class="centerText">Administradores por Compañía</h1>
     <div style="margin-top:10px;  line-height:1.25;" class="centerText">
         <mat-icon style="vertical-align:middle">search</mat-icon>
         <input #search placeholder="Buscar Compañía" (keyup)="0" class="inputSearchBox"/>
@@ -14,8 +14,8 @@
                            style="border-bottom: 1px solid grey;  cursor: pointer"
                            (click)="selectedCompany(company.CompanyId)">
                 <mat-icon mat-list-icon>business</mat-icon>
-                <h4 mat-line>{{company.CompanyName}}</h4>
-                <p mat-line> Date to go here </p>
+                <h4 class="font-weight-bold" mat-line>{{company.CompanyName}}</h4>
+                <p mat-line>{{company.CompanyRFC}}</p>
             </mat-list-item>
         </mat-list>
         <br/><br/><br/><br/>

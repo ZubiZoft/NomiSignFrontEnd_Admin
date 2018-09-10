@@ -5,6 +5,7 @@ import {EmployeeModel} from '../models/employee.model';
 import 'rxjs/add/operator/map';
 import {environment} from '../../environments/environment';
 import {UserService} from './user.service';
+import {EmployeeSearch} from '../models/employee.search';
 
 const rootURL: string = environment.serviceUrl;
 
@@ -22,17 +23,6 @@ export class EmployeeService {
             'Authorization': 'Basic ' + user.SessionToken
         });
         return this.http.get(rootURL + 'api/employees/' + companyId, {headers: _headers}).map(response => response.json());
-    }
-
-    getEmployeesByCompanyNl(companyId: string, l: string): Observable<any> {
-        const user = this.userService.getUser();
-        var _headers = new Headers({
-            'Content-Type': 'application/json',
-            'ClientType': 'nomiadmin',
-            'Authorization': 'Basic ' + user.SessionToken
-        });
-        return this.http.get(rootURL + 'api/employeesLetter/' + companyId + '/' + l,
-            {headers: _headers}).map(response => response.json());
     }
 
     resetEmployee(employeeId: number): Observable<any> {
@@ -68,9 +58,6 @@ export class EmployeeService {
         });
         let options = new RequestOptions({method: 'PUT', headers: _headers});
         let body = JSON.stringify(employee);
-        let e: EmployeeModel = JSON.parse(body);
-        e.CellPhoneNumber = e.CellPhoneNumber;
-        body = JSON.stringify(e);
         let url = rootURL + 'api/employees/' + employeeId;
         return this.http.put(url, body, options).map(response => response.json());
     }
@@ -108,25 +95,17 @@ export class EmployeeService {
         return this.http.post(url, body, options).map(response => response.json());
     }
 
-    getNewEmployeesByCompany(companyId: string): Observable<any> {
+    getNewEmployeesByCompany(companyId: string, letter: string): Observable<any> {
         const user = this.userService.getUser();
         var _headers = new Headers({
             'Content-Type': 'application/json',
             'ClientType': 'nomiadmin',
             'Authorization': 'Basic ' + user.SessionToken
         });
-        return this.http.get(rootURL + 'api/employees/' + companyId + '/New',
-            {headers: _headers}).map(response => response.json());
-    }
-
-    getNewEmployeesByCompanyNl(companyId: string, l: string): Observable<any> {
-        const user = this.userService.getUser();
-        var _headers = new Headers({
-            'Content-Type': 'application/json',
-            'ClientType': 'nomiadmin',
-            'Authorization': 'Basic ' + user.SessionToken
-        });
-        return this.http.get(rootURL + 'api/employees/' + companyId + '/New/' + l,
+        if (letter === 'Todos') {
+            letter = '';
+        }
+        return this.http.get(rootURL + 'api/employees/' + companyId + '/newstatus/' + letter,
             {headers: _headers}).map(response => response.json());
     }
 
@@ -156,14 +135,84 @@ export class EmployeeService {
         return this.http.post(url, body, options).map(response => response.json());
     }
 
-    getInactiveEmployeesByCompany(companyId: string): Observable<any> {
+    getInactiveEmployeesByCompany(companyId: string, letter: string): Observable<any> {
         const user = this.userService.getUser();
         var _headers = new Headers({
             'Content-Type': 'application/json',
             'ClientType': 'nomiadmin',
             'Authorization': 'Basic ' + user.SessionToken
         });
-        return this.http.get(rootURL + 'api/employees/' + companyId + '/inactive',
+        if (letter === 'Todos') {
+            letter = '';
+        }
+        return this.http.get(rootURL + 'api/employees/' + companyId + '/inactiveStatus/' + letter,
             {headers: _headers}).map(response => response.json());
+    }
+
+    getUnregisteredEmployeesByCompany(companyId: string, letter: string): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        if (letter === 'Todos') {
+            letter = '';
+        }
+        return this.http.get(rootURL + 'api/employees/' + companyId + '/unregistered/' + letter,
+            {headers: _headers}).map(response => response.json());
+    }
+
+    getRegisteredEmployeesByCompany(companyId: string, letter: string): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        if (letter === 'Todos') {
+            letter = '';
+        }
+        return this.http.get(rootURL + 'api/employees/' + companyId + '/registered/' + letter,
+            {headers: _headers}).map(response => response.json());
+    }
+
+    advanceSearch(companyId: string, search: EmployeeSearch): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'POST', headers: _headers});
+        let body = JSON.stringify(search);
+        let url = rootURL + 'api/employees/' + companyId + '/advancesearch';
+        return this.http.post(url, body, options).map(response => response.json());
+    }
+
+    resetAccounts(ids: number[]) {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'POST', headers: _headers});
+        let body = JSON.stringify(ids);
+        let url = rootURL + 'api/resetemployee';
+        return this.http.post(url, body, options).map(response => response.json());
+    }
+
+    moveToNotLongerEmployeed(employeeId: string, employee: EmployeeModel): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'PUT', headers: _headers});
+        let body = JSON.stringify(employee);
+        let url = rootURL + 'api/employees/NotLongerEmployeed/' + employeeId;
+        return this.http.put(url, body, options).map(response => response.json());
     }
 }

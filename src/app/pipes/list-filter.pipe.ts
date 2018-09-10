@@ -11,7 +11,7 @@ export class ListFilterPipe implements PipeTransform {
             return items.filter(item => {
                 for (let key in item) {
                     let lowerKey = '' + item[key];
-                    if (lowerKey.toLowerCase().includes(criteria.toLowerCase())) {
+                    if (lowerKey.toString().toLowerCase().includes(criteria.toLowerCase())) {
                         return true;
                     }
                 }

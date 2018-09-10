@@ -7,7 +7,6 @@ import {EmployeeService} from '../../../services/employee.service';
 import {EmployeeModel} from '../../../models/employee.model';
 import {OpenBatchModel} from '../../../models/openbatch.model';
 import {UploadService} from '../../../services/upload.service';
-import {FileModel} from '../../../models/file.model';
 import {CompanyModel} from '../../../models/company.model';
 import {CompanyService} from '../../../services/company.service';
 import {UserService} from '../../../services/user.service';
@@ -42,20 +41,15 @@ export class EmployeeEditComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        //this.userService.getUser().
         this.route.paramMap
             .switchMap((params: ParamMap) => this.employeeService.getEmployeeById(params.get('cid'), params.get('eid')))
             .subscribe(data => {
                 this.employee = data;
-                if (this.employee.EmployeeStatus == 1) {
-                    this.allowEmployeeEdit = true;
-                } else if (this.employee.CellPhoneNumber == null || this.employee.CellPhoneNumber == '') {
-                    this.allowEmployeeEdit = true;
-                } else if (this.employee.EmailAddress == null || this.employee.EmailAddress == '') {
+                if (this.employee.EmailAddress == null || this.employee.EmailAddress == '') {
                     this.allowEmployeeEdit = true;
                 }
-                if (!(this.employee.CellPhoneNumber == null || this.employee.CellPhoneNumber == '')) {
-                    this.employee.CellPhoneNumber = this.employee.CellPhoneNumber.substring(2, this.employee.CellPhoneNumber.length);
+                if (this.userService.getUserType() != 2) {
+                    this.allowEmployeeEdit = true;
                 }
                 this.isPromiseDone = true;
             }, error => {
@@ -112,20 +106,11 @@ export class EmployeeEditComponent implements OnInit {
             );
     }
 
-    updateEmployeeFiles() {
-        if (this.files && this.files.length > 0) {
-            this.uploadEmployeeFiles();
-        } else {
-            let dialogRef = this.dialog.open(EditEmployeeAlertDialog, {
-                width: '50%',
-                data: {'message': 'Por favor selecione un archivo.'}
-            });
-        }
-    }
-
     updateEmployee() {
         if (this.allowEmployeeEdit && (this.cellNumberVerificationStatus == 'Success' || this.employee.EmailAddress != '')) {
-            this.employee.EmployeeStatus = 5; // allows for 1 time update of employees created by bulk editor
+            if (this.employee.EmployeeStatus === 1) {
+                this.employee.EmployeeStatus = 5; // allows for 1 time update of employees created by bulk editor
+            }
             this.route.paramMap
                 .switchMap((params: ParamMap) => this.employeeService.updateEmployeeDetails(params.get('eid'), this.employee).finally(
                     () => {
@@ -136,7 +121,10 @@ export class EmployeeEditComponent implements OnInit {
                     if (!this.files) {
                         let dialogRef1 = this.dialog.open(EditEmployeeAlertDialog, {
                             width: '50%',
-                            data: {'message': '¡La información del empleado ha sido actualizada satisfactoriamente!'}
+                            data: {
+                                'message': '¡La información del empleado ha sido actualizada satisfactoriamente!',
+                                'AcceptReject': true
+                            }
                         });
                         dialogRef1.afterClosed().subscribe(result => {
                             this._location.back();
@@ -153,78 +141,19 @@ export class EmployeeEditComponent implements OnInit {
                         this.router.navigate(['/login']);
                     }
                 });
-
-            if (this.files && this.files.length > 0) {
-                this.uploadEmployeeFiles();
-            }
         } else {
             let dialogRef1 = this.dialog.open(EditEmployeeAlertDialog, {
                 width: '50%',
-                data: {'message': 'Por favor verifique su número celular o correo electrónico.'}
+                data: {
+                    'message': 'Por favor verifique su número celular o correo electrónico.',
+                    'AcceptReject': false
+                }
             });
         }
     }
 
-    uploadEmployeeFiles() {
-        this.companyService.getCompanyById(this.employee.CompanyId).subscribe(data => {
-            this.uploadService.openBatch(this.companyId, this.openbatch).subscribe(
-                data => {
-                    let batchId = data.BatchId;
-                    for (let file of this.files) {
-                        this.uploadFile(file, batchId);
-                    }
-                    this.uploadService.closeBatch(batchId).subscribe(
-                        data => {
-                            let dialogRef1 = this.dialog.open(EditEmployeeAlertDialog, {
-                                width: '50%',
-                                data: {'message': '¡La información del empleado ha sido actualizada satisfactoriamente!'}
-                            });
-                            dialogRef1.afterClosed().subscribe(result => {
-                                this._location.back();
-                            });
-                        }, error => {
-                            if (error.status === 405) {
-                                this.dialog.closeAll();
-                                let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
-                                    width: '75%'
-                                });
-                            } else {
-                                this.userService.clearUser();
-                                this.router.navigate(['/login']);
-                            }
-                        });
-                }, error => {
-                    if (error.status === 405) {
-                        this.dialog.closeAll();
-                        let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
-                            width: '75%'
-                        });
-                    } else {
-                        this.userService.clearUser();
-                        this.router.navigate(['/login']);
-                    }
-                });
-        });
-    }
-
     backLocation() {
         this._location.back();
-    }
-
-    onFileSelect(event) {
-        this.files = event;
-    }
-
-    uploadFile(file, batchId): any {
-        let uploadFile = new FileModel();
-        uploadFile.EmployeeCURP = this.employee.CURP;
-        uploadFile.FileName = file.name;
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (e) => {
-            uploadFile.PDFContent = reader.result.split(',')[1];
-            this.uploadService.addFile(uploadFile, batchId).subscribe(data => data);
-        };
     }
 
     ValidateEmail() {
@@ -252,12 +181,26 @@ export class EmployeeEditComponent implements OnInit {
     }
 
     ResetAccount() {
+        this.isPromiseDone = false;
         this.employeeService.resetEmployee(this.employee.EmployeeId).subscribe(
             () => {
+                this.isPromiseDone = true;
                 this.snackbar.open('¡Actualizado Satisfactoriamente!', '', {duration: 5000});
             }, error => {
                 this.snackbar.open('¡Error reinicindo la cuenta!', '', {duration: 5000});
             });
+    }
+
+    moveToNotLongerEmployeed() {
+        let dialogRef1 = this.dialog.open(EditEmployeeAlertDialog, {
+            width: '50%',
+            data: {
+                'message': '¿Estás seguro de dar de baja al empleado ' + this.employee.FirstName + ' '
+                    + this.employee.LastName1 + ' ' + this.employee.LastName2 + '?',
+                'AcceptReject': false,
+                'employee': this.employee
+            }
+        });
     }
 }
 
@@ -267,17 +210,48 @@ export class EmployeeEditComponent implements OnInit {
 })
 export class EditEmployeeAlertDialog implements OnInit {
 
-    constructor(public dialogRef: MatDialogRef<EditEmployeeAlertDialog>, @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor(public dialogRef: MatDialogRef<EditEmployeeAlertDialog>, @Inject(MAT_DIALOG_DATA) public data: any,
+                private snackbar: MatSnackBar, private employeeService: EmployeeService, private dialog: MatDialog,
+                private userService: UserService, private route: ActivatedRoute, private router: Router) {
     }
 
     loginMessage: string;
+    hideButtons: boolean;
+    employee: EmployeeModel;
+    isPromiseDone = true;
 
     ngOnInit() {
         this.loginMessage = this.data['message'];
+        this.hideButtons = this.data['AcceptReject'];
+        this.employee = this.data['employee'];
     }
 
     onNoClick(): void {
         this.dialogRef.close();
     }
 
+    changeStatus(): void {
+        this.isPromiseDone = false;
+        this.route.paramMap
+            .switchMap((params: ParamMap) => this.employeeService.moveToNotLongerEmployeed(this.employee.EmployeeId.toString(),
+                this.employee).finally(
+                () => {
+                    this.snackbar.open('¡Actualizado Satisfactoriamente!', '', {duration: 5000});
+                }))
+            .subscribe(data => {
+                this.isPromiseDone = true;
+                this.dialogRef.close();
+                this.router.navigate(['/employees', this.userService.getUser().CompanyId, 'new']);
+            }, error => {
+                if (error.status === 405) {
+                    this.dialog.closeAll();
+                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                        width: '75%'
+                    });
+                } else {
+                    this.userService.clearUser();
+                    this.router.navigate(['/login']);
+                }
+            });
+    }
 }

@@ -21,4 +21,6 @@ export class EmployeeModel {
     CreatedByUserName: string;
     LastLogin: string;
     HasContractToSign: boolean;
+    StatusName: string;
+    CheckedBox: boolean;
 }

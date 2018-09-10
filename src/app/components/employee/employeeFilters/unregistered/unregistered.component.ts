@@ -1,24 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute, ParamMap, Params, Router} from '@angular/router';
-import 'rxjs/add/operator/switchMap';
-import { EmployeeService } from '../../../../services/employee.service';
-import { EmployeeModel } from '../../../../models/employee.model';
-import {MatDialog} from '@angular/material';
-import {UserService} from '../../../../services/user.service';
-import {SessionTimeoutDialogComponent} from '../../../session-timeout-dialog/session-timeout-dialog.component';
+import {EmployeeModel} from '../../../../models/employee.model';
 import {LetterPaginationElem} from '../../../../models/LetterPaginationElem';
 import {CompanyModel} from '../../../../models/company.model';
+import {EmployeeService} from '../../../../services/employee.service';
+import {MatDialog} from '@angular/material';
+import {UserService} from '../../../../services/user.service';
 import {UploadService} from '../../../../services/upload.service';
 import {CompanyService} from '../../../../services/company.service';
+import {SessionTimeoutDialogComponent} from '../../../session-timeout-dialog/session-timeout-dialog.component';
 import {UploadedAlertDialog} from '../../../company/companyEdit/companyEdit.component';
 import {VerifyNotAlertDialog} from '../../../receipts/receiptsFilters/unsigned-receipts/unsigned-receipts.component';
 
 @Component({
-  selector: 'app-inactive-employees',
-  templateUrl: './inactive-employees.component.html',
-  styleUrls: ['./inactive-employees.component.css']
+    selector: 'app-unregistered',
+    templateUrl: './unregistered.component.html',
+    styleUrls: ['./unregistered.component.css']
 })
-export class InactiveEmployeesComponent implements OnInit {
+export class UnregisteredComponent implements OnInit {
 
     companyId: string;
     employees: EmployeeModel[];
@@ -92,7 +91,7 @@ export class InactiveEmployeesComponent implements OnInit {
     loadTable() {
         this.isPromiseDone = false;
         this.route.paramMap
-            .switchMap((params: ParamMap) => this.employeeService.getInactiveEmployeesByCompany(params.get('cid'),
+            .switchMap((params: ParamMap) => this.employeeService.getUnregisteredEmployeesByCompany(params.get('cid'),
                 this.selectedLetter.value))
             .subscribe(data => {
                 this.employees = data;

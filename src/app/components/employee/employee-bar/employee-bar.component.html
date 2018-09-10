@@ -5,31 +5,20 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent" style="margin-left: 12%; margin-right: 12%;">
     <form class="form-inline">
-      <button class="btn btn-sm btn-outline-secondary active" type="button"
-              [routerLink]="['/employeesList', companyId , 'newemployees']">Nuevos
+      <button class="btn btn-sm btn-outline-secondary" [ngClass]="{'active': newF}" type="button"
+              [routerLink]="['/employees', companyId , 'new']">Nuevos
       </button>&nbsp;
-      <button class="btn btn-sm btn-outline-secondary" type="button"
-              [routerLink]="['/employeesList', companyId , 'searchemployees']">No Registrados
+      <button class="btn btn-sm btn-outline-secondary" [ngClass]="{'active': unregisteredF}" type="button"
+              [routerLink]="['/employees', companyId , 'unregistered']">No Registrados
       </button>&nbsp;
-      <button class="btn btn-sm btn-outline-secondary" type="button"
-              [routerLink]="['/employeesList', companyId , 'inactiveemployees']">Registrados
-      </button>
-      <button class="btn btn-sm btn-outline-secondary" type="button"
-              [routerLink]="['/employeesList', companyId , 'inactiveemployees']">Inactivos
-      </button>
-      <button class="btn btn-sm btn-outline-secondary" type="button"
-              [routerLink]="['/employeesList', companyId , 'inactiveemployees']">Buscar
-      </button>
-    </form>
-    <form class="form-inline ml-auto">
-      <button class="btn btn-sm btn-outline-secondary" type="button"
-              [routerLink]="['/employeesList', companyId , 'unsignedreceipts']">Recibos sin firmar
+      <button class="btn btn-sm btn-outline-secondary" [ngClass]="{'active': registeredF}" type="button"
+              [routerLink]="['/employees', companyId , 'registered']">Registrados
       </button>&nbsp;
-      <button class="btn btn-sm btn-outline-secondary" type="button"
-              [routerLink]="['/employeesList', companyId , 'deniedreceipts']">Recibos rechazados
+      <button class="btn btn-sm btn-outline-secondary" [ngClass]="{'active': inactiveF}" type="button"
+              [routerLink]="['/employees', companyId , 'inactive']">Inactivos
       </button>&nbsp;
-      <button class="btn btn-sm btn-outline-secondary" type="button"
-              [routerLink]="['/employeesList', companyId , 'searchreceipts']">Recibos
+      <button class="btn btn-sm btn-outline-secondary" [ngClass]="{'active': searchF}" type="button"
+              [routerLink]="['/employees', companyId , 'search']">Buscar
       </button>
     </form>
   </div>

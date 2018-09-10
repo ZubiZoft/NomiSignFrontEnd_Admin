@@ -3,9 +3,14 @@
     <span style="display:none" class="displayContentMobile">
         <button mat-button i18n="@@GoCompaniesPageMenuHeader" [routerLink]="['/home', user.CompanyId]"
                 routerLinkActive="active"> Tablero </button>
-        <button mat-button [routerLink]="['/employeesList', user.CompanyId, 'newemployees']" routerLinkActive="active">
+        <button mat-button [routerLink]="['/employees/', user.CompanyId, 'new']" routerLinkActive="active">
             <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
                 Empleados
+            </span>
+        </button>
+        <button mat-button [routerLink]="['/receipts/', user.CompanyId, 'rejected']" routerLinkActive="active">
+            <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
+                Recibos
             </span>
         </button>
 
@@ -40,12 +45,21 @@
                 </span>
             </button>
 
-            <button mat-button [routerLink]="['/employeesList', user.CompanyId, 'newemployees']"
-                    routerLinkActive="active">
-                <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
-                    Empleados
-                </span>
-            </button>
+            <span>
+                <button mat-button [routerLink]="['/employees/', user.CompanyId, 'new']" routerLinkActive="active">
+                    <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
+                        Empleados
+                    </span>
+                </button>
+            </span>
+
+            <span>
+                <button mat-button [routerLink]="['/receipts/', user.CompanyId, 'rejected']" routerLinkActive="active">
+                    <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
+                        Recibos
+                    </span>
+                </button>
+            </span>
 
             <span style="float:right; margin-right: 12%;" *ngIf="user">
                 <button mat-button [matMenuTriggerFor]="menu">

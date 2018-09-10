@@ -11,9 +11,11 @@
             <button mat-button i18n="@@GoCompaniesPageMenuHeader" [routerLink]="['/companyEdit', user.CompanyId]"
                     routerLinkActive="active"> Compañía </button>
             <button mat-button i18n="@@GoCompanyUsersPageMenuHeader" [routerLink]="['/companyusers', user.CompanyId]"
-                    routerLinkActive="active"> Gestores de Nómina </button>
+                    routerLinkActive="active"> Administradores </button>
             <button mat-button i18n="@@GoEmployeesPageMenuHeader"
-                    [routerLink]="['/employeesList', user.CompanyId, 'newemployees']" routerLinkActive="active"> Empleados </button>
+                    [routerLink]="['/employees/', user.CompanyId, 'new']" routerLinkActive="active"> Empleados </button>
+            <button mat-button i18n="@@GoEmployeesPageMenuHeader"
+                    [routerLink]="['/receipts/', user.CompanyId, 'rejected']" routerLinkActive="active"> Recibos </button>
         </mat-menu>
         <span style="float:right" *ngIf="user">
             <button mat-button [matMenuTriggerFor]="menu">
@@ -58,16 +60,23 @@
             <span>
                 <button mat-button [routerLink]="['/companyusers', user.CompanyId]" routerLinkActive="active">
                     <span i18n="menu header | User will click this to go to the company user's page@@GoCompanyUsersPageMenuHeader">
-                        Gestores de Nómina
+                        Administradores
                     </span>
                 </button>
             </span>
 
             <span>
-                <button mat-button [routerLink]="['/employeesList', user.CompanyId, 'newemployees']"
-                        routerLinkActive="active">
+                <button mat-button [routerLink]="['/employees/', user.CompanyId, 'new']" routerLinkActive="active">
                     <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
                         Empleados
+                    </span>
+                </button>
+            </span>
+
+            <span>
+                <button mat-button [routerLink]="['/receipts/', user.CompanyId, 'rejected']" routerLinkActive="active">
+                    <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
+                        Recibos
                     </span>
                 </button>
             </span>

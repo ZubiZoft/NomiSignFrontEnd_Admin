@@ -1,7 +1,12 @@
 <h2 class="centerText" i18n="message | a message to let the user know the login failed">
     {{ loginMessage }}
 </h2>
+<mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
 <hr/>
-<div>
+<div [hidden]="!hideButtons">
     <button style="float:right" md-button color="primary" (click)="onNoClick()"> Cerrar </button>
+</div>
+<div [hidden]="hideButtons">
+    <button style="float:left" md-button color="primary" (click)="onNoClick()" [disabled]="!isPromiseDone"> Cancelar </button>
+    <button md-button style="float:right" color="primary" (click)="changeStatus()" [disabled]="!isPromiseDone"> Aceptar </button>
 </div>

@@ -8,7 +8,8 @@ import {DashboardComponent} from './components/dashboard/dashboard.component';
 import {NotFoundComponent} from './components/notfound/notfound.component';
 import {CompanyEditComponent} from './components/company/companyEdit/companyEdit.component';
 import {CompanyNewComponent} from './components/company/companyNew/companyNew.component';
-import {EmployeesListComponent} from './components/employee/employeesList/employeesList.component';
+import {RegisteredComponent} from './components/employee/employeeFilters/registered/registered.component';
+import {UnregisteredComponent} from './components/employee/employeeFilters/unregistered/unregistered.component';
 import {EmployeeEditComponent} from './components/employee/employeeEdit/employeeEdit.component';
 import {CompanyUsersComponent} from './components/companyuser/companyUsers/companyUsers.component';
 import {CompanyUsersListComponent} from './components/companyuser/companyUsersList/companyUsersList.component';
@@ -26,28 +27,32 @@ import {ChangePasswordComponent} from './components/change-password/change-passw
 import {ValidatorComponent} from './components/validator/validator.component';
 import {GlobalSearchComponent} from './components/global-search/global-search.component';
 import {DashboardsAdminComponent} from './components/dashboards-admin/dashboards-admin.component';
+import {CompanyListReceiptsComponent} from './components/receipts/company-list-receipts/company-list-receipts.component';
 
 const routes: Routes = [
     {path: 'account/:uid', component: AccountComponent},
     {path: '', redirectTo: '/login', pathMatch: 'full'},
     {path: 'login', component: LoginComponent},
-    {path: 'employees', component: EmployeesComponent, canActivate: [UserAuthGuard]},
     {path: 'companies', component: CompaniesComponent, canActivate: [GAdminAuthGuard]},
     {path: 'validator', component: ValidatorComponent, canActivate: [UserAuthGuard]},
     {path: 'dashboard', component: DashboardComponent, canActivate: [GAdminAuthGuard]},
     {path: 'companyEdit/:cid', component: CompanyEditComponent, canActivate: [CAdminAuthGuard]},
     {path: 'companyNew', component: CompanyNewComponent, canActivate: [GAdminAuthGuard]},
-    {path: 'employeesList/:cid', component: EmployeesListComponent, canActivate: [UserAuthGuard]},
     {path: 'changePassword', component: ChangePasswordComponent, canActivate: [UserAuthGuard]},
     {path: 'globalSearch', component: GlobalSearchComponent, canActivate: [UserAuthGuard]},
     {path: 'home/:cid', component: DashboardsAdminComponent, canActivate: [UserAuthGuard]},
 
-    {path: 'employeesList/:cid/newemployees', component: NewEmployeesComponent, canActivate: [UserAuthGuard]},
-    {path: 'employeesList/:cid/unsignedreceipts', component: UnsignedReceiptsComponent, canActivate: [UserAuthGuard]},
-    {path: 'employeesList/:cid/deniedreceipts', component: DeniedReceiptsComponent, canActivate: [UserAuthGuard]},
-    {path: 'employeesList/:cid/searchemployees', component: SearchEmployeesComponent, canActivate: [UserAuthGuard]},
-    {path: 'employeesList/:cid/searchreceipts', component: SearchReceiptsComponent, canActivate: [UserAuthGuard]},
-    {path: 'employeesList/:cid/inactiveemployees', component: InactiveEmployeesComponent, canActivate: [UserAuthGuard]},
+    {path: 'employees', component: EmployeesComponent, canActivate: [GAdminAuthGuard]},
+    {path: 'employees/:cid/new', component: NewEmployeesComponent, canActivate: [UserAuthGuard]},
+    {path: 'employees/:cid/unregistered', component: UnregisteredComponent, canActivate: [UserAuthGuard]},
+    {path: 'employees/:cid/registered', component: RegisteredComponent, canActivate: [UserAuthGuard]},
+    {path: 'employees/:cid/inactive', component: InactiveEmployeesComponent, canActivate: [UserAuthGuard]},
+    {path: 'employees/:cid/search', component: SearchEmployeesComponent, canActivate: [UserAuthGuard]},
+
+    {path: 'receipts', component: CompanyListReceiptsComponent, canActivate: [GAdminAuthGuard]},
+    {path: 'receipts/:cid/rejected', component: DeniedReceiptsComponent, canActivate: [UserAuthGuard]},
+    {path: 'receipts/:cid/unsigned', component: UnsignedReceiptsComponent, canActivate: [UserAuthGuard]},
+    {path: 'receipts/:cid/search', component: SearchReceiptsComponent, canActivate: [UserAuthGuard]},
 
     {path: 'document-viewer/:cid/:id', component: DocumentViewerComponent, canActivate: [UserAuthGuard]},
 

@@ -11,6 +11,7 @@ import {UploadService} from '../../../../services/upload.service';
 import {LetterPaginationElem} from '../../../../models/LetterPaginationElem';
 import {CompanyService} from '../../../../services/company.service';
 import {CompanyModel} from '../../../../models/company.model';
+import {VerifyNotAlertDialog} from '../../../receipts/receiptsFilters/unsigned-receipts/unsigned-receipts.component';
 
 
 @Component({
@@ -22,13 +23,14 @@ export class NewEmployeesComponent implements OnInit {
 
     companyId: string;
     employees: EmployeeModel[];
-    isPromiseDone = false;
+    isPromiseDone = true;
     sortAsc: boolean;
     sortKey: string;
     file: any;
     letters: LetterPaginationElem[];
     selectedLetter: LetterPaginationElem;
     company: CompanyModel;
+    updateBtn = false;
 
     constructor(private employeeService: EmployeeService, private route: ActivatedRoute, public dialog: MatDialog,
                 public userService: UserService, private router: Router, private uploadService: UploadService,
@@ -89,42 +91,24 @@ export class NewEmployeesComponent implements OnInit {
     }
 
     loadTable() {
-        if (this.selectedLetter.value === 'Todos') {
-            this.route.paramMap
-                .switchMap((params: ParamMap) => this.employeeService.getNewEmployeesByCompany(params.get('cid')))
-                .subscribe(data => {
-                    this.employees = data;
-                    this.isPromiseDone = true;
-                }, error => {
-                    if (error.status === 405) {
-                        this.dialog.closeAll();
-                        let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
-                            width: '75%'
-                        });
-                    } else {
-                        this.userService.clearUser();
-                        this.router.navigate(['/login']);
-                    }
-                });
-        } else {
-            this.route.paramMap
-                .switchMap((params: ParamMap) => this.employeeService.getNewEmployeesByCompanyNl(params.get('cid'),
-                    this.selectedLetter.value))
-                .subscribe(data => {
-                    this.employees = data;
-                    this.isPromiseDone = true;
-                }, error => {
-                    if (error.status === 405) {
-                        this.dialog.closeAll();
-                        let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
-                            width: '75%'
-                        });
-                    } else {
-                        this.userService.clearUser();
-                        this.router.navigate(['/login']);
-                    }
-                });
-        }
+        this.isPromiseDone = false;
+        this.route.paramMap
+            .switchMap((params: ParamMap) => this.employeeService.getNewEmployeesByCompany(params.get('cid'),
+                this.selectedLetter.value))
+            .subscribe(data => {
+                this.employees = data;
+                this.isPromiseDone = true;
+            }, error => {
+                if (error.status === 405) {
+                    this.dialog.closeAll();
+                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                        width: '75%'
+                    });
+                } else {
+                    this.userService.clearUser();
+                    this.router.navigate(['/login']);
+                }
+            });
     }
 
     onClickSmallTags(l: LetterPaginationElem) {

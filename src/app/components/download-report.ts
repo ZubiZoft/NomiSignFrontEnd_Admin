@@ -27,6 +27,7 @@ export class DownloadReportComponent {
     @Input() letter: LetterPaginationElem;
     @Input() companyId: number;
     @Input() disable: boolean;
+    @Input() status: string;
 
     constructor(private http: Http, public dialog: MatDialog, private router: Router, private userService: UserService) {
     }
@@ -41,9 +42,9 @@ export class DownloadReportComponent {
 
         let url = rootURL;
         if (this.letter.value === 'Todos') {
-            url += 'api/employeesLetter/download/' + this.companyId;
+            url += 'api/employeesreport/' + this.companyId +  '/' + this.status;
         } else {
-            url += 'api/employeesLetter/download/' + this.companyId + '/' + this.letter.value;
+            url += 'api/employeesreport/' + this.companyId +  '/' + this.status + '/' + this.letter.value;
         }
         const options = new RequestOptions({method: 'GET', headers: _headers, responseType: ResponseContentType.Blob});
         return this.http.get(url, options)

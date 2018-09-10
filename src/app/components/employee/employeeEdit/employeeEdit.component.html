@@ -62,48 +62,24 @@
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
-            <input [readonly]="!allowEmployeeEdit" matInput placeholder="CURP" value="{{employee.CURP}}"
+            <input readonly matInput placeholder="CURP" value="{{employee.CURP}}"
                    [(ngModel)]="employee.CURP" name=employeeCURP i18n-placeholder="@@EmployeeCURPField">
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input [readonly]="!allowEmployeeEdit" matInput placeholder="RFC" value="{{employee.RFC}}"
+            <input readonly matInput placeholder="RFC" value="{{employee.RFC}}"
                    [(ngModel)]="employee.RFC" name=employeeRFC i18n-placeholder="@@EmployeeRFCField">
         </mat-form-field>
-        <!--
-        <div class="container">
-            <div class="row">
-                <div class="col-md-4">
-                    <input-file style="padding-bottom:15px" (onFileSelect)="onFileSelect($event)" accept="application/pdf" >
-                        <span class="nofiles">Buscar Archivo</span>
-                        <br>
-                        <span class="selected">Archivos Seleccionados</span>
-                    </input-file>
-                </div>
-                <div class="col-md-4">
-                    <div *ngIf="files">
-                        <div *ngFor="let file of files">
-                            {{ file.name }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4 text-right">
-                    <button mat-raised-button color="primary" (click)=updateEmployeeFiles() i18n="@@UpdateButton"> Cargar Archivo </button>
-                </div>
-            </div>
-        </div>
-        -->
+        <br>
+        <button mat-raised-button color="primary" style="width: 300px;" (click)="moveToNotLongerEmployeed()"> Dar de Baja </button>
         <br>
         <br>
-        <!--<p align="right"><b>Creadó Por:</b>{{employee.CreatedByUserName}} - <b>Último Inicio de Sesión:</b>{{employee.LastLogin}}
-        </p>
         <br>
-        <br>-->
         <div class="text-center">
         <button mat-raised-button color="primary" style="float: left;" (click)="backLocation()" i18n="@@BackButton">Regresar</button>
-        <button mat-raised-button color="primary" [hidden]="userService.getUser().UserType != 3"
-                i18n="@@BackButton" (click)="ResetAccount()">Reiniciar Cuenta</button>
+        <button mat-raised-button color="primary" i18n="@@BackButton" (click)="ResetAccount()"
+                [disabled]="allowEmployeeEdit || !isPromiseDone">Reiniciar Cuenta</button>
         <button *ngIf="allowEmployeeEdit" style="float: right;" mat-raised-button color="primary"
-                (click)=updateEmployee() i18n="@@UpdateButton" [disabled]="emailValid">Actualizar Información
+                (click)=updateEmployee() i18n="@@UpdateButton" [disabled]="emailValid || !isPromiseDone">Actualizar Información
         </button>
         </div>
     </form>

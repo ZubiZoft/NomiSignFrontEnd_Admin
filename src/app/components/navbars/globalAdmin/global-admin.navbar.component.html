@@ -8,8 +8,9 @@
         <mat-menu #mobileMenu="matMenu">
             <button mat-menu-item routerLink="/dashboard" routerLinkActive="active" i18n="@@GoHomePageMenuHeader"> Inicio </button>
             <button mat-menu-item routerLink="/companies" routerLinkActive="active" i18n="@@GoCompaniesPageMenuHeader"> Compañías </button>
-            <button mat-menu-item routerLink="/companyusers" routerLinkActive="active" i18n="@@GoCompanyUsersPageMenuHeader"> Gestores </button>
+            <button mat-menu-item routerLink="/companyusers" routerLinkActive="active" i18n="@@GoCompanyUsersPageMenuHeader"> Administradores </button>
             <button mat-menu-item routerLink="/employees" routerLinkActive="active" i18n="@@GoEmployeesPageMenuHeader"> Empleados </button>
+            <button mat-menu-item routerLink="/receipts" routerLinkActive="active" i18n="@@GoEmployeesPageMenuHeader"> Recibos </button>
             <button mat-menu-item routerLink="/globalSearch" routerLinkActive="active" i18n="@@GoEmployeesPageMenuHeader"> Buscar </button>
         </mat-menu>
         <span style="float:right" *ngIf="user">
@@ -55,7 +56,7 @@
             <span>
                 <button mat-button routerLink="/companyusers" routerLinkActive="active">
                     <span i18n="menu header | User will click this to go to the company user's page@@GoCompanyUsersPageMenuHeader">
-                        Gestores
+                        Administradores
                     </span>
                 </button>
             </span>
@@ -69,7 +70,7 @@
             </span>
 
             <span>
-                <button mat-button routerLink="/employees" routerLinkActive="active">
+                <button mat-button routerLink="/receipts" routerLinkActive="active">
                     <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
                         Recibos
                     </span>
