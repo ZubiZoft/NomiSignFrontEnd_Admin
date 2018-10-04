@@ -1,7 +1,28 @@
 <div>
-  <div class="mobileHeaderTitle centerText" *ngIf="user">
-    <img style="max-height:60px; position:absolute;left:12%; margin-top: 10px;" src="../assets/images/Nomi_Sign-12-1-1.png" class="mobileHeaderLogo"/>
-    <h1 style="line-height:50px" class="mobileHeaderText"> &nbsp;</h1>
+  <div style="height: 70px; width: 100%;" *ngIf="user" [ngSwitch]="user.UserType">
+    <div class="container" *ngSwitchCase="3">
+      <div class="row">
+        <div class="col-sm-12">
+          <img style="max-height:70px; width: auto; padding: 8px;" src="../assets/images/Nomi_Sign-12-1-1.png"/>
+        </div>
+      </div>
+    </div>
+    <div class="container" *ngSwitchDefault>
+      <div class="row" *ngIf="!logoImage">
+        <div class="col-sm-12">
+          <img style="max-height:70px; width: auto; padding: 8px;" src="../assets/images/Nomi_Sign-12-1-1.png"/>
+        </div>
+      </div>
+      <div class="row" *ngIf="logoImage">
+        <div class="col-sm-6">
+          <img style="max-height:70px; width: auto; padding: 8px;"
+               [src]="_sanitizer.bypassSecurityTrustUrl(logoImage)"/>
+        </div>
+        <div class="col-sm-6">
+          <img style="max-height:70px; width: auto; padding: 8px; float: right;" src="../assets/images/logo-poweredbynomisign.png"/>
+        </div>
+      </div>
+    </div>
     <br>
   </div>
   <div *ngIf="user">
@@ -11,38 +32,3 @@
   </div>
   <router-outlet></router-outlet>
 </div>
-
-<!--<div class="container">
-  <div class="container child">
-    <br>
-    <div class="container">
-      <div class="row">
-        <div class="col-sm-5 align-middle col-img">
-          <img src="../assets/images/Nomi_Sign-12-1-1.png" class="img-fluid align-middle" alt="Responsive image" />
-        </div>
-        <div class="col-sm-2">
-          <br>
-        </div>
-        <div class="col-sm-5">
-          <form>
-            <div class="form-group">
-              <label for="exampleInputEmail1">Email address</label>
-              <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
-              <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
-            </div>
-            <div class="form-group">
-              <label for="exampleInputPassword1">Password</label>
-              <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-            </div>
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="exampleCheck1">
-              <label class="form-check-label" for="exampleCheck1">Check me out</label>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </form>
-        </div>
-      </div>
-    </div>
-    <br>
-  </div>
-</div>-->

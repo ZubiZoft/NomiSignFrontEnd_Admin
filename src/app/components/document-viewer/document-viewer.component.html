@@ -7,7 +7,7 @@
                     i18n="action | the user can click to reject the document @@DocumentSignStatusHeader"> Regresar
             </button>
         </div>
-        <div *ngIf="!isUnsigned && document.AlwaysShow === 0" style="float:right">
+        <div *ngIf="document.NomCert != null" style="float:right">
             <button mat-raised-button (click)="showNomCert()"
                     i18n="action | the user can click to reject the document @@DocumentSignStatusHeader"> NOM 151
             </button>

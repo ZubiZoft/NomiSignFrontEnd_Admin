@@ -1,7 +1,41 @@
+.inputfile {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+.inputfile + label {
+    font-size: 14px;
+    font-weight: 500;
+    color: white;
+    background-color: #2cbbc3;
+    display: inline-block;
+    box-shadow: 0 3px 1px -2px rgba(0,0,0,.2), 0 2px 2px 0 rgba(0,0,0,.14), 0 1px 5px 0 rgba(0,0,0,.12);
+    padding: 8px 35px;
+    border-radius: 3px;
+}
+
+.inputfile:focus + label,
+.inputfile + label:hover {
+    background-color: #2cbbc3;
+}
+
+.inputfile + label {
+    cursor: pointer; /* "hand" cursor */
+}
+
+.inputfile:focus + label {
+    outline: 1px dotted #000;
+    outline: -webkit-focus-ring-color auto 5px;
+}
+
 .table-style {
     font-size: small;
-    font-weight: lighter;
-    color: #607D8B;
+    font-weight: normal;
+    color: #444444;
 }
 
 .example-full-width {
@@ -31,4 +65,9 @@
 @keyframes spin {
     from { transform: scale(1) rotate(0deg);}
     to { transform: scale(1) rotate(360deg);}
+}
+
+hr {
+    border-width: 4px;
+    border-color: #777777;
 }

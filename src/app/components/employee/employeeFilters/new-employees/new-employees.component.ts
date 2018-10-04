@@ -12,7 +12,12 @@ import {LetterPaginationElem} from '../../../../models/LetterPaginationElem';
 import {CompanyService} from '../../../../services/company.service';
 import {CompanyModel} from '../../../../models/company.model';
 import {VerifyNotAlertDialog} from '../../../receipts/receiptsFilters/unsigned-receipts/unsigned-receipts.component';
+import {Headers, Http, RequestOptions, ResponseContentType} from '@angular/http';
+import {FileModel} from '../../../../models/file.model';
+import * as FileSaver from 'file-saver';
+import {environment} from '../../../../../environments/environment';
 
+const rootURL: string = environment.serviceUrl;
 
 @Component({
   selector: 'app-new-employees',
@@ -22,8 +27,8 @@ import {VerifyNotAlertDialog} from '../../../receipts/receiptsFilters/unsigned-r
 export class NewEmployeesComponent implements OnInit {
 
     companyId: string;
-    employees: EmployeeModel[];
-    isPromiseDone = true;
+    employees: EmployeeModel[] = [];
+    isPromiseDone = false;
     sortAsc: boolean;
     sortKey: string;
     file: any;
@@ -34,12 +39,13 @@ export class NewEmployeesComponent implements OnInit {
 
     constructor(private employeeService: EmployeeService, private route: ActivatedRoute, public dialog: MatDialog,
                 public userService: UserService, private router: Router, private uploadService: UploadService,
-                private companyService: CompanyService) { }
+                private companyService: CompanyService, private http: Http) { }
 
     ngOnInit() {
         this.route.params.subscribe((params: Params) => {
             this.companyId = params['cid'];
         });
+        this.employees = [];
 
         this.route.paramMap
             .switchMap((params: ParamMap) => this.companyService.getCompanyById(params.get('cid')))
@@ -126,33 +132,48 @@ export class NewEmployeesComponent implements OnInit {
     }
 
     onFileSelect(event) {
+        this.isPromiseDone = false;
         this.file = event;
         if (this.file) {
             let reader = new FileReader();
             reader.readAsDataURL(this.file[0]);
             reader.onload = (e) => {
-                let res = reader.result.split(',')[1]; //removes data:image...
-                this.uploadService.addEmployeeCSVFile(res, this.companyId).subscribe(
-                    userData => {
-                        let dialogRef = this.dialog.open(UploadedAlertDialog, {
-                            width: '50%',
-                            data: {'message': 'Tu documento CSV de correos y números celulares, fue cargado satisfactoriamente.'}
-                        });
-                        dialogRef.afterClosed().subscribe(() => {
-                            this.ngOnInit();
-                        });
-                    }, error => {
-                        if (error.status === 405) {
-                            this.dialog.closeAll();
-                            let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
-                                width: '75%'
+                let res = reader.result.split(',')[1];
+                const user = this.userService.getUser();
+                const _headers = new Headers({
+                    'Content-Type': 'application/json',
+                    'ClientType': 'nomiadmin',
+                    'Authorization': 'Basic ' + user.SessionToken
+                });
+                const options = new RequestOptions({method: 'POST', headers: _headers, responseType: ResponseContentType.Blob});
+                const url = rootURL + 'api/upload/ReadCSVFile/' + this.companyId;
+                const mF = new FileModel();
+                mF.PDFContent = res;
+                const body = JSON.stringify(mF);
+                this.http.post(url, body, options).map(response => response)
+                    .subscribe(
+                        (res: any) => {
+                            const blob = res.blob();
+                            const filename = 'ReportVerification.csv';
+                            FileSaver.saveAs(blob, filename);
+                            this.isPromiseDone = true;
+                            let dialogRef = this.dialog.open(VerifyNotAlertDialog, {
+                                width: '50%',
+                                data: {'message': 'El documento ha sido cargado satisfactoriamente, por favor revise el reporte para ' +
+                                        'revisar el status por empleado.'}
                             });
-                        } else {
-                            this.userService.clearUser();
-                            this.router.navigate(['/login']);
+                        }, error => {
+                            if (error.status === 405) {
+                                this.dialog.closeAll();
+                                let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                                    width: '75%'
+                                });
+                            } else {
+                                this.userService.clearUser();
+                                this.router.navigate(['/login']);
+                            }
                         }
-                    }
-                );
+                    );
             };
         } else {
             let dialogRef = this.dialog.open(UploadedAlertDialog, {

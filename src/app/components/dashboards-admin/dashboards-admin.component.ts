@@ -10,6 +10,7 @@ export class DashboardsAdminComponent implements OnInit {
     public chart = 'EmployeeByStatus';
     private sections = ['EmployeeByStatus'
             , 'ReceiptsByStatus'
+            , 'RejectedByPeriod'
             , 'SignaturesStatus'
             , 'DaysStatus'
         ];
@@ -29,8 +30,7 @@ export class DashboardsAdminComponent implements OnInit {
 
     prev() {
         this.index--;
-        if (this.index < 0)
-        {
+        if (this.index < 0) {
             this.index = this.sections.length - 1;
         }
         this.index = Math.abs(this.index % this.sections.length);

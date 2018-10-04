@@ -198,7 +198,8 @@ export class EmployeeEditComponent implements OnInit {
                 'message': '¿Estás seguro de dar de baja al empleado ' + this.employee.FirstName + ' '
                     + this.employee.LastName1 + ' ' + this.employee.LastName2 + '?',
                 'AcceptReject': false,
-                'employee': this.employee
+                'employee': this.employee,
+                'parent': this
             }
         });
     }
@@ -219,11 +220,13 @@ export class EditEmployeeAlertDialog implements OnInit {
     hideButtons: boolean;
     employee: EmployeeModel;
     isPromiseDone = true;
+    parent: EmployeeEditComponent;
 
     ngOnInit() {
         this.loginMessage = this.data['message'];
         this.hideButtons = this.data['AcceptReject'];
         this.employee = this.data['employee'];
+        this.parent = this.data['parent'];
     }
 
     onNoClick(): void {
@@ -231,6 +234,7 @@ export class EditEmployeeAlertDialog implements OnInit {
     }
 
     changeStatus(): void {
+        this.parent.isPromiseDone = false;
         this.isPromiseDone = false;
         this.route.paramMap
             .switchMap((params: ParamMap) => this.employeeService.moveToNotLongerEmployeed(this.employee.EmployeeId.toString(),
@@ -240,6 +244,7 @@ export class EditEmployeeAlertDialog implements OnInit {
                 }))
             .subscribe(data => {
                 this.isPromiseDone = true;
+                this.parent.isPromiseDone = true;
                 this.dialogRef.close();
                 this.router.navigate(['/employees', this.userService.getUser().CompanyId, 'new']);
             }, error => {

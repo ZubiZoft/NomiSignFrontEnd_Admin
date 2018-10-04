@@ -70,7 +70,8 @@
                    [(ngModel)]="employee.RFC" name=employeeRFC i18n-placeholder="@@EmployeeRFCField">
         </mat-form-field>
         <br>
-        <button mat-raised-button color="primary" style="width: 300px;" (click)="moveToNotLongerEmployeed()"> Dar de Baja </button>
+        <button mat-raised-button color="primary" style="width: 300px;" (click)="moveToNotLongerEmployeed()"
+            [disabled]="!isPromiseDone"> Dar de Baja </button>
         <br>
         <br>
         <br>

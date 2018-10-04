@@ -7,6 +7,8 @@ import {UserService} from '../../../../services/user.service';
 import {SessionTimeoutDialogComponent} from '../../../session-timeout-dialog/session-timeout-dialog.component';
 import {DateAdapter} from '@angular/material/core';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import {CompanyService} from '../../../../services/company.service';
+import {CompanyModel} from '../../../../models/company.model';
 
 @Component({
     selector: 'app-unsigned-receipts',
@@ -30,9 +32,10 @@ export class UnsignedReceiptsComponent implements OnInit {
     sortAsc: boolean;
     sortKey: string;
     updateBtn = false;
+    company: CompanyModel;
 
     constructor(private route: ActivatedRoute, private documentService: DocumentService, public dialog: MatDialog,
-                public userService: UserService, private router: Router) {
+                public userService: UserService, private router: Router, private companyService: CompanyService) {
         this.dialog.afterAllClosed.subscribe(
             () => {
                 this.clearBoxes();
@@ -46,10 +49,25 @@ export class UnsignedReceiptsComponent implements OnInit {
         });
 
         this.route.paramMap
-            .switchMap((params: ParamMap) => this.documentService.getUnsignedDocumentsForCompany(params.get('cid')))
+            .switchMap((params: ParamMap) => this.companyService.getCompanyById(params.get('cid')))
             .subscribe(data => {
-                this.documents = data;
-                this.isPromiseDone = true;
+                this.company = data;
+                this.route.paramMap
+                    .switchMap((params: ParamMap) => this.documentService.getUnsignedDocumentsForCompany(params.get('cid')))
+                    .subscribe(dataX => {
+                        this.documents = dataX;
+                        this.isPromiseDone = true;
+                    }, error => {
+                        if (error.status === 405) {
+                            this.dialog.closeAll();
+                            let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                                width: '75%'
+                            });
+                        } else {
+                            this.userService.clearUser();
+                            this.router.navigate(['/login']);
+                        }
+                    });
             }, error => {
                 if (error.status === 405) {
                     this.dialog.closeAll();

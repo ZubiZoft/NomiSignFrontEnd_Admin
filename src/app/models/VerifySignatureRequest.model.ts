@@ -4,4 +4,5 @@ export class VerifySignatureRequest {
     PdfReceiptHash: string;
     NOM151Cert: string;
     NOM151CertHash: string;
+    Status: number;
 }

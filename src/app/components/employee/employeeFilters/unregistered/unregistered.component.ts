@@ -38,6 +38,7 @@ export class UnregisteredComponent implements OnInit {
         this.route.params.subscribe((params: Params) => {
             this.companyId = params['cid'];
         });
+        this.employees = [];
 
         this.route.paramMap
             .switchMap((params: ParamMap) => this.companyService.getCompanyById(params.get('cid')))

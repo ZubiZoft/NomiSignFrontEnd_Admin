@@ -26,15 +26,26 @@ export class SearchEmployeesComponent implements OnInit {
     company: CompanyModel;
     search: EmployeeSearch;
     updateBtn = false;
+    responseClassG: boolean;
+    responseClassR: boolean;
 
     constructor(private employeeService: EmployeeService, private route: ActivatedRoute, public dialog: MatDialog,
                 public userService: UserService, private router: Router, private companyService: CompanyService) {
     }
 
     ngOnInit() {
+        if (this.userService.getUser().UserType !== 3) {
+            this.responseClassG = false;
+            this.responseClassR = true;
+        } else {
+            this.responseClassR = false;
+            this.responseClassG = true;
+        }
+
         this.route.params.subscribe((params: Params) => {
             this.companyId = params['cid'];
         });
+        this.employees = [];
 
         this.route.paramMap
             .switchMap((params: ParamMap) => this.companyService.getCompanyById(params.get('cid')))
@@ -79,6 +90,7 @@ export class SearchEmployeesComponent implements OnInit {
     sortedBy(event) {
         this.sortAsc = this.sortKey === event ? !this.sortAsc : false;
         this.sortKey = event;
+        console.log(this.sortKey);
     }
 
     resetSelectedAccounts() {

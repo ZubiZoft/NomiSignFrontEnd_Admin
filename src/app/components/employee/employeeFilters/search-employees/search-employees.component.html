@@ -3,7 +3,7 @@
 <div class="container" style="max-height: 100vh;" *ngIf="company">
     <div class="row justify-content-center">
         <div [hidden]="this.userService.getUser().UserType !== 3">
-            <h1 class="text-center"> Buscar Empleados de {{company.CompanyName}} </h1>
+            <h2 class="text-center"> Buscar Empleados de {{company.CompanyName}} </h2>
         </div>
     </div>
     <div class="row justify-content-center">
@@ -37,7 +37,7 @@
             </button>
         </div>
     </div>
-    <div class="row justify-content-center">
+    <div class="row">
         <div class="col-md-3">
             <mat-form-field style="width: 100%;">
                 <mat-icon matSuffix>contact_mail</mat-icon>
@@ -50,32 +50,104 @@
                 <input matInput placeholder="Teléfono" [(ngModel)]="search.Phone"/>
             </mat-form-field>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3" [hidden]="employees.length < 1">
             <mat-form-field style="width: 100%;">
                 <mat-icon matSuffix>search</mat-icon>
                 <input matInput #searchView placeholder="Buscar"/>
             </mat-form-field>
         </div>
         <div class="col-md-3">
-            <button mat-raised-button color="primary" style=" width: 100%;" [disabled]="!isPromiseDone || !updateBtn" (click)="resetSelectedAccounts()"
-                    i18n="action | button which will send a notification to the employees to sign the selected receipt.">
-                Reiniciar Cuentas
-            </button>
+            <table style="width: 100%">
+                <tbody>
+                    <tr>
+                        <td style="width: 50%;">
+                            <button mat-raised-button color="primary" style="width: 100%;"
+                                    [disabled]="!isPromiseDone || !updateBtn" (click)="resetSelectedAccounts()"
+                                    i18n="action | button which will send a notification to the employees to sign the selected receipt.">
+                                Reiniciar Cuentas
+                            </button>
+                        </td>
+                        <td style="width: 50%;">
+                            <download-report [companyId]="companyId" [status]="'Advance'" [advanceSearch]="search"
+                                             [disable]="!isPromiseDone || employees.length < 1">
+                            </download-report>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-    <div class="table-responsive" ngClass="" *ngIf="isPromiseDone">
+    <div class="pagination-bar text-justify text-center">
+        <small class="font-light text-right" style="color: #2cbbc3; float: right;">Resultados: {{employees ? (employees | listfilter: searchView.value)?.length : '0'}}</small>
+    </div>
+    <div [ngClass]="{'table-responsive': true, 'vertical-scroll-temp-RH': responseClassR,
+            'vertical-scroll-temp': responseClassG}" *ngIf="isPromiseDone">
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col" (click)="sortedBy('EmployeeId')">ID</th>
-                <th scope="col" (click)="sortedBy('FirstName')">Nombre(s)</th>
-                <th scope="col" (click)="sortedBy('LastName1')">Apellido Paterno</th>
-                <th scope="col" (click)="sortedBy('LastName2')">Apellido Materno</th>
-                <th scope="col" (click)="sortedBy('EmailAddress')">Email</th>
-                <th scope="col" (click)="sortedBy('CellPhoneNumber')">Número Celular</th>
-                <th scope="col" (click)="sortedBy('RFC')">RFC</th>
-                <th scope="col" (click)="sortedBy('CURP')">CURP</th>
-                <th scope="col" (click)="sortedBy('StatusName')">Estatus</th>
+                <th scope="col" class="pointer" (click)="sortedBy('EmployeeId')">
+                    <div style="white-space: nowrap">
+                        ID
+                        <i class="material-icons" *ngIf="sortKey === 'EmployeeId' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'EmployeeId' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('FirstName')">
+                    <div style="white-space: nowrap">
+                        Nombre(s)
+                        <i class="material-icons" *ngIf="sortKey === 'FirstName' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'FirstName' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('LastName1')">
+                    <div style="white-space: nowrap">
+                        Apellido Paterno
+                        <i class="material-icons" *ngIf="sortKey === 'LastName1' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'LastName1' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('LastName2')">
+                    <div style="white-space: nowrap">
+                        Apellido Materno
+                        <i class="material-icons" *ngIf="sortKey === 'LastName2' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'LastName2' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('EmailAddress')">
+                    <div style="white-space: nowrap">
+                        Email
+                        <i class="material-icons" *ngIf="sortKey === 'EmailAddress' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'EmailAddress' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('CellPhoneNumber')">
+                    <div style="white-space: nowrap">
+                        Número Celular
+                        <i class="material-icons" *ngIf="sortKey === 'CellPhoneNumber' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'CellPhoneNumber' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('RFC')">
+                    <div style="white-space: nowrap">
+                        RFC
+                        <i class="material-icons" *ngIf="sortKey === 'RFC' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'RFC' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('CURP')">
+                    <div style="white-space: nowrap">
+                        CURP
+                        <i class="material-icons" *ngIf="sortKey === 'CURP' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'CURP' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('StatusName')">
+                    <div style="white-space: nowrap">
+                        Estatus
+                        <i class="material-icons" *ngIf="sortKey === 'StatusName' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'StatusName' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
                 <th scope="col" class="centerText" >
                     <button type="button" class="btn btn-secondary" data-toggle="tooltip" (click)="selectAllDocuments()"
                             data-placement="top" title="Tooltip on top">

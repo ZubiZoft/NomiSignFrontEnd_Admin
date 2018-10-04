@@ -8,7 +8,7 @@
   <br>
   <div class="row">
     <div class="col">
-      <small style="color: #555555">Por favor adjunta el recibo de nómina y pegue su NOM151.</small>
+      <small style="color: #555555">Por favor adjunta el recibo de nómina y pega tu NOM151.</small>
     </div>
   </div>
   <br>
@@ -37,3 +37,94 @@
     </div>
   </div>
 </div>
+<!--<div class="container">
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+      <h1>Validador</h1>
+    </div>
+  </div>
+  <div class="row justify-content-md-center">
+    <div class="col-md-auto">
+      <h4>de NOM 151</h4>
+    </div>
+  </div>
+  <br>
+  <div class="row justify-content-md-center">
+    <div class="col-md-1">
+      <div class="circle-dot align-middle">
+        <div>1</div>
+      </div>
+    </div>
+    <div class="col-md-8">
+        Adjunta el .PDF y .NOM151 de los recibos de nómina a validar.
+    </div>
+    <div class="col-md-3 text-right">
+      <input-file style="padding-bottom:15px; width: 100%;" (change)="onFilesSelected($event)"
+                  accept=".nom151,application/pdf">
+        <span class="nofiles">&nbsp;&nbsp;Buscar Archivos&nbsp;&nbsp;&nbsp;</span> &nbsp; &nbsp; &nbsp;
+        <span class="selected">Archivos Seleccionados</span>
+      </input-file>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="row justify-content-md-center">
+    <div class="col-md-1">
+      <div class="circle-dot align-middle">
+        <div>2</div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      Revisa los archivos a validar.
+    </div>
+    <div class="col-md-3">
+      <button mat-raised-button color="primary" style="width: 100%; vertical-align: middle;">
+        <mat-icon >verified_user</mat-icon>
+        &nbsp;&nbsp;Validar
+      </button>
+    </div>
+  </div>
+  <br>
+  <div class="row">
+    <div class="col">
+      <div class="table-responsive">
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th scope="col">Nombre del archivo</th>
+              <th scope="col" class="text-center">Estatus</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let r of reqs">
+              <td scope="row">{{r.PdfReceiptName}}</td>
+              <td class="text-center icon-green">
+                <i *ngIf="r.Status == 1" class="material-icons">check_circle</i>
+                <i *ngIf="r.Status == 2" class="material-icons">cancel</i>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+  <div class="row justify-content-md-center">
+    <div class="col-md-1">
+      <div class="circle-dot align-middle">
+        <div>3</div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      Descarga las constancias de verificación.
+    </div>
+    <div class="col-md-3">
+      <button mat-raised-button color="primary" style="width: 100%">
+        <mat-icon >save_alt</mat-icon>
+        &nbsp;&nbsp;
+        Descargar
+      </button>
+    </div>
+  </div>
+</div>-->

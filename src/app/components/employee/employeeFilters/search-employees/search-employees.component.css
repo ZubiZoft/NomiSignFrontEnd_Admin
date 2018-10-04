@@ -7,7 +7,7 @@
 .vertical-scroll-temp {
     position: absolute !important;
     bottom: 20px;
-    top: 405px;
+    top: 420px;
     left: 10%;
     right: 10%;
     width: 80%;
@@ -16,7 +16,7 @@
 .vertical-scroll-temp-RH {
     position: absolute !important;
     bottom: 20px;
-    top: 345px;
+    top: 360px;
     left: 10%;
     right: 10%;
     width: 80%;

@@ -8,6 +8,7 @@
         <div class="col-md-10" [ngSwitch]="chart">
             <employees-by-status *ngSwitchCase="'EmployeeByStatus'"></employees-by-status>
             <receipts-by-status *ngSwitchCase="'ReceiptsByStatus'"></receipts-by-status>
+            <rejected-by-period *ngSwitchCase="'RejectedByPeriod'"></rejected-by-period>
             <signatures-status *ngSwitchCase="'SignaturesStatus'"></signatures-status>
             <days-status *ngSwitchCase="'DaysStatus'"></days-status>
         </div>

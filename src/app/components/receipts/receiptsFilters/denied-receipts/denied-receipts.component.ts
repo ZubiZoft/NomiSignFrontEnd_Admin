@@ -3,7 +3,6 @@ import {ActivatedRoute, ParamMap, Params, Router} from '@angular/router';
 import {DocumentService} from '../../../../services/documents.service';
 import {DocumentModel} from '../../../../models/document.model';
 import 'rxjs/add/operator/switchMap';
-import {SortByPipe} from '../../../../pipes/sort-by.pipe';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA, MAT_DATE_LOCALE, MAT_DATE_FORMATS} from '@angular/material';
 import {VerifyNotAlertDialog} from '../unsigned-receipts/unsigned-receipts.component';
 import {Location} from '@angular/common';
@@ -11,6 +10,8 @@ import {UserService} from '../../../../services/user.service';
 import {SessionTimeoutDialogComponent} from '../../../session-timeout-dialog/session-timeout-dialog.component';
 import {DateAdapter} from '@angular/material/core';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import {CompanyModel} from '../../../../models/company.model';
+import {CompanyService} from '../../../../services/company.service';
 
 @Component({
     selector: 'app-denied-receipts',
@@ -29,14 +30,15 @@ import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-mome
 export class DeniedReceiptsComponent implements OnInit {
 
     companyId: string;
-    documents: DocumentModel[];
+    documents: DocumentModel[] = [];
     isPromiseDone = false;
     sortAsc: boolean;
     sortKey: string;
     updateBtn = false;
+    company: CompanyModel;
 
     constructor(private route: ActivatedRoute, private documentService: DocumentService, public dialog: MatDialog,
-                public userService: UserService, private router: Router) {
+                public userService: UserService, private router: Router, private companyService: CompanyService) {
         this.dialog.afterAllClosed.subscribe(
             () => {
                 this.loadDocuments();
@@ -53,14 +55,30 @@ export class DeniedReceiptsComponent implements OnInit {
     }
 
     loadDocuments() {
+        this.isPromiseDone = false;
         this.route.paramMap
-            .switchMap((params: ParamMap) => this.documentService.getRejectedDocumentsForCompany(params.get('cid')))
+            .switchMap((params: ParamMap) => this.companyService.getCompanyById(params.get('cid')))
             .subscribe(data => {
-                this.isPromiseDone = true;
-                for (let d of data) {
-                    d.CheckedBox = false;
-                }
-                this.documents = data;
+                this.company = data;
+                this.route.paramMap
+                    .switchMap((params: ParamMap) => this.documentService.getRejectedDocumentsForCompany(params.get('cid')))
+                    .subscribe(dataX => {
+                        for (let d of dataX) {
+                            d.CheckedBox = false;
+                        }
+                        this.documents = dataX;
+                        this.isPromiseDone = true;
+                    }, error => {
+                        if (error.status === 405) {
+                            this.dialog.closeAll();
+                            let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                                width: '75%'
+                            });
+                        } else {
+                            this.userService.clearUser();
+                            this.router.navigate(['/login']);
+                        }
+                    });
             }, error => {
                 if (error.status === 405) {
                     this.dialog.closeAll();
@@ -87,6 +105,20 @@ export class DeniedReceiptsComponent implements OnInit {
             }
         }
         this.updateBtn = false;
+    }
+
+    selectAllDocuments() {
+        if (this.documents.length <= 0) {
+            return;
+        }
+        var l = true;
+        if (this.documents[0].CheckedBox) {
+            l = false;
+        }
+        for (const d of this.documents) {
+            d.CheckedBox = l;
+        }
+        this.updateBtn = l;
     }
 
     updateStatus() {

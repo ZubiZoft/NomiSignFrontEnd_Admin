@@ -79,7 +79,7 @@ export class DocumentService {
         return this.http.get(url, options).map(response => response.json());
     }
 
-    getAllDocumentsByCompanyDateRange(companyId, fromDate, toDate, rfc, curp, type, status): Observable<any> {
+    getAllDocumentsByCompanyDateRange(companyId, fromDate, toDate, rfc, curp, type, status, uuid): Observable<any> {
         const user = this.userService.getUser();
         var _headers = new Headers({
             'Content-Type': 'application/json',
@@ -95,6 +95,7 @@ export class DocumentService {
         range.Status = status;
         range.Rfc = rfc;
         range.Curp = curp;
+        range.UUID = uuid;
         let body = JSON.stringify(range);
 
         return this.http.post(url, body, options).map(response => response.json());

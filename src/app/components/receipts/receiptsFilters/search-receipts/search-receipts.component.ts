@@ -27,7 +27,7 @@ import * as moment from 'moment';
 export class SearchReceiptsComponent implements OnInit {
 
     companyId: string;
-    documents: DocumentModel[];
+    documents: DocumentModel[] = [];
     isPromiseDone = false;
     sortAsc: boolean;
     sortKey: string;
@@ -40,6 +40,7 @@ export class SearchReceiptsComponent implements OnInit {
     typeVal: string;
     statusVal: string;
     updateBtn = false;
+    UUID: string;
 
     constructor(private route: ActivatedRoute, private documentService: DocumentService, public dialog: MatDialog,
                 public userService: UserService, private router: Router) {
@@ -60,12 +61,14 @@ export class SearchReceiptsComponent implements OnInit {
     }
 
     loadDocuments() {
+        this.isPromiseDone = false;
+        this.documents = [];
         let from = moment(this.fromVal).format('MM/DD/YYYY');
         let to = moment(this.toVal).format('MM/DD/YYYY');
         this.route.paramMap
             .switchMap((params: ParamMap) =>
                 this.documentService.getAllDocumentsByCompanyDateRange(params.get('cid'),
-                    from, to, this.rfcVal, this.curpVal, this.typeVal, this.statusVal))
+                    from, to, this.rfcVal, this.curpVal, 'Recibo', this.statusVal, this.UUID))
             .subscribe(data => {
                 this.documents = data;
                 this.isPromiseDone = true;

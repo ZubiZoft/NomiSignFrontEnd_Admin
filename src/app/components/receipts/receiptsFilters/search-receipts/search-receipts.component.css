@@ -1,9 +1,3 @@
-@media (max-width: 750px) {
-    h1 {
-        font-size: 1.5rem !important;
-    }
-}
-
 .vertical-scroll-temp {
     position: absolute !important;
     bottom: 20px;

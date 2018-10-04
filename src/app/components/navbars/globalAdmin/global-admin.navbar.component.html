@@ -1,5 +1,4 @@
-<div class="toolbar">
-    <!-- mobile menu -->
+<!--<div class="toolbar">
     <span style="display:none" class="displayContentMobile">
         <button mat-button [matMenuTriggerFor]="mobileMenu">
             <mat-icon>menu</mat-icon>
@@ -8,21 +7,20 @@
         <mat-menu #mobileMenu="matMenu">
             <button mat-menu-item routerLink="/dashboard" routerLinkActive="active" i18n="@@GoHomePageMenuHeader"> Inicio </button>
             <button mat-menu-item routerLink="/companies" routerLinkActive="active" i18n="@@GoCompaniesPageMenuHeader"> Compañías </button>
-            <button mat-menu-item routerLink="/companyusers" routerLinkActive="active" i18n="@@GoCompanyUsersPageMenuHeader"> Administradores </button>
+            <button mat-menu-item routerLink="/companyusers" routerLinkActive="active"
+                    i18n="@@GoCompanyUsersPageMenuHeader"> Administradores </button>
             <button mat-menu-item routerLink="/employees" routerLinkActive="active" i18n="@@GoEmployeesPageMenuHeader"> Empleados </button>
             <button mat-menu-item routerLink="/receipts" routerLinkActive="active" i18n="@@GoEmployeesPageMenuHeader"> Recibos </button>
-            <button mat-menu-item routerLink="/globalSearch" routerLinkActive="active" i18n="@@GoEmployeesPageMenuHeader"> Buscar </button>
+            <button mat-menu-item routerLink="/globalSearch" routerLinkActive="active"
+                    i18n="@@GoEmployeesPageMenuHeader"> Buscar </button>
+            <button mat-menu-item routerLink="/validator" routerLinkActive="active" i18n="@@GoEmployeesPageMenuHeader"> Validador NOM151 </button>
         </mat-menu>
         <span style="float:right" *ngIf="user">
             <button mat-button [matMenuTriggerFor]="menu">
-                <mat-icon>person</mat-icon>{{user.EmailAddress}}
+                <mat-icon>person</mat-icon>{{user.DisplayName}}
                 <mat-icon>arrow_drop_down</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-                <button mat-menu-item routerLink="/validator">
-                    <mat-icon>verified_user</mat-icon>
-                    <span i18n="action | user will click this to log out of the website@@LogoutAction">Validador NOM151</span>
-                </button>
                 <button mat-menu-item routerLink="/changePassword">
                     <mat-icon>loop</mat-icon>
                     <span i18n="action | user will click this to log out of the website@@LogoutAction">Cambiar Contraseña</span>
@@ -34,7 +32,6 @@
             </mat-menu>
         </span>
     </span>
-    <!-- desktop menu -->
     <div style="margin-left:12%">
         <span class="hideContentMobile">
             <span>
@@ -85,16 +82,20 @@
                 </button>
             </span>
 
+            <span>
+                <button mat-button routerLink="/validator" routerLinkActive="active">
+                    <span i18n="menu header | User will click this to go to the employees page@@GoEmployeesPageMenuHeader">
+                        Validador NOM151
+                    </span>
+                </button>
+            </span>
+
             <span style="float:right; margin-right: 12%;" *ngIf="user">
                 <button mat-button [matMenuTriggerFor]="menu">
-                    <mat-icon>person</mat-icon>{{user.EmailAddress}}
+                    <mat-icon>person</mat-icon>{{user.DisplayName}}
                     <mat-icon>arrow_drop_down</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu">
-                    <button mat-menu-item routerLink="/validator">
-                        <mat-icon>verified_user</mat-icon>
-                        <span i18n="action | user will click this to log out of the website@@LogoutAction">Validador NOM151</span>
-                    </button>
                     <button mat-menu-item routerLink="/changePassword">
                         <mat-icon>loop</mat-icon>
                         <span i18n="action | user will click this to log out of the website@@LogoutAction">Cambiar Contraseña</span>
@@ -108,3 +109,55 @@
         </span>
     </div>
 </div>
+-->
+<nav class="navbar-custom navbar-expand-md navbar-dark navbar-custom-color">
+    <div class="container">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+                style="margin: 4px;">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" routerLink="/dashboard">Inicio</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" routerLink="/companies">Compañías</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" routerLink="/companyusers">Administradores</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" routerLink="/employees">Empleados</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" routerLink="/receipts">Recibos</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" routerLink="/validator">Validador NOM151</a>
+                </li>
+            </ul>
+            <span class="navbar-text">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle aling-middle center-icon active" href="#"
+                           id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true"
+                           aria-expanded="false">
+                            <i class="material-icons">person</i>
+                            {{user.EmailAddress}}
+                        </a>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item dropdown-custom-color" routerLink="/changePassword">
+                                Cambiar Contraseña
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item dropdown-custom-color" (click)="logout()">Cerrar Sesión</a>
+                        </div>
+                    </li>
+                </ul>
+            </span>
+        </div>
+    </div>
+</nav>

@@ -23,7 +23,16 @@ export class CompanyModel {
     NewEmployeeDocument: string;
     SMSBalance: number;
     Emails: boolean;
+    ImageLog: string;
+    SupportPhone: string;
+    SupportEmail: string;
     Links: {
         SelfUri: string;
     };
+
+    constructor() {
+        this.BillingEmailAddress = '';
+        this.CompanyName = '';
+        this.CompanyRFC = '';
+    }
 }

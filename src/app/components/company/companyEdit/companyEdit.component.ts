@@ -13,6 +13,7 @@ import * as shajs from 'sha.js';
 import {UserService} from '../../../services/user.service';
 import {SessionTimeoutDialogComponent} from '../../session-timeout-dialog/session-timeout-dialog.component';
 import {HistoryPurchaseModel} from '../../../models/HistoryPurchaseModel';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 declare global {
     interface Window {
@@ -33,7 +34,6 @@ window.ActiveXObject = window.ActiveXObject || {};
     styleUrls: ['./companyEdit.component.css'],
     providers: [CompanyService]
 })
-
 export class CompanyEditComponent implements OnInit {
     company: CompanyModel;
     id: string;
@@ -44,10 +44,27 @@ export class CompanyEditComponent implements OnInit {
     totalFiles = 0;
     fileUpload: FileUploadModel[] = [];
     showBtn = true;
+    selectedFiles: SelectedFilesHelper[] = [];
+    form: FormGroup;
+    imgValid = true;
+    width = 0;
+    height = 0;
+    url: any;
+    file: FileUploadModel = new FileUploadModel();
 
     constructor(private route: ActivatedRoute, private companyService: CompanyService, public snackbar: MatSnackBar,
-                private uploadService: UploadService, public dialog: MatDialog, private userService: UserService, private router: Router) {
+                private formBuilder: FormBuilder, private uploadService: UploadService, public dialog: MatDialog,
+                private userService: UserService, private router: Router) {
         this.states = new States();
+        this.form = formBuilder.group({
+            'companyName': [null, Validators.required],
+            'companyRFC': [null, Validators.required],
+            'billingEmail': [null, Validators.compose([Validators.email, Validators.required])],
+            'supportPhone': [null, Validators.required],
+            'supportEmail': [null, Validators.compose([Validators.required, Validators.email])],
+            'companyZipCode': [null, Validators.compose([ Validators.minLength(5), Validators.maxLength(5),
+                Validators.pattern('^[0-9]{5}$')])]
+        });
     }
 
     ngOnInit(): void {
@@ -69,55 +86,7 @@ export class CompanyEditComponent implements OnInit {
             });
     }
 
-    addCompanyDocument() {
-        if (this.files && this.files.length > 0) {
-            for (let file of this.files) {
-                this.uploadFile(file, this.company.CompanyId);
-            }
-        } else {
-            let dialogRef = this.dialog.open(UploadedAlertDialog, {
-                width: '50%',
-                data: {'message': 'Por favor selecione un archivo.'}
-            });
-        }
-        return false;
-    }
-
-    uploadFile(file, companyId): any {
-        let uploadFile = new FileModel();
-        uploadFile.FileName = file.name;
-        var reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = (e) => {
-            uploadFile.PDFContent = reader.result.split(',')[1]; //removes data:image...
-            this.uploadService.addcompanyfile(uploadFile, companyId).subscribe(
-                userData => {
-                    let dialogRef = this.dialog.open(UploadedAlertDialog, {
-                        width: '50%',
-                        data: {'message': 'Su documento de intercambio de claves y contraseñas ha sido cargado satisfactoriamente.'}
-                    });
-                }, error => {
-                    if (error.status === 405) {
-                        this.dialog.closeAll();
-                        let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
-                            width: '75%'
-                        });
-                    } else {
-                        this.userService.clearUser();
-                        this.router.navigate(['/login']);
-                    }
-                }
-            );
-        };
-    }
-
-    onFileSelect(event) {
-        this.files = event;
-        this.company.NewEmployeeDocument = this.files[0].name;
-    }
-
     updateCompany() {
-        console.log(this.company);
         this.route.paramMap.switchMap(
             (params: ParamMap) => this.companyService.updateCompanyDetails(params.get('cid'),
                 this.company).finally(
@@ -178,6 +147,12 @@ export class CompanyEditComponent implements OnInit {
                     // you can perform an action with readed data here
                     const xml = parseXml(myReaderXML.result);
                     if (!ref.checkRfcXmlAtrr(xml, ref)) {
+                        const s: SelectedFilesHelper = new SelectedFilesHelper();
+                        s.XmlName = filesXML[f].name;
+                        s.PdfName = filesPDF[f].name;
+                        s.Status = 'XML inválido';
+                        s.StatusBol = false;
+                        ref.selectedFiles.push(s);
                         return;
                     }
                     file.FileName = f;
@@ -189,11 +164,34 @@ export class CompanyEditComponent implements OnInit {
                         // you can perform an action with readed data here
                         file.PDFContent = btoa(myReaderPDF.result);
                         ref.fileUpload.push(file);
+                        const s: SelectedFilesHelper = new SelectedFilesHelper();
+                        s.XmlName = filesXML[f].name;
+                        s.PdfName = filesPDF[f].name;
+                        s.Status = 'Recibo válido';
+                        s.StatusBol = true;
+                        ref.selectedFiles.push(s);
                         ref.countFiles++;
                     };
                     myReaderPDF.readAsBinaryString(filesPDF[f]);
                 };
                 myReaderXML.readAsText(filesXML[f]);
+            } else {
+                const s: SelectedFilesHelper = new SelectedFilesHelper();
+                s.XmlName = filesXML[f].name;
+                s.PdfName = '';
+                s.Status = 'PDF no encontrado';
+                s.StatusBol = false;
+                this.selectedFiles.push(s);
+            }
+        }
+        for (const f in filesPDF) {
+            if (!filesXML.hasOwnProperty(f)) {
+                const s: SelectedFilesHelper = new SelectedFilesHelper();
+                s.XmlName = '';
+                s.PdfName = filesPDF[f].name;
+                s.Status = 'XML no encontrado';
+                s.StatusBol = false;
+                this.selectedFiles.push(s);
             }
         }
     }
@@ -231,6 +229,42 @@ export class CompanyEditComponent implements OnInit {
         }
         try {
             if (xml.getElementsByTagName('cfdi:emisor')[0].getAttribute('RFC') == ref.company.CompanyRFC) {
+                return true;
+            }
+        } catch (ex) {
+        }
+        try {
+            if (xml.getElementsByTagNameNS('http://www.sat.gob.mx/cfd/3', 'Emisor')[0].getAttribute('Rfc') == ref.company.CompanyRFC) {
+                return true;
+            }
+        } catch (ex) {
+        }
+        try {
+            if (xml.getElementsByTagNameNS('http://www.sat.gob.mx/cfd/3', 'Emisor')[0].getAttribute('rfc') == ref.company.CompanyRFC) {
+                return true;
+            }
+        } catch (ex) {
+        }
+        try {
+            if (xml.getElementsByTagNameNS('http://www.sat.gob.mx/cfd/3', 'Emisor')[0].getAttribute('RFC') == ref.company.CompanyRFC) {
+                return true;
+            }
+        } catch (ex) {
+        }
+        try {
+            if (xml.getElementsByTagNameNS('http://www.sat.gob.mx/cfd/3', 'emisor')[0].getAttribute('Rfc') == ref.company.CompanyRFC) {
+                return true;
+            }
+        } catch (ex) {
+        }
+        try {
+            if (xml.getElementsByTagNameNS('http://www.sat.gob.mx/cfd/3', 'emisor')[0].getAttribute('rfc') == ref.company.CompanyRFC) {
+                return true;
+            }
+        } catch (ex) {
+        }
+        try {
+            if (xml.getElementsByTagNameNS('http://www.sat.gob.mx/cfd/3', 'emisor')[0].getAttribute('RFC') == ref.company.CompanyRFC) {
                 return true;
             }
         } catch (ex) {
@@ -273,13 +307,14 @@ export class CompanyEditComponent implements OnInit {
         this.showBtn = false;
         this.uploadService.loadFiles(this.company.CompanyId, this.fileUpload)
             .subscribe(data => {
+                const count = this.fileUpload.length;
                 this.fileUpload = [];
                 this.showBtn = true;
                 let dialogRef = this.dialog.open(UploadedAlertDialog, {
                     width: '75%',
-                    data: {'message': 'Los recibos de nóminas han sido cargados satisfactoriamente'}
+                    data: {'message': count + ' de ' + this.selectedFiles.length +
+                            ' recibos de nómina han sido cargados satisfactoriamente'}
                 });
-                //this.snackbar.open('Updated successfully', '', {duration: 5000});
             }, error => {
                 if (error.status === 405) {
                     this.dialog.closeAll();
@@ -307,6 +342,66 @@ export class CompanyEditComponent implements OnInit {
                 }
             });
     }
+
+    onImageSelected($event: any) {
+        let ref = this;
+        const fileImage = new FileReader();
+        fileImage.onloadend = function () {
+            let img = new Image();
+            img.onload = function () {
+                ref.height = img.height;
+                ref.width = img.width;
+                console.log(ref.height);
+                console.log(ref.width);
+                ref.imgValid = ((img.height <= 150 && img.height >= 70) && img.width <= 180);
+                if (ref.imgValid) {
+                    ref.url = fileImage.result;
+                    const file: File = $event.target.files[0];
+                    const fileImageAux = new FileReader();
+                    fileImageAux.onloadend = function () {
+                        ref.file.PDFContent = btoa(fileImageAux.result);
+                    };
+                    fileImageAux.readAsBinaryString($event.target.files[0]);
+                    ref.file.FileName = file.name;
+                }
+            };
+            img.src = fileImage.result;
+        };
+        if ($event.target.files.length > 0) {
+            fileImage.readAsDataURL($event.target.files[0]);
+        }
+    }
+
+    uploadLogoImage() {
+        this.isPromiseDone = false;
+        this.uploadService.addCompanyLogo(this.file, this.company.CompanyId).subscribe(
+            () => {
+                this.isPromiseDone = true;
+                let dialogRef = this.dialog.open(UploadedAlertDialog, {
+                    width: '75%',
+                    data: {
+                        'message': 'El logo ha sido cargado satisfactoriamente.',
+                        'refresh': true
+                    }
+                });
+                dialogRef.afterClosed().subscribe(
+                    () => {
+                        window.location.reload();
+                    }
+                );
+            }, error => {
+                if (error.status === 405) {
+                    this.dialog.closeAll();
+                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                        width: '75%'
+                    });
+                } else {
+                    this.userService.clearUser();
+                    this.router.navigate(['/login']);
+                }
+            }
+        );
+    }
 }
 
 @Component({
@@ -327,7 +422,6 @@ export class UploadedAlertDialog implements OnInit {
     onNoClick(): void {
         this.dialogRef.close();
     }
-
 }
 
 @Component({
@@ -349,4 +443,11 @@ export class PurchaseHistoryDialog implements OnInit {
         this.dialogRef.close();
     }
 
+}
+
+export class SelectedFilesHelper {
+    PdfName: string;
+    XmlName: string;
+    Status: string;
+    StatusBol: boolean;
 }

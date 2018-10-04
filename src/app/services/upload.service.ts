@@ -71,6 +71,18 @@ export class UploadService {
         return this.http.post(url, body, options).map(response => response); //unexpected end of JSON
     }
 
+    addCompanyLogo(file: FileUploadModel, companyId): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'POST', headers: _headers});
+        let url = this.rootURL + 'api/upload/addcompanylogo/' + companyId;
+        let body = JSON.stringify(file);
+        return this.http.post(url, body, options).map(response => response); //unexpected end of JSON
+    }
 
     closeBatch(batchId): Observable<any> {
         const user = this.userService.getUser();
@@ -106,6 +118,19 @@ export class UploadService {
         });
         let options = new RequestOptions({method: 'POST', headers: _headers});
         let url = this.rootURL + 'api/upload/verifySignatureOnDocument';
+        let body = JSON.stringify(req);
+        return this.http.post(url, body, options).map(response => response);
+    }
+
+    verifySignatureNoCert(req: VerifySignatureRequest): Observable<any> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        let options = new RequestOptions({method: 'POST', headers: _headers});
+        let url = this.rootURL + 'api/upload/verifySignatureOnDocumentNoCert';
         let body = JSON.stringify(req);
         return this.http.post(url, body, options).map(response => response);
     }

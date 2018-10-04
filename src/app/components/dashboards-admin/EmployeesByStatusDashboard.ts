@@ -45,7 +45,7 @@ export class EmployeesByStatusDashboard implements OnInit {
             data => {
                 this.loader = false;
                 google.charts.setOnLoadCallback(() => this.drawGraph(data.NewEmployees, data.UnregisterEmployees,
-                    data.RegisterEmployees));
+                    data.RegisterEmployees, data.InactiveEmloyees));
             }, error => {
                 if (error.status === 405) {
                     this.dialog.closeAll();
@@ -60,14 +60,15 @@ export class EmployeesByStatusDashboard implements OnInit {
         );
     }
 
-    drawGraph(newEmp, unregistedEmp, registedEmp) {
-        this.total = newEmp + unregistedEmp + registedEmp;
+    drawGraph(newEmp, unregistedEmp, registedEmp, inactiveEmp) {
+        this.total = newEmp + unregistedEmp + registedEmp + inactiveEmp;
 
         this.data = this.createDataTable([
             ['Estatus', 'No. de Empleados', {role: 'style'}],
             ['Nuevos', newEmp, '#80ADD7'],
             ['No Registrados', unregistedEmp, '#2CBBC3'],
-            ['Registrados', registedEmp, '#B7C46E']
+            ['Registrados', registedEmp, '#B7C46E'],
+            ['Inactivos', inactiveEmp, '#C46C54']
         ]);
 
         this.view = new google.visualization.DataView(this.data);

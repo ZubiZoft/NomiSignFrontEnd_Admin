@@ -9,6 +9,7 @@ import {CounterEmployeedbystatusModel} from './../models/counter.employeedbystat
 import {CounterReceiptsbystatusModel} from './../models/counter.receiptsbystatus.model';
 import {CounterSignaturesstatusModule} from '../models/counter.signaturesstatus.module';
 import {CounterDaysstatusModel} from '../models/counter.daysstatus.model';
+import {CounterRejectedbyperiodModel} from '../models/counter.rejectedbyperiod.model';
 
 const rootURL: string = environment.serviceUrl;
 
@@ -61,5 +62,15 @@ export class DashboardsService {
             'Authorization': 'Basic ' + user.SessionToken
         });
         return this.http.get(rootURL + 'api/dashboard/DaysLeft', {headers: _headers}).map(response => response.json());
+    }
+
+    getReceiptsRejectedByPeriod(): Observable<CounterRejectedbyperiodModel[]> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        return this.http.get(rootURL + 'api/dashboard/RejectedReceiptsByPeriod', {headers: _headers}).map(response => response.json());
     }
 }

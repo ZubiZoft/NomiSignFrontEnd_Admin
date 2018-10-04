@@ -62,7 +62,6 @@ export class CompanyService {
         });
         var options = new RequestOptions({method: 'POST', headers: _headers});
         var body = JSON.stringify(companyDetails);
-        console.log(companyDetails);
         let url = rootURL + 'api/companies';
         return this.http.post(url, body, options).map(response => response.json());
     }
@@ -75,5 +74,15 @@ export class CompanyService {
             'Authorization': 'Basic ' + user.SessionToken
         });
         return this.http.get(rootURL + 'api/signaturepurchases/' + companyId, {headers: _headers}).map(response => response.json());
+    }
+
+    getCompanyLogo(companyId: number): Observable<CompanyModel> {
+        const user = this.userService.getUser();
+        var _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        return this.http.get(rootURL + 'api/companies/' + companyId + '/logo', {headers: _headers}).map(response => response.json());
     }
 }

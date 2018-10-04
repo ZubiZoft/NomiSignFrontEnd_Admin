@@ -38,14 +38,12 @@ import {CompanyAdminNavbarComponent} from './components/navbars/companyAdmin/com
 import {UserNavbarComponent} from './components/navbars/user/user.navbar.component';
 import {InputFile} from './components/fileupload.component';
 import {VerifyNotAlertDialog} from './components/receipts/receiptsFilters/unsigned-receipts/unsigned-receipts.component';
-
 import {UserService} from './services/user.service';
 import {AuthService} from './services/auth.service';
 import {UploadService} from './services/upload.service';
 import {DocumentService} from './services/documents.service';
 import {EmployeeService} from './services/employee.service';
 import {CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard} from './services/authguard.service';
-
 import {ListFilterPipe} from './pipes/list-filter.pipe';
 import {SortByPipe} from './pipes/sort-by.pipe';
 import {AppRoutingModule} from './app.routing';
@@ -74,6 +72,7 @@ import {EmployeesByStatusDashboard} from './components/dashboards-admin/Employee
 import {ReceiptsByStatusDashboard} from './components/dashboards-admin/ReceiptsByStatusDashboard';
 import {SignaturesStatusDashboard} from './components/dashboards-admin/SignaturesStatusDashboard';
 import {DaysStatusDashboard} from './components/dashboards-admin/DaysStatusDashboard';
+import {RejectedEmployeesByPeriod} from './components/dashboards-admin/RejectedEmployeesByPeriod';
 import {DashboardsService} from './services/dashboards.service';
 import { EmployeeBarComponent } from './components/employee/employee-bar/employee-bar.component';
 import { UnregisteredComponent } from './components/employee/employeeFilters/unregistered/unregistered.component';
@@ -135,6 +134,7 @@ import { ReceiptsBarComponent } from './components/receipts/receipts-bar/receipt
         ReceiptsByStatusDashboard,
         SignaturesStatusDashboard,
         DaysStatusDashboard,
+        RejectedEmployeesByPeriod,
         EmployeeBarComponent,
         UnregisteredComponent,
         RegisteredComponent,

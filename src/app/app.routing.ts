@@ -30,7 +30,6 @@ import {DashboardsAdminComponent} from './components/dashboards-admin/dashboards
 import {CompanyListReceiptsComponent} from './components/receipts/company-list-receipts/company-list-receipts.component';
 
 const routes: Routes = [
-    {path: 'account/:uid', component: AccountComponent},
     {path: '', redirectTo: '/login', pathMatch: 'full'},
     {path: 'login', component: LoginComponent},
     {path: 'companies', component: CompaniesComponent, canActivate: [GAdminAuthGuard]},

@@ -2,13 +2,13 @@
 <br>
 <div class="container" style="max-height: 100vh;" *ngIf="company">
     <div [hidden]="this.userService.getUser().UserType !== 3">
-        <h1 class="text-center">Empleados Inactivos de {{company.CompanyName}}</h1>
+        <h2 class="text-center">Empleados Inactivos de {{company.CompanyName}}</h2>
         <br>
     </div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-6 text-center">
-                <mat-form-field style="width: 100%;">
+                <mat-form-field style="width: 100%;" [hidden]="employees.length < 1">
                     <mat-icon matPrefix>search</mat-icon>
                     <input matInput #search placeholder="Buscar Empleado" (keyup)="0"/>
                 </mat-form-field>
@@ -40,14 +40,62 @@
         <table class="table table-striped">
             <thead>
             <tr>
-                <th scope="col" (click)="sortedBy('EmployeeId')">ID</th>
-                <th scope="col" (click)="sortedBy('FirstName')">Nombre(s)</th>
-                <th scope="col" (click)="sortedBy('LastName1')">Apellido Paterno</th>
-                <th scope="col" (click)="sortedBy('LastName2')">Apellido Materno</th>
-                <th scope="col" (click)="sortedBy('EmailAddress')">Email</th>
-                <th scope="col" (click)="sortedBy('CellPhoneNumber')">Número Celular</th>
-                <th scope="col" (click)="sortedBy('RFC')">RFC</th>
-                <th scope="col" (click)="sortedBy('CURP')">CURP</th>
+                <th scope="col" class="pointer" (click)="sortedBy('EmployeeId')">
+                    <div style="white-space: nowrap">
+                        ID
+                        <i class="material-icons" *ngIf="sortKey === 'EmployeeId' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'EmployeeId' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('FirstName')">
+                    <div style="white-space: nowrap">
+                        Nombre(s)
+                        <i class="material-icons" *ngIf="sortKey === 'FirstName' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'FirstName' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('LastName1')">
+                    <div style="white-space: nowrap">
+                        Apellido Paterno
+                        <i class="material-icons" *ngIf="sortKey === 'LastName1' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'LastName1' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('LastName2')">
+                    <div style="white-space: nowrap">
+                        Apellido Materno
+                        <i class="material-icons" *ngIf="sortKey === 'LastName2' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'LastName2' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('EmailAddress')">
+                    <div style="white-space: nowrap">
+                        Email
+                        <i class="material-icons" *ngIf="sortKey === 'EmailAddress' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'EmailAddress' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('CellPhoneNumber')">
+                    <div style="white-space: nowrap">
+                        Número Celular
+                        <i class="material-icons" *ngIf="sortKey === 'CellPhoneNumber' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'CellPhoneNumber' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('RFC')">
+                    <div style="white-space: nowrap">
+                        RFC
+                        <i class="material-icons" *ngIf="sortKey === 'RFC' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'RFC' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('CURP')">
+                    <div style="white-space: nowrap">
+                        CURP
+                        <i class="material-icons" *ngIf="sortKey === 'CURP' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'CURP' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
                 <th scope="col" class="centerText">
                     <button type="button" class="btn btn-secondary" data-toggle="tooltip" (click)="selectAllDocuments()"
                             data-placement="top" title="Tooltip on top">
