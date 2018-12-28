@@ -1,11 +1,11 @@
+mat-form-field {
+    width: 100%;
+}
 
-  
-  .example-full-width {
-    display:flow-root;
-  }
-
-  /* ignore parent width */
-  .mat-form-field{
-        width:auto;
-        padding:10px 25px 10px 25px;
-  }
+.main-viewer {
+    position: absolute;
+    top: 128px;
+    bottom: 0px;
+    width: 100%;
+    overflow-y: auto;
+}

@@ -5,7 +5,7 @@ export class CompanyUserModel {
     PhoneNumber: string;
     PasswordHash: string;
     UserStatus: number;
-    UserType: number;
+    UserType: string;
     LastLogin: string;
     LastPasswordChange: Date;
     ForcePasswordReset: boolean;

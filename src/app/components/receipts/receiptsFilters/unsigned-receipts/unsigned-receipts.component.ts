@@ -9,6 +9,7 @@ import {DateAdapter} from '@angular/material/core';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {CompanyService} from '../../../../services/company.service';
 import {CompanyModel} from '../../../../models/company.model';
+import {DateRangeModel} from '../../../../models/date.range.model';
 
 @Component({
     selector: 'app-unsigned-receipts',
@@ -33,6 +34,7 @@ export class UnsignedReceiptsComponent implements OnInit {
     sortKey: string;
     updateBtn = false;
     company: CompanyModel;
+    advanceSearch: DateRangeModel = new DateRangeModel();
 
     constructor(private route: ActivatedRoute, private documentService: DocumentService, public dialog: MatDialog,
                 public userService: UserService, private router: Router, private companyService: CompanyService) {
@@ -79,6 +81,9 @@ export class UnsignedReceiptsComponent implements OnInit {
                     this.router.navigate(['/login']);
                 }
             });
+
+        this.advanceSearch.CompanyId = this.companyId;
+        this.advanceSearch.Status = 'SinFirma';
     }
 
     sortedBy(event) {

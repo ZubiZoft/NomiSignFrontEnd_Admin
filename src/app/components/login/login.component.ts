@@ -1,12 +1,11 @@
-import {Component, OnInit, Inject} from '@angular/core';
-import {FormControl, Validators} from '@angular/forms';
+import {Component, OnInit, Inject, OnDestroy} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Router} from '@angular/router';
-
 import {AuthService} from '../../services/auth.service';
 import {UserService} from '../../services/user.service';
 import {User} from '../../models/user.model';
-
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
+import {ResetAccountModel} from '../../models/reset.account.model';
 
 @Component({
     selector: 'app-login',
@@ -21,17 +20,19 @@ export class LoginComponent implements OnInit {
     };
     userName: string;
     password: string;
+    form: FormGroup;
+    isPromiseDone = true;
+    hide = true;
 
     activeUser: User;
-    usernameFormControl = new FormControl('', [
-        Validators.required]);
-
-    passwordFormControl = new FormControl('', [
-        Validators.required]);
-
 
     constructor(private authService: AuthService, private router: Router, private userService: UserService,
-                public dialog: MatDialog) { }
+                public dialog: MatDialog, private formBuilder: FormBuilder) {
+        this.form = formBuilder.group({
+            'email': [null, Validators.compose([Validators.required, Validators.email])],
+            'password': [null, Validators.required]
+        });
+    }
 
     ngOnInit() {
         if (this.userService.isLoggedIn()) {
@@ -39,32 +40,10 @@ export class LoginComponent implements OnInit {
         }
     }
 
-    gotoForgotPassword(): boolean {
-        var message = 'Se envio un enlace de restablecimiento de contraseña a su email en el archivo';
-        if (this.usernameFormControl.hasError('required') || this.usernameFormControl.hasError('email')) {
-            message = 'Pon su email y entonces oprima \'me Olvide Mi Contrasena\'';
-            let dialogRef = this.dialog.open(LoginAlertDialog, {
-                width: '50%',
-                data: {'message': message}
-            });
-        } else {
-            this.user.EmailAddress = this.userName;
-            this.authService.sendPasswordReset(this.user).subscribe(
-                userData => {
-                    this.userService.setUser(userData);
-                    let dialogRef = this.dialog.open(LoginAlertDialog, {
-                        width: '50%',
-                        data: {'message': message}
-                    });
-                },
-                error => {
-                    let dialogRef = this.dialog.open(LoginAlertDialog, {
-                        width: '50%',
-                        data: {'message': 'Si el email proporcionado fue correcto, se enviara un enlace de restablecimiento de contrasena'}
-                    });
-                });
-        }
-        return false;
+    openForgotPasswordDialog() {
+        let dialogRef = this.dialog.open(ForgotPasswordDialog, {
+            width: '50%'
+        });
     }
 
     login() {
@@ -76,12 +55,10 @@ export class LoginComponent implements OnInit {
                 let dialogRef = this.dialog.open(LoginAlertDialog, {
                         width: '50%',
                         data: {
-                            'message': 'El email y / o contrasena provistos no pudieron ser autenticados con exito'
+                            'message': 'El email y / o contraseña provistos no pudieron ser autenticados con exito'
                         }
-                    })
-                ;
-            },
-            () => {
+                    });
+            }, () => {
                 let user = this.userService.getUser();
                 switch (user.UserType) {
                     case 3: { //global admin
@@ -104,8 +81,6 @@ export class LoginComponent implements OnInit {
             }
         );
     }
-
-
 }
 
 @Component({
@@ -120,11 +95,71 @@ export class LoginAlertDialog implements OnInit {
     loginMessage: string;
 
     ngOnInit() {
-        this.loginMessage = this.data['message']; //"The email and/or password provided could not be authenticated sucessfully.";
+        this.loginMessage = this.data['message'];
     }
 
     onNoClick(): void {
         this.dialogRef.close();
     }
 
+}
+
+@Component({
+    selector: 'forgot-password-dialog',
+    templateUrl: 'forgot-password-dialog.html',
+})
+export class ForgotPasswordDialog implements OnInit {
+
+    form: FormGroup;
+    message: string;
+    isPromiseDone = true;
+    email: ResetAccountModel;
+
+    constructor(public dialogRef: MatDialogRef<ForgotPasswordDialog>, @Inject(MAT_DIALOG_DATA) public data: any,
+                private formBuilder: FormBuilder, private auth: AuthService, public dialog: MatDialog) {
+        this.form = formBuilder.group({
+            'email': [null, Validators.compose([Validators.required, Validators.email])]
+        });
+    }
+
+    ngOnInit() {
+        this.email = new ResetAccountModel();
+    }
+
+    onNoClick(): void {
+        this.dialogRef.close();
+    }
+
+    resetMyPassword() {
+        this.isPromiseDone = false;
+        this.auth.sendPasswordReset(this.email).subscribe(
+            () => {
+                this.dialogRef.afterClosed().subscribe(
+                    () => {
+                        this.dialog.open(LoginAlertDialog, {
+                            width: '50%',
+                            data: {
+                                'message': 'Sí la cuenta de correo es correcta, entonces recibiras un correo para reiniciar tu cuenta.'
+                            }
+                        });
+                    }
+                );
+                this.dialogRef.close();
+                this.isPromiseDone = true;
+            }, error => {
+                this.dialogRef.afterClosed().subscribe(
+                    () => {
+                        this.dialog.open(LoginAlertDialog, {
+                            width: '50%',
+                            data: {
+                                'message': '¡Hubo un error reiniciando la cuenta, por favor contacta a soporte técnico Nomisign!'
+                            }
+                        });
+                    }
+                );
+                this.dialogRef.close();
+                this.isPromiseDone = true;
+            }
+        );
+    }
 }

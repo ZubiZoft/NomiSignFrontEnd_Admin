@@ -5,6 +5,7 @@ import {UserService} from '../../services/user.service';
 import {MatDialog} from '@angular/material';
 import * as shajs from 'sha.js';
 import {VerifySignatureRequest} from '../../models/VerifySignatureRequest.model';
+import {SessionTimeoutDialogComponent} from '../session-timeout-dialog/session-timeout-dialog.component';
 
 @Component({
     selector: 'app-validator',
@@ -15,10 +16,10 @@ export class ValidatorComponent implements OnInit {
 
     file: File;
     reqs: VerifySignatureRequest[];
-    req: VerifySignatureRequest;
-    nom: string;
+    isPromiseDone = true;
+    processStatus = 0;
 
-    constructor(private userService: UserService, private router: Router, public dialog: MatDialog) {
+    constructor(private userService: UserService, private router: Router, public dialog: MatDialog, private uploadService: UploadService) {
     }
 
     ngOnInit() {
@@ -52,34 +53,42 @@ export class ValidatorComponent implements OnInit {
                         req.NOM151CertHash = shajs('sha256').update(req.NOM151Cert).digest('hex');
                         req.Status = 0;
                         ref.reqs.push(req);
-                        console.log(req);
+
                     }
                     myReaderNOM.readAsText(filesNOM[f]);
                 };
                 myReaderPDF.readAsBinaryString(filesPDF[f]);
             }
         }
+        this.processStatus = 1;
     }
 
-    onFileSelectDemo($event: any) {
-        let ref = this;
-
-        this.file = $event.target.files[0];
-
-        const myReaderPDF: FileReader = new FileReader();
-        myReaderPDF.onloadend = function (e) {
-            // you can perform an action with read data here
-            ref.req = new VerifySignatureRequest();
-            ref.req.PdfReceiptName = ref.file.name;
-            ref.req.PdfReceiptFile = btoa(myReaderPDF.result);
-            ref.req.PdfReceiptHash = shajs('sha256').update(btoa(ref.req.PdfReceiptFile)).digest('hex');
-        };
-        myReaderPDF.readAsBinaryString(ref.file);
-    }
-
-    updateModelReq() {
-        this.req.NOM151Cert = this.nom;
-        this.req.NOM151CertHash = shajs('sha256').update(this.nom).digest('hex');
+    validateSignature() {
+        this.isPromiseDone = false;
+        var res = new VerifySignatureRequest();
+        for (const r of this.reqs) {
+            this.uploadService.verifySignatureNoCert(r).subscribe(data => {
+                r.Status = 1;
+                res = data;
+                r.DocumentId = res.DocumentId;
+                r.NOM151Cert = '';
+                r.PdfReceiptFile = '';
+                this.isPromiseDone = true;
+            }, error => {
+                if (error.status === 405) {
+                    this.dialog.closeAll();
+                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                        width: '75%'
+                    });
+                }
+                if (error.status === 409) {
+                    r.Status = 2;
+                }
+                r.NOM151Cert = '';
+                r.PdfReceiptFile = '';
+            });
+        }
+        this.processStatus = 2;
     }
 
     removeExtension(name: string) {

@@ -14,8 +14,7 @@ const rootURL: string = environment.serviceUrl;
 
 @Component({
     selector: 'download-btn',
-    template: '<button mat-raised-button color="primary" style=" width: 100%;" (click)="downloadFile()" [disabled]="disable"' +
-    '                  i18n="action | button which will send a notification to the employees to sign the selected receipt.">' +
+    template: '<button mat-raised-button color="primary" style=" width: 100%;" (click)="downloadFile()" [disabled]="disable">' +
     '              Descargar' +
     '          </button> ',
     providers: [
@@ -26,7 +25,7 @@ const rootURL: string = environment.serviceUrl;
 export class DownloadComponent {
 
     @Input() docs: DocumentModel[];
-    @Input() verifySignReq: VerifySignatureRequest;
+    @Input() verifySignReqs: VerifySignatureRequest[];
     @Input() disable: boolean;
 
     constructor(private http: Http, public dialog: MatDialog, private userService: UserService, private router: Router) {
@@ -39,14 +38,14 @@ export class DownloadComponent {
             'ClientType': 'nomiadmin',
             'Authorization': 'Basic ' + user.SessionToken
         });
-        const url = rootURL + 'api/upload/verifySignatureOnDocument';
-        const body = JSON.stringify(this.verifySignReq);
+        const url = rootURL + 'api/upload/downloadCerts';
+        const body = JSON.stringify(this.verifySignReqs);
         const options = new RequestOptions({method: 'POST', headers: _headers, responseType: ResponseContentType.Blob});
         return this.http.post(url, body, options)
             .subscribe(
                 (res: any) => {
                     let blob = res.blob();
-                    let filename = 'Constancia.pdf';
+                    let filename = 'Constancias.zip';
                     FileSaver.saveAs(blob, filename);
                 }, error => {
                     if (error.status === 405) {

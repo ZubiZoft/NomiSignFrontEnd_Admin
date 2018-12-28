@@ -23,4 +23,10 @@ export class EmployeeModel {
     HasContractToSign: boolean;
     StatusName: string;
     CheckedBox: boolean;
+    Value1: string;
+    Value2: string;
+    Value3: string;
+    Value4: string;
+    Value5: string;
+    Value6: string;
 }

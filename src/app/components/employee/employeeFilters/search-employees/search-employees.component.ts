@@ -10,6 +10,7 @@ import {CompanyModel} from '../../../../models/company.model';
 import {CompanyService} from '../../../../services/company.service';
 import {EmployeeSearch} from '../../../../models/employee.search';
 import {VerifyNotAlertDialog} from '../../../receipts/receiptsFilters/unsigned-receipts/unsigned-receipts.component';
+import {CompanyEmployeeModel} from '../../../../models/company.employee.model';
 
 @Component({
     selector: 'app-search-employees',
@@ -28,6 +29,7 @@ export class SearchEmployeesComponent implements OnInit {
     updateBtn = false;
     responseClassG: boolean;
     responseClassR: boolean;
+    CompanyInfo: CompanyEmployeeModel;
 
     constructor(private employeeService: EmployeeService, private route: ActivatedRoute, public dialog: MatDialog,
                 public userService: UserService, private router: Router, private companyService: CompanyService) {
@@ -72,7 +74,8 @@ export class SearchEmployeesComponent implements OnInit {
         this.route.paramMap
             .switchMap((params: ParamMap) => this.employeeService.advanceSearch(params.get('cid'), this.search))
             .subscribe(data => {
-                this.employees = data;
+                this.CompanyInfo = data;
+                this.employees = this.CompanyInfo.Employees;
                 this.isPromiseDone = true;
             }, error => {
                 if (error.status === 405) {

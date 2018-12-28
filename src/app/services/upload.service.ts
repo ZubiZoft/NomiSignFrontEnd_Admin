@@ -132,6 +132,6 @@ export class UploadService {
         let options = new RequestOptions({method: 'POST', headers: _headers});
         let url = this.rootURL + 'api/upload/verifySignatureOnDocumentNoCert';
         let body = JSON.stringify(req);
-        return this.http.post(url, body, options).map(response => response);
+        return this.http.post(url, body, options).map(response => response.json());
     }
 }

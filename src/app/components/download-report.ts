@@ -36,6 +36,7 @@ export class DownloadReportComponent {
     }
 
     public downloadFile() {
+        this.disable = true;
         const user = this.userService.getUser();
         const _headers = new Headers({
             'Content-Type': 'application/json',
@@ -57,6 +58,7 @@ export class DownloadReportComponent {
                         const blob = res.blob();
                         const filename = 'Reporte.xlsx';
                         FileSaver.saveAs(blob, filename);
+                        this.disable = false;
                     }, error => {
                         if (error.status === 405) {
                             this.dialog.closeAll();
@@ -67,6 +69,7 @@ export class DownloadReportComponent {
                             this.userService.clearUser();
                             this.router.navigate(['/login']);
                         }
+                        this.disable = false;
                     }
                 );
         } else {
@@ -79,6 +82,7 @@ export class DownloadReportComponent {
                         const blob = res.blob();
                         const filename = 'Reporte.xlsx';
                         FileSaver.saveAs(blob, filename);
+                        this.disable = false;
                     }, error => {
                         if (error.status === 405) {
                             this.dialog.closeAll();
@@ -89,6 +93,7 @@ export class DownloadReportComponent {
                             this.userService.clearUser();
                             this.router.navigate(['/login']);
                         }
+                        this.disable = false;
                     }
                 );
         }

@@ -32,6 +32,7 @@ import {CompanyListReceiptsComponent} from './components/receipts/company-list-r
 const routes: Routes = [
     {path: '', redirectTo: '/login', pathMatch: 'full'},
     {path: 'login', component: LoginComponent},
+    {path: 'resetaccount/:uid', component: AccountComponent},
     {path: 'companies', component: CompaniesComponent, canActivate: [GAdminAuthGuard]},
     {path: 'validator', component: ValidatorComponent, canActivate: [UserAuthGuard]},
     {path: 'dashboard', component: DashboardComponent, canActivate: [GAdminAuthGuard]},

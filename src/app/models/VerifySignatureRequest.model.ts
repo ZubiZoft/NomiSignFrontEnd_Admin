@@ -5,4 +5,5 @@ export class VerifySignatureRequest {
     NOM151Cert: string;
     NOM151CertHash: string;
     Status: number;
+    DocumentId: string;
 }

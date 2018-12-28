@@ -43,6 +43,7 @@ export class DocumentViewerComponent implements OnInit {
     showNomCert() {
         let dialogRef = this.dialog.open(Nom151DialogComponent, {
             width: '75%',
+            height: '65%',
             data: {'message': this.document.NomCert}
         });
     }
@@ -71,4 +72,16 @@ export class Nom151DialogComponent implements OnInit {
         this.dialogRef.close();
     }
 
+    copyClicboard(): void {
+        let aux = document.createElement('textarea');
+        aux.style.left = '0';
+        aux.style.top = '0';
+        aux.style.opacity = '0';
+        aux.value = this.nomCert;
+        document.body.appendChild(aux);
+        aux.focus();
+        aux.select();
+        document.execCommand('copy');
+        document.body.removeChild(aux);
+    }
 }

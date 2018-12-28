@@ -29,7 +29,7 @@ import {CompanyUsersComponent} from './components/companyuser/companyUsers/compa
 import {CompanyUsersListComponent} from './components/companyuser/companyUsersList/companyUsersList.component';
 import {CompanyUsersEditComponent} from './components/companyuser/companyUsersEdit/companyUsersEdit.component';
 import {CompanyUsersNewComponent} from './components/companyuser/companyUsersNew/companyUsersNew.component';
-import {LoginAlertDialog} from './components/login/login.component';
+import {LoginAlertDialog, ForgotPasswordDialog} from './components/login/login.component';
 import {UploadedAlertDialog} from './components/company/companyEdit/companyEdit.component';
 import {RefusedDocumentAlertDialog} from './components/documentList/documentList.component';
 import {GlobalAdminNavbarComponent} from './components/navbars/globalAdmin/global-admin.navbar.component';
@@ -58,6 +58,7 @@ import {SearchReceiptsComponent} from './components/receipts/receiptsFilters/sea
 import {InactiveEmployeesComponent} from './components/employee/employeeFilters/inactive-employees/inactive-employees.component';
 import {CustomBrowserXhr} from './services/custom-browser-xhr';
 import {DownloadComponent} from './components/download-component';
+import {DownloadDocReportComponent} from './components/download-doc-report';
 import {DownloadReportComponent} from './components/download-report';
 import {DocumentViewerComponent, Nom151DialogComponent} from './components/document-viewer/document-viewer.component';
 import {SafeUrlPipe} from './pipes/safe-url.pipe';
@@ -101,6 +102,7 @@ import { ReceiptsBarComponent } from './components/receipts/receipts-bar/receipt
         CompanyUsersEditComponent,
         CompanyUsersNewComponent,
         LoginAlertDialog,
+        ForgotPasswordDialog,
         UploadedAlertDialog,
         EditEmployeeAlertDialog,
         RefusedDocumentAlertDialog,
@@ -117,6 +119,7 @@ import { ReceiptsBarComponent } from './components/receipts/receipts-bar/receipt
         SearchReceiptsComponent,
         InactiveEmployeesComponent,
         DownloadComponent,
+        DownloadDocReportComponent,
         DownloadReportComponent,
         SortByPipe,
         ListFilterPipe,
@@ -170,7 +173,7 @@ import { ReceiptsBarComponent } from './components/receipts/receipts-bar/receipt
         CustomBrowserXhr, EmployeeService, CompanyUsersService, CompanyService, DashboardsService],
     bootstrap: [AppComponent],
     entryComponents: [LoginAlertDialog, RefusedDocumentAlertDialog, UploadedAlertDialog, EditEmployeeAlertDialog, VerifyNotAlertDialog,
-        ChangeStatusAlertDialog, SessionTimeoutDialogComponent, PurchaseHistoryDialog, Nom151DialogComponent]
+        ChangeStatusAlertDialog, SessionTimeoutDialogComponent, PurchaseHistoryDialog, Nom151DialogComponent, ForgotPasswordDialog]
 })
 export class AppModule {
 }

@@ -1,35 +1,96 @@
-<mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
-
-<div style="max-height: 75vh; overflow-y: auto"  class="centeredList">
-    <br>
-  <form class="example-form" *ngIf="companyUser">
-    <mat-form-field class="example-full-width">
-      <input matInput required placeholder="Correo Electrónico" value="{{companyUser.EmailAddress}}" [(ngModel)]="companyUser.EmailAddress" name=companyUserEmail
-        i18n-placeholder="form | field displaying the company user's email@@CompanyUserEmail">
-    </mat-form-field>
-      <!--<mat-form-field class="example-full-width">
-          <input matInput required placeholder="Password" value="{{companyUser.PasswordHash}}" [(ngModel)]="companyUser.PasswordHash" name=companyPasswordHash
-                 i18n-placeholder="form | field displaying the company user's password@@CompanyUserPasswordHash">
-      </mat-form-field>-->
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Nombre de Usuario" value="{{companyUser.DisplayName}}" [(ngModel)]="companyUser.DisplayName" name=companyUserDisplayName
-        i18n-placeholder="form | field displaying the company user's display name@@CompanyUserDisplayName">
-    </mat-form-field>
-    <mat-form-field class="example-full-width">
-      <input matInput placeholder="Teléfono" value="{{companyUser.PhoneNumber}}" [(ngModel)]="companyUser.PhoneNumber" name=companyUserPhoneNumber
-        i18n-placeholder="form | field displaying the company user's phone number@@CompanyUserPhoneNumber">
-    </mat-form-field>
-      <mat-form-field class="example-full-width">
-          <mat-select  [(ngModel)]="companyUser.UserType" title="User Type" placeholder="Tipo de Usuario" name=companyUserType i18n-placeholder="@@UserTypeInput">
-              <mat-option *ngFor="let type of usertype.codes" [value]="type">
-                  {{ type }}
-              </mat-option>
-          </mat-select>
-        </mat-form-field>
-      <p align="right"><b>Creadó Por:</b>{{companyUser.CreatedByUserName}} - <b>Último Inicio de Sesión:</b>{{companyUser.LastLogin}} - <b>Status:</b>{{companyUser.UserStatus}} </p>
-</form>
-    <button mat-raised-button color="primary" [routerLink]="['/companyusers', companyId]" routerLinkActive="active" i18n="@@BackButton"> Regresar </button>
-    <button mat-raised-button color="primary" style="float: right;" (click)=updateCompanyUser() i18n="@@UpdateButton"> Guardar </button>
-  <br/><br/><br/><br/>
-    <br/><br/><br/><br/>
+<div class="main-viewer">
+    <form *ngIf="companyUser">
+        <br>
+        <div class="container">
+            <div class="row justify-content-md-center">
+                <div class="col">
+                    <h2 class="text-center">Editar Usuario</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <input matInput placeholder="Correo Electrónico" value="{{companyUser.EmailAddress}}"
+                               [formControl]="form.controls['email']" type="email"
+                               [(ngModel)]="companyUser.EmailAddress" name=companyUserEmail readonly>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <input matInput placeholder="Nombre de Usuario" value="{{companyUser.DisplayName}}"
+                               [formControl]="form.controls['username']"
+                               [(ngModel)]="companyUser.DisplayName" name=companyUserDisplayName
+                               required>
+                        <mat-error *ngIf="form.controls['username'].hasError('required')">
+                            El Nombre de Usuario es <strong>Requerido</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <input matInput placeholder="Teléfono" value="{{companyUser.PhoneNumber}}"
+                               [formControl]="form.controls['phone']"
+                               [(ngModel)]="companyUser.PhoneNumber" name=companyUserPhoneNumber required>
+                        <mat-error *ngIf="form.controls['phone'].hasError('required')">
+                            El Teléfono es <strong>Requerido</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" *ngIf="!readonlytype">
+                    <mat-form-field>
+                        <mat-select [(ngModel)]="selected"
+                                    [formControl]="form.controls['type']"
+                                    title="User Type" placeholder="Tipo de Usuario"
+                                    name=companyUserType required>
+                            <mat-option *ngFor="let type of usertype.codes" [value]="type.display">
+                                {{ type.display }}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="form.controls['type'].hasError('required')">
+                            El Tipo de usuario es <strong>Requerido</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col" *ngIf="readonlytype">
+                    <mat-form-field>
+                        <input matInput placeholder="Tipo de Usuario" value="{{selected}}"
+                               [(ngModel)]="selected" name=companyUserTypeReadonly readonly>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <p align="right"><b>Creado Por:</b>{{companyUser.CreatedByUserName}} - <b>Último Inicio de
+                        Sesión:</b>{{companyUser.LastLogin}} -
+                        <b>Status:</b>{{companyUser.UserStatus === 'Active' ? 'Activo' : 'Inactivo'}} </p>
+                    <br>
+                </div>
+            </div>
+            <div class="row justify-content-md-center">
+                <div class="col-2">
+                    <button mat-raised-button color="primary" style="width: 100%;" (click)="removeAccount()">Dar de
+                        Baja
+                    </button>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-2">
+                    <button mat-raised-button color="primary" style="width: 100%;" (click)="resetAccount()">Reiniciar</button>
+                </div>
+                <div class="col-2"></div>
+                <div class="col-2">
+                    <button mat-raised-button color="primary" style="width: 100%;"
+                            [disabled]="form.invalid || !isPromiseDone"
+                            (click)="updateCompanyUser()">Guardar
+                    </button>
+                </div>
+            </div>
+        </div>
+        <br><br><br><br><br>
+    </form>
 </div>

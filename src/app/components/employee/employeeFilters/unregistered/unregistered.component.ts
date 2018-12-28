@@ -11,6 +11,7 @@ import {CompanyService} from '../../../../services/company.service';
 import {SessionTimeoutDialogComponent} from '../../../session-timeout-dialog/session-timeout-dialog.component';
 import {UploadedAlertDialog} from '../../../company/companyEdit/companyEdit.component';
 import {VerifyNotAlertDialog} from '../../../receipts/receiptsFilters/unsigned-receipts/unsigned-receipts.component';
+import {CompanyEmployeeModel} from '../../../../models/company.employee.model';
 
 @Component({
     selector: 'app-unregistered',
@@ -21,7 +22,7 @@ export class UnregisteredComponent implements OnInit {
 
     companyId: string;
     employees: EmployeeModel[];
-    isPromiseDone = true;
+    isPromiseDone = false;
     sortAsc: boolean;
     sortKey: string;
     file: any;
@@ -29,6 +30,7 @@ export class UnregisteredComponent implements OnInit {
     selectedLetter: LetterPaginationElem;
     company: CompanyModel;
     updateBtn = false;
+    CompanyInfo: CompanyEmployeeModel;
 
     constructor(private employeeService: EmployeeService, private route: ActivatedRoute, public dialog: MatDialog,
                 public userService: UserService, private router: Router, private uploadService: UploadService,
@@ -95,7 +97,8 @@ export class UnregisteredComponent implements OnInit {
             .switchMap((params: ParamMap) => this.employeeService.getUnregisteredEmployeesByCompany(params.get('cid'),
                 this.selectedLetter.value))
             .subscribe(data => {
-                this.employees = data;
+                this.CompanyInfo = data;
+                this.employees = this.CompanyInfo.Employees;
                 this.isPromiseDone = true;
             }, error => {
                 if (error.status === 405) {

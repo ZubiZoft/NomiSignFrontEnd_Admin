@@ -12,6 +12,7 @@ import {DateAdapter} from '@angular/material/core';
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {CompanyModel} from '../../../../models/company.model';
 import {CompanyService} from '../../../../services/company.service';
+import {DateRangeModel} from '../../../../models/date.range.model';
 
 @Component({
     selector: 'app-denied-receipts',
@@ -36,6 +37,7 @@ export class DeniedReceiptsComponent implements OnInit {
     sortKey: string;
     updateBtn = false;
     company: CompanyModel;
+    advanceSearch: DateRangeModel = new DateRangeModel();
 
     constructor(private route: ActivatedRoute, private documentService: DocumentService, public dialog: MatDialog,
                 public userService: UserService, private router: Router, private companyService: CompanyService) {
@@ -52,6 +54,9 @@ export class DeniedReceiptsComponent implements OnInit {
         });
 
         this.loadDocuments();
+
+        this.advanceSearch.CompanyId = this.companyId;
+        this.advanceSearch.Status = 'Rechazado';
     }
 
     loadDocuments() {

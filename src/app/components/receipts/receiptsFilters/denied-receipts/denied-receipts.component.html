@@ -10,20 +10,27 @@
             <div class="col-md-6 text-center">
                 <mat-form-field style="width: 100%;">
                     <mat-icon matPrefix>search</mat-icon>
-                    <input matInput #search placeholder="Buscar Recibo" (keyup)="0" />
+                    <input matInput #search placeholder="Buscar Recibo" (keyup)="0"/>
                 </mat-form-field>
                 <br>
             </div>
-            <div class="col-md-3 text-center">
+            <div class="col-md-2 text-center">
+                <download-doc-report [disable]="!isPromiseDone" [companyId]="companyId"
+                                     [advanceSearch]="advanceSearch"></download-doc-report>
+            </div>
+            <div class="col-md-2 text-center">
                 <button mat-raised-button color="primary" *ngIf="updateBtn" (click)="updateStatus();"
-                        style="margin: 5px;"
+                        style="width: 100%;"
                         i18n="action | button which will send a notification to the employees to sign the selected receipt.">
-                    Actualizar Status
+                    Enviar a Firmar
                 </button>
             </div>
         </div>
         <div class="row">
-            <small class="font-light text-right" style="color: #2cbbc3; float: right;">Resultados: {{documents ? (documents | listfilter: search.value)?.length : '0'}}</small>
+            <div class="pagination-bar text-justify text-center" style="width: 100%;">
+                <small class="font-light text-right" style="color: #2cbbc3; float: right;">
+                    Resultados: {{documents ? (documents | listfilter: search.value)?.length : '0'}}</small>
+            </div>
             <div class="table-responsive vertical-scroll-temp">
                 <table class="table table-striped">
                     <thead>
@@ -31,7 +38,8 @@
                         <th scope="col" class="pointer" (click)="sortedBy('DocumentId')">
                             <div style="white-space: nowrap">
                                 ID
-                                <i class="material-icons" *ngIf="sortKey === 'DocumentId' && !sortAsc">arrow_drop_down</i>
+                                <i class="material-icons"
+                                   *ngIf="sortKey === 'DocumentId' && !sortAsc">arrow_drop_down</i>
                                 <i class="material-icons" *ngIf="sortKey === 'DocumentId' && sortAsc">arrow_drop_up</i>
                             </div>
                         </th>
@@ -39,20 +47,24 @@
                             <div style="white-space: nowrap">
                                 Período de Pago
                                 <i class="material-icons" *ngIf="sortKey === 'PayperiodDate' && !sortAsc">arrow_drop_down</i>
-                                <i class="material-icons" *ngIf="sortKey === 'PayperiodDate' && sortAsc">arrow_drop_up</i>
+                                <i class="material-icons"
+                                   *ngIf="sortKey === 'PayperiodDate' && sortAsc">arrow_drop_up</i>
                             </div>
                         </th>
                         <th scope="col" class="pointer" (click)="sortedBy('EmployeeName')">
                             <div style="white-space: nowrap">
                                 Nombre de Empleado
-                                <i class="material-icons" *ngIf="sortKey === 'EmployeeName' && !sortAsc">arrow_drop_down</i>
-                                <i class="material-icons" *ngIf="sortKey === 'EmployeeName' && sortAsc">arrow_drop_up</i>
+                                <i class="material-icons"
+                                   *ngIf="sortKey === 'EmployeeName' && !sortAsc">arrow_drop_down</i>
+                                <i class="material-icons"
+                                   *ngIf="sortKey === 'EmployeeName' && sortAsc">arrow_drop_up</i>
                             </div>
                         </th>
                         <th scope="col" class="pointer" (click)="sortedBy('EmployeeRfc')">
                             <div style="white-space: nowrap">
                                 RFC de Empleado
-                                <i class="material-icons" *ngIf="sortKey === 'EmployeeRfc' && !sortAsc">arrow_drop_down</i>
+                                <i class="material-icons"
+                                   *ngIf="sortKey === 'EmployeeRfc' && !sortAsc">arrow_drop_down</i>
                                 <i class="material-icons" *ngIf="sortKey === 'EmployeeRfc' && sortAsc">arrow_drop_up</i>
                             </div>
                         </th>
@@ -66,7 +78,8 @@
                         <th scope="col" class="pointer" (click)="sortedBy('UploadTime')">
                             <div style="white-space: nowrap">
                                 Fecha Carga
-                                <i class="material-icons" *ngIf="sortKey === 'UploadTime' && !sortAsc">arrow_drop_down</i>
+                                <i class="material-icons"
+                                   *ngIf="sortKey === 'UploadTime' && !sortAsc">arrow_drop_down</i>
                                 <i class="material-icons" *ngIf="sortKey === 'UploadTime' && sortAsc">arrow_drop_up</i>
                             </div>
                         </th>
@@ -74,11 +87,13 @@
                             <div style="white-space: nowrap">
                                 Comentarios
                                 <i class="material-icons" *ngIf="sortKey === 'EmployeeConcern' && !sortAsc">arrow_drop_down</i>
-                                <i class="material-icons" *ngIf="sortKey === 'EmployeeConcern' && sortAsc">arrow_drop_up</i>
+                                <i class="material-icons"
+                                   *ngIf="sortKey === 'EmployeeConcern' && sortAsc">arrow_drop_up</i>
                             </div>
                         </th>
                         <th scope="col" class="centerText" (click)="selectAllDocuments();">
-                            <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top" title="Tooltip on top">
+                            <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top"
+                                    title="Tooltip on top">
                                 Seleccionar Todos
                             </button>
                         </th>
@@ -86,11 +101,14 @@
                     </thead>
                     <tbody>
                     <tr *ngFor="let e of documents | listfilter: search.value | sortBy:sortKey:sortAsc" class="pointer">
-                        <th [routerLink]="['/document-viewer', companyId, e.DocumentId]" scope="row">{{e.DocumentId}}</th>
+                        <th [routerLink]="['/document-viewer', companyId, e.DocumentId]"
+                            scope="row">{{e.DocumentId}}</th>
                         <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.PayperiodDate | date:'shortDate':'':'mx'}}</td>
-                        <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.EmployeeName}}</td>
+                        <td [routerLink]="['/document-viewer', companyId, e.DocumentId]"
+                            class="text-capitalize">{{e.EmployeeName}}</td>
                         <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.EmployeeRfc}}</td>
-                        <td [routerLink]="['/document-viewer', companyId, e.DocumentId]" style="white-space: nowrap">{{e.UUID}}</td>
+                        <td [routerLink]="['/document-viewer', companyId, e.DocumentId]"
+                            style="white-space: nowrap">{{e.UUID}}</td>
                         <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.UploadTime | date:'shortDate':'':'mx'}}</td>
                         <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.EmployeeConcern}}</td>
                         <td class="centerText">

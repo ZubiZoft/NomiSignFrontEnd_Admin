@@ -28,3 +28,11 @@ input-file button {
 .icon-red {
     color: #e53935;
 }
+
+.main-viewer {
+    top: 130px;
+    bottom: 20px;
+    width: 100%;
+    overflow-y: auto;
+    position: absolute;
+}

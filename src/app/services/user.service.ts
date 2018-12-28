@@ -5,6 +5,7 @@ import {User} from '../models/user.model';
 @Injectable()
 export class UserService {
     public userUpdated: EventEmitter<any> = new EventEmitter();
+    private _user: User;
 
     public setUser(user: User) {
         this._user = user;
@@ -39,6 +40,4 @@ export class UserService {
         this._user = null;
         this.userUpdated.emit(null);
     }
-
-    private _user: User;
 }

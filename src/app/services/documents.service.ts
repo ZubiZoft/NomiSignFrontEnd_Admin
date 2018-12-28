@@ -5,6 +5,7 @@ import 'rxjs/add/operator/map';
 import { environment } from '../../environments/environment';
 import { DateRangeModel } from '../models/date.range.model';
 import { UserService } from './user.service';
+import * as moment from 'moment';
 
 const rootURL: string = environment.serviceUrl;
 
@@ -79,24 +80,33 @@ export class DocumentService {
         return this.http.get(url, options).map(response => response.json());
     }
 
-    getAllDocumentsByCompanyDateRange(companyId, fromDate, toDate, rfc, curp, type, status, uuid): Observable<any> {
+    getAllDocumentsByCompanyDateRange(companyId, fromDate, toDate, rfc, curp, type, status, uuid,
+                                      value1, value2, value3, value4, value5, value6): Observable<any> {
         const user = this.userService.getUser();
         var _headers = new Headers({
             'Content-Type': 'application/json',
             'ClientType': 'nomiadmin',
             'Authorization': 'Basic ' + user.SessionToken
         });
-        let options = new RequestOptions({ method: 'POST', headers: _headers })
-        let url = rootURL + 'api/documentsByCompanyDateRange/' + companyId;
+        const options = new RequestOptions({ method: 'POST', headers: _headers })
+        const url = rootURL + 'api/documentsByCompanyDateRange/' + companyId;
         let range: DateRangeModel = new DateRangeModel();
-        range.InitDate = fromDate;
-        range.EndDate = toDate;
+        const from = moment(fromDate).format('MM/DD/YYYY');
+        const to = moment(toDate).format('MM/DD/YYYY');
+        range.InitDate = from;
+        range.EndDate = to;
         range.Type = type;
         range.Status = status;
         range.Rfc = rfc;
         range.Curp = curp;
         range.UUID = uuid;
-        let body = JSON.stringify(range);
+        range.Value1 = value1;
+        range.Value2 = value2;
+        range.Value3 = value3;
+        range.Value4 = value4;
+        range.Value5 = value5;
+        range.Value6 = value6;
+        const body = JSON.stringify(range);
 
         return this.http.post(url, body, options).map(response => response.json());
     }

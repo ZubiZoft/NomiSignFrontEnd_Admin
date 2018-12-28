@@ -1,6 +1,9 @@
 ﻿export class UserType {
-    public codes
+    public codes;
+
     constructor() {
-        this.codes = ["HumanResources", "CompanyAdmin", "GlobalAdmin"]
+        this.codes = [{system: 'HumanResources', display: 'Recursos Humanos'},
+            {system: 'CompanyAdmin', display: 'Administrador de Compañía'},
+            {system: 'GlobalAdmin', display: 'Adminitrador Global'}];
     }
 }

@@ -4,7 +4,7 @@
   }
   
   .example-full-width {
-    width: 50%;
+    width: 80%;
   }
 
   .loginLogoMobile {
@@ -40,3 +40,12 @@
     }
       
    }
+
+.forgot-my-password {
+  color: #2cbbc3;
+  cursor: pointer;
+}
+
+.forgot-my-password:hover {
+  text-decoration-line: underline;
+}

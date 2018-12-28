@@ -172,12 +172,16 @@ export class EmployeeEditComponent implements OnInit {
         let emp: EmployeeModel = new EmployeeModel();
         emp.CellPhoneNumber = this.employee.CellPhoneNumber;
         emp.RFC = this.employee.RFC;
-        this.employeeService.validatePhone(emp).subscribe(
-            () => {
-                this.phoneValid = false;
-            }, error => {
-                this.phoneValid = true;
-            });
+        if (emp.CellPhoneNumber.length === 10) {
+            this.employeeService.validatePhone(emp).subscribe(
+                () => {
+                    this.phoneValid = false;
+                }, error => {
+                    this.phoneValid = true;
+                });
+        } else {
+            this.phoneValid = true;
+        }
     }
 
     ResetAccount() {

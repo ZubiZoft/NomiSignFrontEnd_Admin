@@ -1,11 +1,14 @@
-<h2 style="text-align:center" i18n="message | a message to let the user know the login failed">
-    NOM 151
-</h2>
-<hr/>
-<mat-dialog-content>
-    <p>{{nomCert}}</p>
-</mat-dialog-content>
-<hr/>
-<div>
-    <button style="float:right" mat-button color="primary" (click)="onNoClick()"> Close </button>
+<div style="height: 100%; width: 100%; display: table;">
+    <div style="height: 50px; display: table-row;">
+        <h2 style="text-align:center;">NOM 151</h2>
+    </div>
+    <div style="display: table-row;">
+        <textarea id="Nom151" matInput style="width: 100%; height: 100%; resize: none;" readonly>{{nomCert}}</textarea>
+    </div>
+    <div style="height: 50px; display: table-row;">
+        <div style="margin: 10px 0px;">
+            <button mat-raised-button style="float: left;" color="primary" (click)="copyClicboard()"> Copiar NOM 151 </button>
+            <button mat-raised-button style="float: right;" (click)="onNoClick()"> Cerrar </button>
+        </div>
+    </div>
 </div>

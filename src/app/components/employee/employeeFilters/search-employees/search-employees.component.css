@@ -4,20 +4,80 @@
     }
 }
 
-.vertical-scroll-temp {
-    position: absolute !important;
+.fixed-height {
     bottom: 20px;
-    top: 420px;
-    left: 10%;
-    right: 10%;
-    width: 80%;
+    top: 190px;
+    width: 100%;
+    position: absolute;
 }
 
-.vertical-scroll-temp-RH {
-    position: absolute !important;
-    bottom: 20px;
-    top: 360px;
-    left: 10%;
-    right: 10%;
-    width: 80%;
+.field-panel {
+    display: grid;
+    width: 100%;
+    height: 100%;
+    background-color: #f8f9fa!important;
+    padding: 8px 12px;
+    border-radius: 3px;
+}
+
+.field-panel .field-panel-hf {
+    height: 55px;
+    line-height: 55px;
+    vertical-align: middle;
+}
+
+.field-panel .field-panel-content {
+    top: 55px;
+    bottom: 55px;
+    overflow-y: auto;
+}
+
+mat-form-field{
+    width: 100%;
+}
+
+button {
+    width: 95%;
+}
+
+.advance-tool {
+    height: 100%;
+    position: absolute;
+    width: 100%;
+}
+
+.advance-tool-menu {
+    height: 75px;
+    position: absolute;
+    width: 100%;
+}
+
+.advance-tool-viewer {
+    top: 75px;
+    bottom: 0px;
+    position: absolute;
+    width: 100%;
+    padding: 8px;
+    overflow: auto;
+}
+
+.advance-tool-menu > div {
+    display: table;
+    width: 100%;
+}
+
+.advance-tool-menu > div > div {
+    display: table-row;
+    width: 100%;
+}
+
+.advance-tool-menu-search-bar {
+    display: table-cell;
+    padding: 5px;
+}
+
+.advance-tool-menu-actions {
+    display: table-cell;
+    width: 180px;
+    padding: 5px;
 }

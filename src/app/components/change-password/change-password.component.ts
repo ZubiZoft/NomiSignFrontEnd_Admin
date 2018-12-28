@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Location} from '@angular/common';
-import {FormControl, Validators} from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ChangePasswordModel} from '../../models/ChangePassword.model';
 import {CompanyUsersService} from '../../services/companyUser.service';
 import {UserService} from '../../services/user.service';
@@ -9,6 +9,7 @@ import {UploadedAlertDialog} from '../company/companyEdit/companyEdit.component'
 import {MatDialog} from '@angular/material';
 import {SessionTimeoutDialogComponent} from '../session-timeout-dialog/session-timeout-dialog.component';
 import {Router} from '@angular/router';
+import {PasswordValidation} from '../account/account.component';
 
 @Component({
     selector: 'app-change-password',
@@ -23,12 +24,19 @@ export class ChangePasswordComponent implements OnInit {
     user: User;
     changePassword: ChangePasswordModel = new ChangePasswordModel();
     isPromiseDone = true;
-    oldPasswordFormControl = new FormControl('', [Validators.required]);
-    passwordFormControl = new FormControl('', [Validators.required]);
-    passwordVerifyFormControl = new FormControl('', [Validators.required, Validators.pattern('')]);
+    form: FormGroup;
 
     constructor(public companyUserService: CompanyUsersService, public userService: UserService, public dialog: MatDialog,
-                private router: Router, private location: Location) {
+                private router: Router, private location: Location, private formBuilder: FormBuilder) {
+        this.form = formBuilder.group({
+            'oldPassword': [null, Validators.compose([Validators.minLength(3), Validators.required])],
+            'password': [null, Validators.compose([Validators.required,
+                Validators.pattern('^(?!(.{0,5}|[^0-9]*|[^A-Z]*|[^a-z]*)$).*$')])],
+            'verifyPassword': [null, Validators.compose([Validators.required,
+                Validators.pattern('^(?!(.{0,5}|[^0-9]*|[^A-Z]*|[^a-z]*)$).*$')])]
+        }, {
+            validator: PasswordValidation.MatchPassword
+        });
     }
 
     ngOnInit() {
@@ -43,13 +51,13 @@ export class ChangePasswordComponent implements OnInit {
                     width: '50%',
                     data: {'message': 'Tu contraseña ha sido actualizada.'}
                 });
-                this.oldPasswordFormControl.setValue('');
-                this.passwordVerifyFormControl.setValue('');
-                this.passwordFormControl.setValue('');
+                this.form['oldPasswors'].setValue('');
+                this.form['password'].setValue('');
+                this.form['verifyPassword'].setValue('');
                 this.isPromiseDone = true;
-                this.oldPasswordFormControl.reset();
-                this.passwordVerifyFormControl.reset();
-                this.passwordFormControl.reset();
+                this.form['oldPasswors'].reset();
+                this.form['password'].reset();
+                this.form['verifyPassword'].reset();
             }, error => {
                 if (error.status === 405) {
                     this.dialog.closeAll();
@@ -65,5 +73,4 @@ export class ChangePasswordComponent implements OnInit {
                 this.isPromiseDone = true;
             });
     }
-
 }

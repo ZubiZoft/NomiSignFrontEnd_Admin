@@ -9,6 +9,10 @@ import {SessionTimeoutDialogComponent} from '../../../session-timeout-dialog/ses
 import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
 import {DateAdapter } from '@angular/material/core';
 import * as moment from 'moment';
+import {DateRangeModel} from '../../../../models/date.range.model';
+import {CompanyEmployeeModel} from '../../../../models/company.employee.model';
+import {CompanyService} from '../../../../services/company.service';
+import {CompanyModel} from '../../../../models/company.model';
 
 @Component({
     selector: 'app-search-receipts',
@@ -41,34 +45,55 @@ export class SearchReceiptsComponent implements OnInit {
     statusVal: string;
     updateBtn = false;
     UUID: string;
+    advanceSearch: DateRangeModel = new DateRangeModel();
+    company: CompanyModel;
 
     constructor(private route: ActivatedRoute, private documentService: DocumentService, public dialog: MatDialog,
-                public userService: UserService, private router: Router) {
+                public userService: UserService, private router: Router, private companyService: CompanyService) {
     }
 
     ngOnInit() {
-        this.toVal = (new Date()).toISOString();
+        this.advanceSearch.EndDate = (new Date()).toISOString();
         this.startDateTo = (new Date()).toISOString();
         const now = new Date();
         now.setMonth(now.getMonth() - 1);
         this.startDateFrom = now.toISOString();
-        this.fromVal = now.toISOString();
+        this.advanceSearch.InitDate = now.toISOString();
 
         this.route.params.subscribe((params: Params) => {
             this.companyId = params['cid'];
         });
+
+        this.companyService.getCompanyById(this.companyId)
+            .subscribe(data => {
+                this.company = data;
+                this.isPromiseDone = true;
+            }, error => {
+                if (error.status === 405) {
+                    this.dialog.closeAll();
+                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
+                        width: '75%'
+                    });
+                } else {
+                    this.userService.clearUser();
+                    this.router.navigate(['/login']);
+                }
+            });
+
         this.loadDocuments();
     }
 
     loadDocuments() {
         this.isPromiseDone = false;
         this.documents = [];
-        let from = moment(this.fromVal).format('MM/DD/YYYY');
-        let to = moment(this.toVal).format('MM/DD/YYYY');
         this.route.paramMap
             .switchMap((params: ParamMap) =>
                 this.documentService.getAllDocumentsByCompanyDateRange(params.get('cid'),
-                    from, to, this.rfcVal, this.curpVal, 'Recibo', this.statusVal, this.UUID))
+                    this.advanceSearch.InitDate, this.advanceSearch.EndDate, this.advanceSearch.Rfc,
+                    this.advanceSearch.Curp, 'Recibo', this.advanceSearch.Status,
+                    this.advanceSearch.UUID, this.advanceSearch.Value1, this.advanceSearch.Value2,
+                    this.advanceSearch.Value3, this.advanceSearch.Value4, this.advanceSearch.Value5,
+                    this.advanceSearch.Value6))
             .subscribe(data => {
                 this.documents = data;
                 this.isPromiseDone = true;

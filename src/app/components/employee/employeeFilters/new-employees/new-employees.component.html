@@ -1,5 +1,8 @@
 <app-employee-bar [companyId]="companyId"></app-employee-bar>
 <br>
+<div class="row justify-content-md-center" *ngIf="!isPromiseDone && company == null">
+    <mat-spinner></mat-spinner>
+</div>
 <div class="container" style="max-height: 100vh;" *ngIf="company">
     <div [hidden]="this.userService.getUser().UserType !== 3">
         <h2 class="text-center">Nuevos Empleados de {{company.CompanyName}}</h2>
@@ -95,6 +98,49 @@
                         <i class="material-icons" *ngIf="sortKey === 'CURP' && sortAsc">arrow_drop_up</i>
                     </div>
                 </th>
+                <!--Custom Fields-->
+                <th scope="col" class="pointer" (click)="sortedBy('Value1')" *ngIf="CompanyInfo?.IsValue1">
+                    <div style="white-space: nowrap">
+                        {{CompanyInfo.ValueName1}}
+                        <i class="material-icons" *ngIf="sortKey === 'Value1' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'Value1' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('Value2')" *ngIf="CompanyInfo?.IsValue2">
+                    <div style="white-space: nowrap">
+                        {{CompanyInfo.ValueName2}}
+                        <i class="material-icons" *ngIf="sortKey === 'Value2' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'Value2' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('Value3')" *ngIf="CompanyInfo?.IsValue3">
+                    <div style="white-space: nowrap">
+                        {{CompanyInfo.ValueName3}}
+                        <i class="material-icons" *ngIf="sortKey === 'Value3' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'Value3' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('Value4')" *ngIf="CompanyInfo?.IsValue4">
+                    <div style="white-space: nowrap">
+                        {{CompanyInfo.ValueName4}}
+                        <i class="material-icons" *ngIf="sortKey === 'Value4' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'Value4' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('Value5')" *ngIf="CompanyInfo?.IsValue5">
+                    <div style="white-space: nowrap">
+                        {{CompanyInfo.ValueName5}}
+                        <i class="material-icons" *ngIf="sortKey === 'Value5' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'Value5' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
+                <th scope="col" class="pointer" (click)="sortedBy('Value6')" *ngIf="CompanyInfo?.IsValue6">
+                    <div style="white-space: nowrap">
+                        {{CompanyInfo.ValueName6}}
+                        <i class="material-icons" *ngIf="sortKey === 'Value6' && !sortAsc">arrow_drop_down</i>
+                        <i class="material-icons" *ngIf="sortKey === 'Value6' && sortAsc">arrow_drop_up</i>
+                    </div>
+                </th>
             </tr>
             </thead>
             <tbody>
@@ -109,6 +155,13 @@
                 <td>{{e.CellPhoneNumber}}</td>
                 <td>{{e.RFC}}</td>
                 <td>{{e.CURP}}</td>
+                <!--Custom Fields-->
+                <td *ngIf="CompanyInfo?.IsValue1">{{e.Value1}}</td>
+                <td *ngIf="CompanyInfo?.IsValue2">{{e.Value2}}</td>
+                <td *ngIf="CompanyInfo?.IsValue3">{{e.Value3}}</td>
+                <td *ngIf="CompanyInfo?.IsValue4">{{e.Value4}}</td>
+                <td *ngIf="CompanyInfo?.IsValue5">{{e.Value5}}</td>
+                <td *ngIf="CompanyInfo?.IsValue6">{{e.Value6}}</td>
             </tr>
             </tbody>
         </table>

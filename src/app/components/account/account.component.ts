@@ -1,104 +1,133 @@
 ﻿import {Component, OnInit} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {Router} from '@angular/router';
-import {ActivatedRoute, ParamMap} from '@angular/router';
+import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ActivatedRoute, Router} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/finally';
 import {CompanyUsersService} from '../../services/companyUser.service';
-import {CompanyUserModel} from '../../models/companyUser.model';
-import {MatSnackBar, MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
-import {SessionTimeoutDialogComponent} from '../session-timeout-dialog/session-timeout-dialog.component';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import {UserService} from '../../services/user.service';
+import {ResetAccountModel} from '../../models/reset.account.model';
+import {LoginAlertDialog} from '../login/login.component';
+import {AuthService} from '../../services/auth.service';
 
 @Component({
     selector: 'ng-account',
     templateUrl: './account.component.html',
-    styleUrls: ['./account.component.css'],
-    providers: [CompanyUsersService]
+    styleUrls: ['./account.component.css']
 })
 export class AccountComponent implements OnInit {
 
-    constructor(private router: Router, private route: ActivatedRoute, public snackbar: MatSnackBar, private userService: UserService,
-                private companySserService: CompanyUsersService, private _formBuilder: FormBuilder, public dialog: MatDialog) {
+    hide = true;
+    hideV = true;
+    form: FormGroup;
+    isPromiseDone = true;
+    acc: ResetAccountModel;
+    isAvailable = false;
+
+    constructor(private router: Router, private route: ActivatedRoute, private userService: UserService, private authService: AuthService,
+                private companyUserService: CompanyUsersService, private formBuilder: FormBuilder, public dialog: MatDialog) {
+        this.userService.clearUser();
+        this.form = formBuilder.group({
+            'code': [null, Validators.compose([Validators.minLength(3), Validators.required])],
+            'email': [null, Validators.compose([Validators.required, Validators.email])],
+            'password': [null, Validators.compose([Validators.required,
+                Validators.pattern('^(?!(.{0,5}|[^0-9]*|[^A-Z]*|[^a-z]*)$).*$')])],
+            'verifyPassword': [null, Validators.required]
+        }, {
+            validator: PasswordValidation.MatchPassword
+        });
     }
-
-    user: CompanyUserModel;
-    userPasswordDetails: CompanyUserModel;
-    isPromiseDone: boolean = false;
-    usernameFormControl = new FormControl('', [
-        Validators.email]);
-
-    securityCodeFormControl = new FormControl('', [Validators.required]);
-
-    passwordFormControl = new FormControl('', [Validators.required]);
-
-    passwordVerifyFormControl = new FormControl('', [Validators.required, Validators.pattern('')]);
 
     ngOnInit(): void {
-        this.user = new CompanyUserModel();
-        this.userPasswordDetails = new CompanyUserModel();
+        this.acc = new ResetAccountModel();
+        this.route.params.subscribe(params => {
+            this.acc.UserId = +params['uid'];
+        });
+        this.isPromiseDone = false;
+        this.authService.isAvailableorReset(this.acc.UserId).subscribe(() => {
+            this.isAvailable = true;
+            this.isPromiseDone = true;
+        }, error => {
+            if (error.status === 404) {
+                let dialogRef = this.dialog.open(LoginAlertDialog, {
+                    width: '75%',
+                    data: {
+                        'message': '¡El link ha expirado, utiliza la opción \'Olvidé mi Contraseña\' para obtener un nuevo link de'
+                            + ' activación!'
+                    }
+                });
+                dialogRef.afterClosed().subscribe(
+                    () => {
+                        this.router.navigate(['/login']);
+                    }
+                );
+            } else {
+                let dialogRef = this.dialog.open(LoginAlertDialog, {
+                    width: '75%',
+                    data: {
+                        'message': '¡Un error ha ocurrido, por favor contacta a tu administrador!'
+                    }
+                });
+                dialogRef.afterClosed().subscribe(
+                    () => {
+                        this.router.navigate(['/login']);
+                    }
+                );
+            }
+        });
+    }
 
-        this.route.paramMap
-            .switchMap((params: ParamMap) => this.companySserService.getCompanyUserById('0', params.get('uid')))
-            .subscribe(data => {
-                this.user = data;
-                this.isPromiseDone = true;
+    activateAccount(): void {
+        this.companyUserService.activateAccount(this.acc).subscribe(
+            data => {
+                this.dialog.closeAll();
+                let dialogRef = this.dialog.open(LoginAlertDialog, {
+                    width: '75%',
+                    data: {
+                        'message': '¡Tu cuenta ha sido activada satisfactoriamente!'
+                    }
+                });
+                dialogRef.afterClosed().subscribe(
+                    () => {
+                        this.router.navigate(['/login']);
+                    }
+                );
             }, error => {
-                if (error.status === 405) {
-                    this.dialog.closeAll();
-                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
-                        width: '75%'
+                if (error.status === 409) {
+                    let dialogRef = this.dialog.open(LoginAlertDialog, {
+                        width: '75%',
+                        data: {
+                            'message': '¡Tu correo o código de seguridad no corresponden, por favor verifica tu información!'
+                        }
                     });
-                } else {
-                    this.userService.clearUser();
-                    this.router.navigate(['/login']);
-                }
-            });
-    }
-
-
-    reroute(activeUser) {
-
-        // will need phone later maybe  this.employeePasswordDetails.EmailAddress === this.employee.EmailAddress &&
-        if ((!this.passwordVerifyFormControl.hasError('pattern'))) {
-            this.user.PasswordHash = this.userPasswordDetails.PasswordHash;
-            //this.user.SecurityCode = this.employeePasswordDetails.SecurityCode;
-            // set user to active
-            this.user.UserStatus = 2;
-            this.updateUserPassword();
-            this.router.navigate(['/login']);
-        }
-        else {
-            let dialogRef = this.dialog.open(PasswordAlertDialog, {
-                width: '50%',
-                data: {}
-            });
-        }
-
-    }
-
-    //passwordMatch(c: AbstractControl) {
-    //    return c.get('employeePasswordHash').value === c.get('employeeVerifyPasswordHash').value ? null : { 'nomatch': true };
-    //}
-
-
-    updateUserPassword() {
-        this.route.paramMap.switchMap(
-            (params: ParamMap) => this.companySserService.updateCompanyUserDetails(this.user.UserId.toString(), this.user).finally(
-                () => this.snackbar.open('Cargado Correctamente', '', {duration: 5000})))
-            .subscribe(data => this.user = data, error => {
-                if (error.status === 405) {
-                    this.dialog.closeAll();
-                    let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {
-                        width: '75%'
+                } else if (error.status === 404) {
+                    let dialogRef = this.dialog.open(LoginAlertDialog, {
+                        width: '75%',
+                        data: {
+                            'message': '¡La cuenta que intentas verificar no es válida, por favor contacta a tu administrador!'
+                        }
                     });
+                    dialogRef.afterClosed().subscribe(
+                        () => {
+                            this.router.navigate(['/login']);
+                        }
+                    );
                 } else {
-                    this.userService.clearUser();
-                    this.router.navigate(['/login']);
+                    let dialogRef = this.dialog.open(LoginAlertDialog, {
+                        width: '75%',
+                        data: {
+                            'message': '¡Un error ha ocurrido, por favor contacta a tu administrador!'
+                        }
+                    });
+                    dialogRef.afterClosed().subscribe(
+                        () => {
+                            this.router.navigate(['/login']);
+                        }
+                    );
                 }
-            });
+            }
+        );
     }
-
 }
 
 @Component({
@@ -113,5 +142,17 @@ export class PasswordAlertDialog {
     onNoClick(): void {
         this.dialogRef.close();
     }
+}
 
+export class PasswordValidation {
+
+    static MatchPassword(AC: AbstractControl) {
+        const password = AC.get('password').value;
+        const confirmPassword = AC.get('verifyPassword').value;
+        if (password !== confirmPassword) {
+            AC.get('verifyPassword').setErrors({MatchPassword: true});
+        } else {
+            return null;
+        }
+    }
 }

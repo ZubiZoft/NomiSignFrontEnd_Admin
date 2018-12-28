@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Http, Headers, RequestOptions} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {CompanyUserModel} from '../models/companyUser.model';
-import {User} from '../models/user.model';
+import {ResetAccountModel} from '../models/reset.account.model';
 import 'rxjs/add/operator/map';
 import {environment} from '../../environments/environment';
 import {UserService} from './user.service';
@@ -18,7 +18,7 @@ export class CompanyUsersService {
 
     getCompanyUsersByCompany(companyId: string, userTypeId: string): Observable<any> {
         const user = this.userService.getUser();
-        var _headers = new Headers({
+        const _headers = new Headers({
             'Content-Type': 'application/json',
             'ClientType': 'nomiadmin',
             'Authorization': 'Basic ' + user.SessionToken
@@ -29,7 +29,7 @@ export class CompanyUsersService {
 
     getCompanyUserById(companyId: string, companyUserId: string): Observable<any> {
         const user = this.userService.getUser();
-        var _headers = new Headers({
+        const _headers = new Headers({
             'Content-Type': 'application/json',
             'ClientType': 'nomiadmin',
             'Authorization': 'Basic ' + user.SessionToken
@@ -40,40 +40,63 @@ export class CompanyUsersService {
 
     updateCompanyUserDetails(companyUserId: string, companyUser: CompanyUserModel): Observable<any> {
         const user = this.userService.getUser();
-        var _headers = new Headers({
+        const _headers = new Headers({
             'Content-Type': 'application/json',
             'ClientType': 'nomiadmin',
             'Authorization': 'Basic ' + user.SessionToken
         });
-        var options = new RequestOptions({method: 'PUT', headers: _headers});
-        var body = JSON.stringify(companyUser);
-        var url = rootURL + 'api/companyusers/' + companyUserId;
+        const options = new RequestOptions({method: 'PUT', headers: _headers});
+        const body = JSON.stringify(companyUser);
+        const url = rootURL + 'api/companyusers/' + companyUserId;
         return this.http.put(url, body, options).map(response => response.json());
     }
 
     saveNewCompanyUser(companyUser: CompanyUserModel): Observable<any> {
         const user = this.userService.getUser();
-        var _headers = new Headers({
+        const _headers = new Headers({
             'Content-Type': 'application/json',
             'ClientType': 'nomiadmin',
             'Authorization': 'Basic ' + user.SessionToken
         });
-        var options = new RequestOptions({method: 'POST', headers: _headers});
-        var body = JSON.stringify(companyUser);
-        var url = rootURL + 'api/companyusers';
+        const options = new RequestOptions({method: 'POST', headers: _headers});
+        const body = JSON.stringify(companyUser);
+        const url = rootURL + 'api/companyusers';
         return this.http.post(url, body, options).map(response => response.json());
     }
 
     changePasswordService(change: ChangePasswordModel, companyUserId: number): Observable<any> {
         const user = this.userService.getUser();
-        var _headers = new Headers({
+        const _headers = new Headers({
             'Content-Type': 'application/json',
             'ClientType': 'nomiadmin',
             'Authorization': 'Basic ' + user.SessionToken
         });
-        var options = new RequestOptions({method: 'PUT', headers: _headers});
-        var body = JSON.stringify(change);
-        var url = rootURL + 'api/employees/passwordsessionadmin/' + companyUserId;
+        const options = new RequestOptions({method: 'PUT', headers: _headers});
+        const body = JSON.stringify(change);
+        const url = rootURL + 'api/employees/passwordsessionadmin/' + companyUserId;
         return this.http.put(url, body, options).map(response => response.json());
+    }
+
+    removeCompanyUser(userId: number) {
+        const user = this.userService.getUser();
+        const _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin',
+            'Authorization': 'Basic ' + user.SessionToken
+        });
+        return this.http.delete(rootURL + 'api/companyusers/' + userId,
+            {headers: _headers}).map(response => response.json());
+    }
+
+    activateAccount(acc: ResetAccountModel) {
+        const user = this.userService.getUser();
+        const _headers = new Headers({
+            'Content-Type': 'application/json',
+            'ClientType': 'nomiadmin'
+        });
+        const options = new RequestOptions({method: 'POST', headers: _headers});
+        const body = JSON.stringify(acc);
+        const url = rootURL + 'api/companyuser/active';
+        return this.http.post(url, body, options).map(response => response.json());
     }
 }

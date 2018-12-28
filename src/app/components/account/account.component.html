@@ -1,39 +1,101 @@
-﻿<!--<mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>-->
-<div style="overflow-y: auto">
-    <div>
-        <mat-card *ngIf="user.UserStatus != 2" style="margin: auto; width: 60%; text-align: center; float:none" class="loginFormMobile">
-            <h1 style="text-align:center">
-                <h2 i18n="header | header for where the user will enter their login credentials @@LoginFormHeader">Cambia la Contraseña</h2>
-            </h1>
-
-            <mat-card-content>
-                <div style="max-height: 100vh; overflow-y: auto" class="centeredList" *ngIf="user">
-
-                    <form  class="example-form">
-
-                            <mat-form-field class="example-full-width">
-                                <input type="password" required matInput placeholder="Contraseña" [formControl]="passwordFormControl" [(ngModel)]="userPasswordDetails.PasswordHash" name=employeePasswordHash
-                                       i18n-placeholder="@@EmployeePasswordHashField" />
-                                <mat-error *ngIf="passwordFormControl.hasError('required')" i18n="message | letting the user know that they need to enter their password@@PasswordRequiredMessage">
-                                    Contraseña <strong>Requerida</strong>
-                                </mat-error>
-                            </mat-form-field>
-
-                            <mat-form-field class="example-full-width">
-                                <input type="password" required matInput [formControl]="passwordVerifyFormControl" pattern="{{userPasswordDetails.PasswordHash}}" placeholder="Verificación de Contraseña" name=employeeVerifyPasswordHash
-                                       i18n-placeholder="@@EmployeeVerifypasswordHashField" />
-                                <mat-error *ngIf="passwordVerifyFormControl.hasError('required')" i18n="message | letting the user know that they need to enter their password@@PasswordRequiredMessage">
-                                    Contraseña <strong>Requerida</strong>
-                                </mat-error>
-                                <mat-error *ngIf="passwordVerifyFormControl.hasError('pattern')" i18n="message | letting the user know that they need to enter matching password@@PasswordMatchingRequiredMessage">
-                                    <strong>Verificar</strong> Contraseñas
-                                </mat-error>
-                        </mat-form-field>
-                    </form>
-                  </div> 
-            </mat-card-content>
-            <button mat-raised-button color="primary" style="width:40%" (click)=reroute() i18n="action | user will click this to login to thet website@@LoginButtonAction"> Update </button>
-        </mat-card>
-        <h4 *ngIf="user.UserStatus == 2" style="text-align: center" i18n="message | a message to let the user know there are no documents to view@@DocumentSignStatusHeader"> Invalid page, please request a pasword reset </h4>
-    </div>
+﻿<div class="main-viewer" *ngIf="isPromiseDone && isAvailable">
+    <form>
+        <br>
+        <div class="container">
+            <div class="row">
+                <div class="col-3">
+                    <img style="max-height:70px; width: auto; padding: 8px;"
+                         src="../assets/images/Nomi_Sign-12-1-1.png"/>
+                </div>
+                <div class="col-8 text-center aling-middle">
+                    <h1 class="text-center aling-middle">Activar cuenta</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-6">
+                    <mat-form-field>
+                        <input type="text" required matInput placeholder="Código de Seguridad"
+                               [formControl]="form.controls['code']" name=code minlength="3"
+                               [(ngModel)]="acc.Code"/>
+                        <mat-icon matSuffix>confirmation_number</mat-icon>
+                        <mat-error *ngIf="form.controls['code'].hasError('required')">
+                            El código de seguridad es <strong>Requerido</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['code'].hasError('minlength')">
+                            El código de seguridad debe de ser de al menos <strong>3 dígitos</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field>
+                        <input type="email" required matInput placeholder="Email"
+                               [formControl]="form.controls['email']" name=email
+                               [(ngModel)]="acc.Email" />
+                        <mat-icon matSuffix>email</mat-icon>
+                        <mat-error *ngIf="form.controls['email'].hasError('required')">
+                            El email es <strong>Requerido</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['email'].hasError('email') &&
+                                !form.controls['email'].hasError('required')">
+                            El email debe ser <strong>Válido</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <small style="color: gray">La contraseña debe tener al menos 6 carácteres, una letra mayúscula, una
+                        minúscula y un número.
+                    </small>
+                    <mat-form-field class="example-full-width">
+                        <input [type]="hide ? 'password' : 'text'" required matInput placeholder="Contraseña"
+                               [formControl]="form.controls['password']" name=password [(ngModel)]="acc.Password"
+                               pattern="^(?!(.{0,5}|[^0-9]*|[^A-Z]*|[^a-z]*)$).*$"/>
+                        <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                        <mat-error *ngIf="form.controls['password'].hasError('required')">
+                            Contraseña es <strong>Requerida</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['password'].hasError('pattern')">
+                            La contraseña debe tener al menos 6 carácteres, una letra mayúscula, una minúscula y un
+                            número.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <mat-form-field class="example-full-width">
+                        <input [type]="hideV ? 'password' : 'text'" required matInput
+                               [formControl]="form.controls['verifyPassword']"
+                               placeholder="Confirmar de Contraseña" name=verifyPassword />
+                        <mat-icon matSuffix
+                                  (click)="hideV = !hideV">{{hideV ? 'visibility' : 'visibility_off'}}</mat-icon>
+                        <mat-error *ngIf="form.controls['verifyPassword'].hasError('required')">
+                            Contraseña es <strong>Requerida</strong>
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['verifyPassword'].errors?.MatchPassword">
+                            Las contraseñas deben ser <strong>Iguales</strong>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row justify-content-md-center">
+                <div class="col-4 ">
+                    <button mat-raised-button color="primary" style="width:100%" [disabled]="form.invalid || !isPromiseDone"
+                            (click)="activateAccount()">
+                        Activar Cuenta
+                    </button>
+                </div>
+            </div>
+            <div class="row justify-content-md-center" *ngIf="!isPromiseDone">
+                <mat-spinner></mat-spinner>
+            </div>
+        </div>
+    </form>
+    <br><br><br>
+</div>
+<div class="row justify-content-md-center" *ngIf="!isPromiseDone">
+    <mat-spinner></mat-spinner>
 </div>

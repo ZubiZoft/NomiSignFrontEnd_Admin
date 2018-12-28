@@ -16,6 +16,7 @@ import {Headers, Http, RequestOptions, ResponseContentType} from '@angular/http'
 import {FileModel} from '../../../../models/file.model';
 import * as FileSaver from 'file-saver';
 import {environment} from '../../../../../environments/environment';
+import {CompanyEmployeeModel} from '../../../../models/company.employee.model';
 
 const rootURL: string = environment.serviceUrl;
 
@@ -36,6 +37,7 @@ export class NewEmployeesComponent implements OnInit {
     selectedLetter: LetterPaginationElem;
     company: CompanyModel;
     updateBtn = false;
+    CompanyInfo: CompanyEmployeeModel;
 
     constructor(private employeeService: EmployeeService, private route: ActivatedRoute, public dialog: MatDialog,
                 public userService: UserService, private router: Router, private uploadService: UploadService,
@@ -102,7 +104,8 @@ export class NewEmployeesComponent implements OnInit {
             .switchMap((params: ParamMap) => this.employeeService.getNewEmployeesByCompany(params.get('cid'),
                 this.selectedLetter.value))
             .subscribe(data => {
-                this.employees = data;
+                this.CompanyInfo = data;
+                this.employees = this.CompanyInfo.Employees;
                 this.isPromiseDone = true;
             }, error => {
                 if (error.status === 405) {
@@ -161,6 +164,9 @@ export class NewEmployeesComponent implements OnInit {
                                 width: '50%',
                                 data: {'message': 'El documento ha sido cargado satisfactoriamente, por favor revise el reporte para ' +
                                         'revisar el status por empleado.'}
+                            });
+                            dialogRef.afterClosed().subscribe(() => {
+                                this.loadTable();
                             });
                         }, error => {
                             if (error.status === 405) {

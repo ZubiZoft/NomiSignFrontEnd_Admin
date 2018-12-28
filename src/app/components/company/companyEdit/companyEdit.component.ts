@@ -63,7 +63,13 @@ export class CompanyEditComponent implements OnInit {
             'supportPhone': [null, Validators.required],
             'supportEmail': [null, Validators.compose([Validators.required, Validators.email])],
             'companyZipCode': [null, Validators.compose([ Validators.minLength(5), Validators.maxLength(5),
-                Validators.pattern('^[0-9]{5}$')])]
+                Validators.pattern('^[0-9]{5}$')])],
+            'valueName1': [null, Validators.maxLength(50)],
+            'valueName2': [null, Validators.maxLength(50)],
+            'valueName3': [null, Validators.maxLength(50)],
+            'valueName4': [null, Validators.maxLength(50)],
+            'valueName5': [null, Validators.maxLength(50)],
+            'valueName6': [null, Validators.maxLength(50)],
         });
     }
 
@@ -308,12 +314,15 @@ export class CompanyEditComponent implements OnInit {
         this.uploadService.loadFiles(this.company.CompanyId, this.fileUpload)
             .subscribe(data => {
                 const count = this.fileUpload.length;
-                this.fileUpload = [];
                 this.showBtn = true;
                 let dialogRef = this.dialog.open(UploadedAlertDialog, {
                     width: '75%',
                     data: {'message': count + ' de ' + this.selectedFiles.length +
                             ' recibos de nómina han sido cargados satisfactoriamente'}
+                });
+                dialogRef.afterClosed().subscribe(() => {
+                    this.selectedFiles = [];
+                    this.fileUpload = [];
                 });
             }, error => {
                 if (error.status === 405) {
