@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {Headers, Http, RequestOptions, ResponseContentType} from '@angular/http';
 import {CustomBrowserXhr} from '../services/custom-browser-xhr';
 import * as FileSaver from 'file-saver';
@@ -27,6 +27,7 @@ export class DownloadComponent {
     @Input() docs: DocumentModel[];
     @Input() verifySignReqs: VerifySignatureRequest[];
     @Input() disable: boolean;
+    @Output() downloadComplete: EventEmitter<boolean> = new EventEmitter<boolean>();
 
     constructor(private http: Http, public dialog: MatDialog, private userService: UserService, private router: Router) {
     }
@@ -88,6 +89,7 @@ export class DownloadComponent {
                     let blob = res.blob();
                     let filename = 'nominas.zip';
                     FileSaver.saveAs(blob, filename);
+                    this.downloadComplete.emit(true);
                 }, error => {
                     if (error.status === 405) {
                         this.dialog.closeAll();
@@ -98,6 +100,7 @@ export class DownloadComponent {
                         this.userService.clearUser();
                         this.router.navigate(['/login']);
                     }
+                    this.downloadComplete.emit(true);
                 }
             );
     }

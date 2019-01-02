@@ -10,7 +10,6 @@ import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-mome
 import {DateAdapter } from '@angular/material/core';
 import * as moment from 'moment';
 import {DateRangeModel} from '../../../../models/date.range.model';
-import {CompanyEmployeeModel} from '../../../../models/company.employee.model';
 import {CompanyService} from '../../../../services/company.service';
 import {CompanyModel} from '../../../../models/company.model';
 
@@ -37,12 +36,6 @@ export class SearchReceiptsComponent implements OnInit {
     sortKey: string;
     startDateFrom: string;
     startDateTo: string;
-    fromVal: string;
-    toVal: string;
-    rfcVal: string;
-    curpVal: string;
-    typeVal: string;
-    statusVal: string;
     updateBtn = false;
     UUID: string;
     advanceSearch: DateRangeModel = new DateRangeModel();
@@ -137,5 +130,10 @@ export class SearchReceiptsComponent implements OnInit {
             d.CheckedBox = l;
         }
         this.updateBtn = l;
+    }
+
+    onNotify(status: boolean): void {
+        console.log(status);
+        this.updateBtn = !status;
     }
 }

@@ -109,7 +109,8 @@
                                     </mat-form-field>
                                 </div>
                                 <div class="advance-tool-menu-actions">
-                                    <download-btn [docs]="documents" [disable]="!updateBtn"></download-btn>
+                                    <download-btn [docs]="documents" [disable]="!updateBtn"
+                                                  (downloadComplete)="onNotify($event)"></download-btn>
                                 </div>
                                 <div class="advance-tool-menu-actions">
                                     <download-doc-report [disable]="isPromiseDone && documents.length < 1"
