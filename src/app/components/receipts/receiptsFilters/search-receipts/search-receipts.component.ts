@@ -133,7 +133,6 @@ export class SearchReceiptsComponent implements OnInit {
     }
 
     onNotify(status: boolean): void {
-        console.log(status);
         this.updateBtn = !status;
     }
 }
