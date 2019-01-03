@@ -139,27 +139,51 @@
                         <i class="material-icons" *ngIf="sortKey === 'Value6' && sortAsc">arrow_drop_up</i>
                     </div>
                 </th>
+
+                <th scope="col" class="centerText" (click)="selectAllDocuments();">
+                    <button type="button" class="btn btn-secondary" data-toggle="tooltip"
+                            data-placement="top" title="Tooltip on top">
+                        Seleccionar Todos
+                    </button>
+                </th>
             </tr>
             </thead>
             <tbody>
-            <tr *ngFor="let e of employees | listfilter: search.value | sortBy:sortKey:sortAsc"
-                [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
-                class="pointer">
-                <th scope="row">{{e.EmployeeId}}</th>
-                <td>{{e.FirstName}}</td>
-                <td>{{e.LastName1}}</td>
-                <td>{{e.LastName2}}</td>
-                <td>{{e.EmailAddress}}</td>
-                <td>{{e.CellPhoneNumber}}</td>
-                <td>{{e.RFC}}</td>
-                <td>{{e.CURP}}</td>
+            <tr *ngFor="let e of employees | listfilter: search.value | sortBy:sortKey:sortAsc">
+                <td [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                    class="pointer" scope="row">{{e.EmployeeId}}</td>
+                <td [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                    class="pointer">{{e.FirstName}}</td>
+                <td [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                    class="pointer">{{e.LastName1}}</td>
+                <td [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                    class="pointer">{{e.LastName2}}</td>
+                <td [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                    class="pointer">{{e.EmailAddress}}</td>
+                <td [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                    class="pointer">{{e.CellPhoneNumber}}</td>
+                <td [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                    class="pointer">{{e.RFC}}</td>
+                <td [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                    class="pointer">{{e.CURP}}</td>
                 <!--Custom Fields-->
-                <td *ngIf="CompanyInfo?.IsValue1">{{e.Value1}}</td>
-                <td *ngIf="CompanyInfo?.IsValue2">{{e.Value2}}</td>
-                <td *ngIf="CompanyInfo?.IsValue3">{{e.Value3}}</td>
-                <td *ngIf="CompanyInfo?.IsValue4">{{e.Value4}}</td>
-                <td *ngIf="CompanyInfo?.IsValue5">{{e.Value5}}</td>
-                <td *ngIf="CompanyInfo?.IsValue6">{{e.Value6}}</td>
+                <td [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                    class="pointer" *ngIf="CompanyInfo?.IsValue1">{{e.Value1}}</td>
+                <td [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                    class="pointer" *ngIf="CompanyInfo?.IsValue2">{{e.Value2}}</td>
+                <td [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                    class="pointer" *ngIf="CompanyInfo?.IsValue3">{{e.Value3}}</td>
+                <td [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                    class="pointer" *ngIf="CompanyInfo?.IsValue4">{{e.Value4}}</td>
+                <td [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                    class="pointer" *ngIf="CompanyInfo?.IsValue5">{{e.Value5}}</td>
+                <td [routerLink]="['/employeeEdit', companyId , e.EmployeeId]" routerLinkActive="active"
+                    class="pointer" *ngIf="CompanyInfo?.IsValue6">{{e.Value6}}</td>
+
+                <td class="centerText">
+                    <mat-checkbox class="example-margin" [(ngModel)]="e.CheckedBox" color="primary"
+                                  (change)="selectedCheckBox();"></mat-checkbox>
+                </td>
             </tr>
             </tbody>
         </table>
