@@ -40,6 +40,7 @@ export class SearchReceiptsComponent implements OnInit {
     UUID: string;
     advanceSearch: DateRangeModel = new DateRangeModel();
     company: CompanyModel;
+    searchX = '';
 
     constructor(private route: ActivatedRoute, private documentService: DocumentService, public dialog: MatDialog,
                 public userService: UserService, private router: Router, private companyService: CompanyService) {
@@ -126,9 +127,17 @@ export class SearchReceiptsComponent implements OnInit {
         if (this.documents[0].CheckedBox) {
             l = false;
         }
-        for (const d of this.documents) {
-            d.CheckedBox = l;
-        }
+        this.documents.filter(item => {
+            for (const key in item) {
+                if (key === 'CheckedBox') {
+                    continue;
+                }
+                let lowerKey = '' + item[key];
+                if (lowerKey !== undefined && lowerKey.toString().toLowerCase().includes(this.searchX.toLowerCase())) {
+                    item['CheckedBox'] = l;
+                }
+            }
+        });
         this.updateBtn = l;
     }
 

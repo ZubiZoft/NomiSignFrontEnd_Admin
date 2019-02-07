@@ -3,7 +3,7 @@
 <div class="fixed-height">
     <div class="container" style="height: 100%;">
         <div class="row" style="height: 100%;">
-            <div class="col-md-3 text-center">
+            <div class="col-md-3 text-center" style="height: 100%;">
                 <div class="field-panel">
                     <div class="field-panel-hf">
                         <div>
@@ -105,7 +105,7 @@
                                 <div class="advance-tool-menu-search-bar">
                                     <mat-form-field>
                                         <mat-icon matSuffix>search</mat-icon>
-                                        <input matInput #search placeholder="Buscar"/>
+                                        <input matInput #search placeholder="Buscar" [(ngModel)]="searchX"/>
                                     </mat-form-field>
                                 </div>
                                 <div class="advance-tool-menu-actions">

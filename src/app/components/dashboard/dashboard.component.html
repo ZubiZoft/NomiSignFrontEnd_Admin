@@ -3,29 +3,42 @@
     <br>
     <form class="example-form" *ngIf="systemSettings">
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Nombre del Producto" value="{{systemSettings.ProductName}}" [(ngModel)]="systemSettings.ProductName"
-                name="systemName" i18n-placeholder="input field | input field which contains the companys's product name@@CompanyProductNameInput">
+            <input matInput placeholder="Nombre del Producto" value="{{systemSettings.ProductName}}"
+                   [(ngModel)]="systemSettings.ProductName"
+                   name="systemName"
+                   i18n-placeholder="input field | input field which contains the companys's product name@@CompanyProductNameInput">
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Icono del Producto" value="{{systemSettings.ProductIcon}}" [(ngModel)]="systemSettings.ProductIcon"
-                name="systemIcon" i18n-placeholder="input field | input field which contains the companys's product icon@@CompanyProductIconInput">
+            <input matInput placeholder="Icono del Producto" value="{{systemSettings.ProductIcon}}"
+                   [(ngModel)]="systemSettings.ProductIcon"
+                   name="systemIcon"
+                   i18n-placeholder="input field | input field which contains the companys's product icon@@CompanyProductIconInput">
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Número de Telefónico de Soporte" value="{{systemSettings.SupportTelephoneNumber}}" [(ngModel)]="systemSettings.SupportTelephoneNumber"
-                name="systemNumber" i18n-placeholder="input field | input field which contains the companys's telephone number@@CompanySupportTelephoneInput">
+            <input matInput placeholder="Número de Telefónico de Soporte"
+                   value="{{systemSettings.SupportTelephoneNumber}}" [(ngModel)]="systemSettings.SupportTelephoneNumber"
+                   name="systemNumber"
+                   i18n-placeholder="input field | input field which contains the companys's telephone number@@CompanySupportTelephoneInput">
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Directorio Principal de Sistema" value="{{systemSettings.SystemFilePath1}}" [(ngModel)]="systemSettings.SystemFilePath1"
-                name="systemFilePath1" i18n-placeholder="input field | input field which contains the companys's primary file path@@CompanyPrimaryFilePathInput">
+            <input matInput placeholder="Directorio Principal de Sistema" value="{{systemSettings.SystemFilePath1}}"
+                   [(ngModel)]="systemSettings.SystemFilePath1"
+                   name="systemFilePath1"
+                   i18n-placeholder="input field | input field which contains the companys's primary file path@@CompanyPrimaryFilePathInput">
         </mat-form-field>
 
         <mat-form-field class="example-full-width">
-            <input matInput placeholder="Respaldo del Directorio Principal de Sistema" value="{{systemSettings.SystemFilePath2}}" [(ngModel)]="systemSettings.SystemFilePath2"
-                name="systemFilePath2" i18n-placeholder="input field | input field which contains the companys's backup file path@@CompanyFilePathBackupInput">
+            <input matInput placeholder="Respaldo del Directorio Principal de Sistema"
+                   value="{{systemSettings.SystemFilePath2}}" [(ngModel)]="systemSettings.SystemFilePath2"
+                   name="systemFilePath2"
+                   i18n-placeholder="input field | input field which contains the companys's backup file path@@CompanyFilePathBackupInput">
         </mat-form-field>
     </form>
 
-    <button mat-raised-button color="primary" (click)=updateSettings() i18n="@@UpdateButton"> Guardar </button>
-    <button style="float:right;" mat-raised-button color="primary" (click)=clearDemo() i18n="@@UpdateButton"> Clear Demo </button>
+    <button mat-raised-button color="primary" (click)=updateSettings() i18n="@@UpdateButton"> Guardar</button>
+    <button style="float:right;" mat-raised-button color="primary" (click)=clearDemo() i18n="@@UpdateButton"
+        *ngIf="!env"> Clear
+        Demo
+    </button>
     <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
 </div>

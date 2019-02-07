@@ -99,6 +99,7 @@ export class UnsignedReceiptsComponent implements OnInit {
     }
 
     sendNotifications() {
+        this.isPromiseDone = false;
         const selectedIds: number[] = [];
         for (const c of this.documents) {
             if (c.CheckedBox) {
@@ -107,11 +108,13 @@ export class UnsignedReceiptsComponent implements OnInit {
         }
         this.documentService.notifyUnsignedDocuments(selectedIds)
             .subscribe(() => {
+                this.isPromiseDone = true;
                 const dialogRef = this.dialog.open(VerifyNotAlertDialog, {
                     width: '50%',
                     data: {'message': '¡Se ha enviado una notificación a los empleados de los recibos de nómina seleccionados!'}
                 });
             }, error => {
+                this.isPromiseDone = true;
                 if (error.status === 405) {
                     this.dialog.closeAll();
                     let dialogRef = this.dialog.open(SessionTimeoutDialogComponent, {

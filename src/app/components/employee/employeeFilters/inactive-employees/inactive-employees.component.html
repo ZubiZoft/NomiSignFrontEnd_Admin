@@ -13,7 +13,7 @@
             <div class="col-md-6 text-center">
                 <mat-form-field style="width: 100%;" [hidden]="employees.length < 1">
                     <mat-icon matPrefix>search</mat-icon>
-                    <input matInput #search placeholder="Buscar Empleado" (keyup)="0"/>
+                    <input matInput #search placeholder="Buscar Empleado" (keyup)="0" [(ngModel)]="searchX"/>
                 </mat-form-field>
                 <br>
             </div>

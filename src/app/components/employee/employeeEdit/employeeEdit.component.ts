@@ -23,7 +23,8 @@ export class EmployeeEditComponent implements OnInit {
     employee: EmployeeModel;
     companyId: string;
     employeeID: string;
-    allowEmployeeEdit = false;
+    allowEmailEdit = false;
+    allowPhoneEdit = false;
     cellNumberVerificationStatus: string;
     openbatch: OpenBatchModel;
     company: CompanyModel;
@@ -45,11 +46,17 @@ export class EmployeeEditComponent implements OnInit {
             .switchMap((params: ParamMap) => this.employeeService.getEmployeeById(params.get('cid'), params.get('eid')))
             .subscribe(data => {
                 this.employee = data;
-                if (this.employee.EmailAddress == null || this.employee.EmailAddress == '') {
-                    this.allowEmployeeEdit = true;
+                if ((this.employee.EmailAddress == null || this.employee.EmailAddress === '')
+                        || this.userService.getUserType() === 3) {
+                    this.allowEmailEdit = true;
+                } else {
+                    this.ValidateEmail();
                 }
-                if (this.userService.getUserType() != 2) {
-                    this.allowEmployeeEdit = true;
+                if ((this.employee.CellPhoneNumber == null || this.employee.CellPhoneNumber === '')
+                        || this.userService.getUserType() === 3) {
+                    this.allowPhoneEdit = true;
+                } else {
+                    this.ValidatePhone();
                 }
                 this.isPromiseDone = true;
             }, error => {
@@ -107,7 +114,7 @@ export class EmployeeEditComponent implements OnInit {
     }
 
     updateEmployee() {
-        if (this.allowEmployeeEdit && (this.cellNumberVerificationStatus == 'Success' || this.employee.EmailAddress != '')) {
+        if (this.cellNumberVerificationStatus === 'Success' || this.employee.EmailAddress !== '') {
             if (this.employee.EmployeeStatus === 1) {
                 this.employee.EmployeeStatus = 5; // allows for 1 time update of employees created by bulk editor
             }

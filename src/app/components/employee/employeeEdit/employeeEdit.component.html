@@ -5,28 +5,28 @@
 <div style="max-height: 80vh; overflow-y: auto" class="centeredList" *ngIf="employee">
     <br>
     <form class="example-form">
-        <mat-form-field class="example-full-width" [hidden]="!allowEmployeeEdit">
+        <mat-form-field class="example-full-width" *ngIf="allowEmailEdit">
                 <input matInput placeholder="Correo Electrónico"
                        value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress" name=employeeEmailAddress
                        i18n-placeholder="@@EmployeeEmailField" (focusout)="ValidateEmail();">
                 <mat-icon matSuffix style="color: red" [hidden]="!emailValid">block</mat-icon>
                 <mat-icon matSuffix style="color: green" [hidden]="emailValid">check_circle_outline</mat-icon>
         </mat-form-field>
-        <mat-form-field class="example-full-width" [hidden]="allowEmployeeEdit">
+        <mat-form-field class="example-full-width" *ngIf="!allowEmailEdit">
                 <input matInput placeholder="Correo Electrónico"
                        value="{{employee.EmailAddress}}" [(ngModel)]="employee.EmailAddress" name=employeeEmailAddress
                        i18n-placeholder="@@EmployeeEmailField" readonly>
         </mat-form-field>
-        <mat-form-field *ngIf="!allowEmployeeEdit" class="example-full-width">
+        <mat-form-field *ngIf="!allowPhoneEdit" class="example-full-width">
             <input readonly matInput placeholder="Número Celular" value="{{employee.CellPhoneNumber}}"
                    [(ngModel)]="employee.CellPhoneNumber" name=employeeCellPhoneNumber
                    i18n-placeholder="@@EmployeeCellPhoneNumber">
         </mat-form-field>
-        <table *ngIf="allowEmployeeEdit" style="width: 100%">
+        <table *ngIf="allowPhoneEdit" style="width: 100%">
             <tr>
                 <td style="width: 50%">
                     <mat-form-field class="example-full-width">
-                        <input [readonly]="!allowEmployeeEdit" matInput placeholder="Número Celular"
+                        <input matInput placeholder="Número Celular"
                                value="{{employee.CellPhoneNumber}}" [(ngModel)]="employee.CellPhoneNumber"
                                name=employeeCellPhoneNumber
                                i18n-placeholder="@@EmployeeCellPhoneNumber" (focusout)="ValidatePhone();">
@@ -46,17 +46,17 @@
             </tr>
         </table>
         <mat-form-field class="example-full-width">
-            <input [readonly]="!allowEmployeeEdit" matInput placeholder="Nombre(s)" value="{{employee.FirstName}}"
+            <input matInput placeholder="Nombre(s)" value="{{employee.FirstName}}"
                    [(ngModel)]="employee.FirstName" name=employeeFirst
                    i18n-placeholder="@@EmployeeFirstNameField">
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input [readonly]="!allowEmployeeEdit" matInput placeholder="Apellido Paterno"
+            <input matInput placeholder="Apellido Paterno"
                    value="{{employee.LastName1}}" [(ngModel)]="employee.LastName1" name=employeeLast1
                    i18n-placeholder="@@EmployeeLastNameField">
         </mat-form-field>
         <mat-form-field class="example-full-width">
-            <input [readonly]="!allowEmployeeEdit" matInput placeholder="Apellido Materno"
+            <input matInput placeholder="Apellido Materno"
                    value="{{employee.LastName2}}" [(ngModel)]="employee.LastName2" name=employeeLast2
                    i18n-placeholder="@@EmployeeLastNameField">
         </mat-form-field>
@@ -79,8 +79,8 @@
         <button mat-raised-button color="primary" style="float: left;" (click)="backLocation()" i18n="@@BackButton">Regresar</button>
         <button mat-raised-button color="primary" i18n="@@BackButton" (click)="ResetAccount()"
                 [disabled]="employee.EmailAddress == null || employee.EmailAddress == '' || !isPromiseDone">Reiniciar Cuenta</button>
-        <button *ngIf="allowEmployeeEdit" style="float: right;" mat-raised-button color="primary"
-                (click)=updateEmployee() i18n="@@UpdateButton" [disabled]="emailValid || !isPromiseDone">Actualizar Información
+        <button style="float: right;" mat-raised-button color="primary"
+                (click)=updateEmployee() i18n="@@UpdateButton" [disabled]="(emailValid && phoneValid) || !isPromiseDone">Actualizar Información
         </button>
         </div>
     </form>

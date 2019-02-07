@@ -139,7 +139,7 @@ export class ForgotPasswordDialog implements OnInit {
                         this.dialog.open(LoginAlertDialog, {
                             width: '50%',
                             data: {
-                                'message': 'Sí la cuenta de correo es correcta, entonces recibiras un correo para reiniciar tu cuenta.'
+                                'message': 'Si la cuenta de correo es correcta, entonces recibirás un correo para reiniciar tu cuenta.'
                             }
                         });
                     }

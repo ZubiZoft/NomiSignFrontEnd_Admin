@@ -19,7 +19,7 @@
                                      [advanceSearch]="advanceSearch"></download-doc-report>
             </div>
             <div class="col-md-3 text-center">
-                <button mat-raised-button color="primary" *ngIf="updateBtn" (click)="sendNotifications();"
+                <button mat-raised-button color="primary" *ngIf="updateBtn" [disabled]="!isPromiseDone"  (click)="sendNotifications();"
                         style="width: 100%;"
                         i18n="action | button which will send a notification to the employees to sign the selected receipt.">
                     Enviar Recordatorio

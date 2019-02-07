@@ -31,6 +31,7 @@ export class RegisteredComponent implements OnInit {
     company: CompanyModel;
     updateBtn = false;
     CompanyInfo: CompanyEmployeeModel;
+    searchX = '';
 
     constructor(private employeeService: EmployeeService, private route: ActivatedRoute, public dialog: MatDialog,
                 public userService: UserService, private router: Router, private uploadService: UploadService,
@@ -216,6 +217,17 @@ export class RegisteredComponent implements OnInit {
         for (const d of this.employees) {
             d.CheckedBox = l;
         }
+        this.employees.filter(item => {
+            for (const key in item) {
+                if (key === 'CheckedBox') {
+                    continue;
+                }
+                let lowerKey = '' + item[key];
+                if (lowerKey !== undefined && lowerKey.toString().toLowerCase().includes(this.searchX.toLowerCase())) {
+                    item['CheckedBox'] = l;
+                }
+            }
+        });
         this.updateBtn = l;
     }
 }

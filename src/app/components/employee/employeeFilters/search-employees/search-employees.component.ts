@@ -30,6 +30,7 @@ export class SearchEmployeesComponent implements OnInit {
     responseClassG: boolean;
     responseClassR: boolean;
     CompanyInfo: CompanyEmployeeModel;
+    searchX = '';
 
     constructor(private employeeService: EmployeeService, private route: ActivatedRoute, public dialog: MatDialog,
                 public userService: UserService, private router: Router, private companyService: CompanyService) {
@@ -144,9 +145,17 @@ export class SearchEmployeesComponent implements OnInit {
         if (this.employees[0].CheckedBox) {
             l = false;
         }
-        for (const d of this.employees) {
-            d.CheckedBox = l;
-        }
+        this.employees.filter(item => {
+            for (const key in item) {
+                if (key === 'CheckedBox') {
+                    continue;
+                }
+                let lowerKey = '' + item[key];
+                if (lowerKey !== undefined && lowerKey.toString().toLowerCase().includes(this.searchX.toLowerCase())) {
+                    item['CheckedBox'] = l;
+                }
+            }
+        });
         this.updateBtn = l;
     }
 }
