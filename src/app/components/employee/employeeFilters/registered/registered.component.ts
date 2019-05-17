@@ -60,6 +60,13 @@ export class RegisteredComponent implements OnInit {
                 }
             });
 
+        this.route.queryParams.subscribe(params => {
+            this.searchX = params['search'];
+            if (this.searchX == null) {
+                this.searchX = '';
+            }
+        });
+
         this.letters = [];
         this.letters.push(new LetterPaginationElem('A'));
         this.letters.push(new LetterPaginationElem('B'));
@@ -213,9 +220,6 @@ export class RegisteredComponent implements OnInit {
         var l = true;
         if (this.employees[0].CheckedBox) {
             l = false;
-        }
-        for (const d of this.employees) {
-            d.CheckedBox = l;
         }
         this.employees.filter(item => {
             for (const key in item) {

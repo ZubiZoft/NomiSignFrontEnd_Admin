@@ -49,6 +49,7 @@ export class SearchEmployeesComponent implements OnInit {
             this.companyId = params['cid'];
         });
         this.employees = [];
+        this.search = new EmployeeSearch();
 
         this.route.paramMap
             .switchMap((params: ParamMap) => this.companyService.getCompanyById(params.get('cid')))
@@ -67,7 +68,11 @@ export class SearchEmployeesComponent implements OnInit {
                 }
             });
 
-        this.search = new EmployeeSearch();
+        const lastSearch = sessionStorage.getItem('employeeSearch');
+        if (lastSearch != null && lastSearch != undefined && lastSearch != '') {
+            this.search = JSON.parse(lastSearch);
+            this.loadTable();
+        }
     }
 
     loadTable() {
@@ -78,6 +83,7 @@ export class SearchEmployeesComponent implements OnInit {
                 this.CompanyInfo = data;
                 this.employees = this.CompanyInfo.Employees;
                 this.isPromiseDone = true;
+                sessionStorage.setItem('employeeSearch', JSON.stringify(this.search));
             }, error => {
                 if (error.status === 405) {
                     this.dialog.closeAll();

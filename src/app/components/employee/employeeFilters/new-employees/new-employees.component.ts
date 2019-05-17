@@ -38,6 +38,7 @@ export class NewEmployeesComponent implements OnInit {
     company: CompanyModel;
     updateBtn = false;
     CompanyInfo: CompanyEmployeeModel;
+    searchX = '';
 
     constructor(private employeeService: EmployeeService, private route: ActivatedRoute, public dialog: MatDialog,
                 public userService: UserService, private router: Router, private uploadService: UploadService,

@@ -1,29 +1,37 @@
-<mat-spinner style="margin:0 auto" *ngIf="!isPromiseDone"></mat-spinner>
-<br>
-<div style="max-height: 100vh; overflow-y: auto" *ngIf="companies">
-    <h1 i18n="message | telling user to select a company from the list to view the employees@@PickCompanyViewEmployeesMsg"
-        class="centerText">
-        Empleados Por Compañía
-    </h1>
-    <div style="margin-top:10px; line-height:1.25;" class="centerText">
-        <mat-icon style="vertical-align:middle">search</mat-icon>
-        <input #search placeholder="Buscar Compañía" (keyup)="0" class="inputSearchBox"/>
-    </div>
-    <div class="company-list">
-        <mat-list class="centeredList">
-            <mat-list-item *ngFor="let company of (companies | listfilter: search.value)"
-                           style="border-bottom: 1px solid grey; cursor: pointer"
-                           [routerLink]="['/employees', company.CompanyId, 'new']"
-                           routerLinkActive="active">
-                <mat-icon mat-list-icon>business</mat-icon>
-                <h4 class="font-weight-bold" mat-line>{{company.CompanyName}}</h4>
-                <p mat-line>{{company.CompanyRFC}}</p>
+<mat-spinner style="margin:0 auto;" *ngIf="!isPromiseDone"></mat-spinner>
 
-            </mat-list-item>
-        </mat-list>
-        <br/><br/><br/><br/>
+<div class="company-list" *ngIf="companies">
+    <div class="container">
+        <div class="row justify-content-md-center">
+            <div class="col-12">
+                <br>
+                <h2 i18n="CompaniesHeader" class="centerText">Compañías</h2>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-10">
+                <mat-form-field style="width: 100%;">
+                    <mat-icon matSuffix>search</mat-icon>
+                    <input matInput #search placeholder="Buscar Compañía" (keyup)="0" />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-10">
+                <br>
+                <mat-list>
+                    <mat-list-item *ngFor="let company of (companies | listfilter: search.value)"
+                                   style="border-bottom: 1px solid grey; cursor: pointer"
+                                   [routerLink]="['/employees', company.CompanyId, 'new']"
+                                   routerLinkActive="active">
+                        <mat-icon mat-list-icon>business</mat-icon>
+                        <h4 class="font-weight-bold" mat-line>{{company.CompanyName}}</h4>
+                        <p mat-line>{{company.CompanyRFC}}</p>
+
+                    </mat-list-item>
+                </mat-list>
+                <br/> <br/> <br/>
+            </div>
+        </div>
     </div>
-</div>
-<div class="centerText" *ngIf="!companies && isPromiseDone" i18n="@@NoCompaniesMessage">
-    There are no companies to view
 </div>

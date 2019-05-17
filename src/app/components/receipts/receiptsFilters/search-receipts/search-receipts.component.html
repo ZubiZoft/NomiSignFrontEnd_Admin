@@ -126,7 +126,7 @@
                                 Resultados: {{documents ? (documents | listfilter: search.value)?.length : '0'}}
                             </small>
                         </div>
-                        <div class="row justify-content-md-center" *ngIf="!isPromiseDone">
+                        <div *ngIf="!isPromiseDone">
                             <mat-spinner></mat-spinner>
                         </div>
                         <div class="centerText" *ngIf="isPromiseDone && documents.length < 1">
@@ -259,34 +259,34 @@
                             <tbody>
                             <tr *ngFor="let e of documents | listfilter: search.value | sortBy:sortKey:sortAsc"
                                 class="pointer">
-                                <th [routerLink]="['/document-viewer', companyId, e.DocumentId]"
+                                <th [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}"
                                     scope="row">{{e.DocumentId}}</th>
-                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">
+                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}">
                                     {{e.PayperiodDate | date:'shortDate':'':'mx'}}
                                 </td>
-                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]"
+                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}"
                                     class="text-capitalize">{{e.EmployeeName}}</td>
-                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.EmployeeRfc}}</td>
-                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.CURP}}</td>
-                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]"
+                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}">{{e.EmployeeRfc}}</td>
+                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}">{{e.CURP}}</td>
+                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}"
                                     style="white-space: nowrap">{{e.UUID}}</td>
-                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">
+                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}">
                                     {{e.UploadTime | date:'shortDate':'':'mx'}}
                                 </td>
-                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.SignStatus}}</td>
-                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.EmployeeConcern}}</td>
+                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}">{{e.SignStatus}}</td>
+                                <td [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}">{{e.EmployeeConcern}}</td>
                                 <td *ngIf="company?.IsValue1"
-                                    [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.Value1}}</td>
+                                    [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}">{{e.Value1}}</td>
                                 <td *ngIf="company?.IsValue2"
-                                    [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.Value2}}</td>
+                                    [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}">{{e.Value2}}</td>
                                 <td *ngIf="company?.IsValue3"
-                                    [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.Value3}}</td>
+                                    [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}">{{e.Value3}}</td>
                                 <td *ngIf="company?.IsValue4"
-                                    [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.Value4}}</td>
+                                    [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}">{{e.Value4}}</td>
                                 <td *ngIf="company?.IsValue5"
-                                    [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.Value5}}</td>
+                                    [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}">{{e.Value5}}</td>
                                 <td *ngIf="company?.IsValue6"
-                                    [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.Value6}}</td>
+                                    [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'search'}">{{e.Value6}}</td>
                                 <td class="centerText">
                                     <mat-checkbox class="example-margin" [(ngModel)]="e.CheckedBox" color="primary"
                                                   (change)="selectedCheckBox();"></mat-checkbox>

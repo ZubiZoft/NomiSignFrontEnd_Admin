@@ -65,11 +65,17 @@ export class CompanyEditComponent implements OnInit {
             'companyZipCode': [null, Validators.compose([ Validators.minLength(5), Validators.maxLength(5),
                 Validators.pattern('^[0-9]{5}$')])],
             'valueName1': [null, Validators.maxLength(50)],
+            'xpath1': [null, Validators.maxLength(250)],
             'valueName2': [null, Validators.maxLength(50)],
+            'xpath2': [null, Validators.maxLength(250)],
             'valueName3': [null, Validators.maxLength(50)],
+            'xpath3': [null, Validators.maxLength(250)],
             'valueName4': [null, Validators.maxLength(50)],
+            'xpath4': [null, Validators.maxLength(250)],
             'valueName5': [null, Validators.maxLength(50)],
+            'xpath5': [null, Validators.maxLength(250)],
             'valueName6': [null, Validators.maxLength(50)],
+            'xpath6': [null, Validators.maxLength(250)]
         });
     }
 

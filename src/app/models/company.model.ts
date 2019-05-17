@@ -26,18 +26,25 @@ export class CompanyModel {
     ImageLog: string;
     SupportPhone: string;
     SupportEmail: string;
+    IsAddenda: boolean;
     IsValue1: boolean;
     ValueName1: string;
+    XpathValue1: string;
     IsValue2: boolean;
     ValueName2: string;
+    XpathValue2: string;
     IsValue3: boolean;
     ValueName3: string;
+    XpathValue3: string;
     IsValue4: boolean;
     ValueName4: string;
+    XpathValue4: string;
     IsValue5: boolean;
     ValueName5: string;
+    XpathValue5: string;
     IsValue6: boolean;
     ValueName6: string;
+    XpathValue6: string;
     Links: {
         SelfUri: string;
     };

@@ -3,7 +3,7 @@
 <div *ngIf="isPromiseDone" style="text-align:center; align-content: center">
     <div class="container-btns">
         <div style="float:left">
-            <button mat-raised-button (click)="backNav()"
+            <button mat-raised-button [routerLink]="['/receipts', companyId, type]" [queryParams]="{search: searchX}"
                     i18n="action | the user can click to reject the document @@DocumentSignStatusHeader"> Regresar
             </button>
         </div>

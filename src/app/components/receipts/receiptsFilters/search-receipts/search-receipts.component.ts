@@ -74,6 +74,11 @@ export class SearchReceiptsComponent implements OnInit {
                 }
             });
 
+        const lastSearch = sessionStorage.getItem('receiptSearch');
+        if (lastSearch != null && lastSearch != undefined && lastSearch != '') {
+            this.advanceSearch = JSON.parse(lastSearch);
+        }
+
         this.loadDocuments();
     }
 
@@ -91,6 +96,7 @@ export class SearchReceiptsComponent implements OnInit {
             .subscribe(data => {
                 this.documents = data;
                 this.isPromiseDone = true;
+                sessionStorage.setItem('receiptSearch', JSON.stringify(this.advanceSearch));
             }, error => {
                 if (error.status === 405) {
                     this.dialog.closeAll();

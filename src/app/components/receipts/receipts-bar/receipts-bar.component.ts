@@ -21,8 +21,12 @@ export class ReceiptsBarComponent implements OnInit {
     ngOnInit() {
         if (this.router.url.includes('unsigned')) {
             this.unsignedF = true;
+            sessionStorage.removeItem('receiptSearch');
+            sessionStorage.removeItem('employeeSearch');
         } else if (this.router.url.includes('rejected')) {
             this.rejectedF = true;
+            sessionStorage.removeItem('receiptSearch');
+            sessionStorage.removeItem('employeeSearch');
         } else if (this.router.url.includes('search')) {
             this.searchF = true;
         }

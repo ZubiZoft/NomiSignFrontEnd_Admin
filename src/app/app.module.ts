@@ -9,6 +9,7 @@ import {
     MatSelectModule, MatToolbarModule, MatMenuModule, MatSnackBarModule, MatDatepickerModule,
     MatDialogModule, MatProgressSpinnerModule, MatNativeDateModule
 } from '@angular/material';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {AppComponent} from './app.component';
 import {LoginComponent} from './components/login/login.component';
 import {AccountComponent} from './components/account/account.component';
@@ -167,6 +168,7 @@ import { ReceiptsBarComponent } from './components/receipts/receipts-bar/receipt
         MatProgressSpinnerModule,
         MatDatepickerModule,
         MatNativeDateModule,
+        MatSlideToggleModule,
         CommonModule
     ],
     providers: [UserService, AuthService, CAdminAuthGuard, GAdminAuthGuard, UserAuthGuard, UploadService, DocumentService,

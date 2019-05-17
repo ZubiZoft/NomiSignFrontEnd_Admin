@@ -1,16 +1,16 @@
 <app-receipts-bar [companyId]="companyId"></app-receipts-bar>
 <br>
-<div class="container" *ngIf="company">
-    <div [hidden]="this.userService.getUser().UserType !== 3">
-        <h2 class="text-center">Recibos de nómina no firmados de {{company.CompanyName}}</h2>
-        <br>
-    </div>
-    <div class="container">
-        <div class="row justify-content-center">
+<div class="fixed-height-header">
+    <div class="container" *ngIf="company">
+        <div class="row justify-content-md-center" [hidden]="this.userService.getUser().UserType !== 3">
+            <h3 class="text-center truncate">Recibos de nómina no firmados de {{company.CompanyName}}</h3>
+            <br>
+        </div>
+        <div class="row justify-content-center" style="height: 65px;">
             <div class="col-md-6 text-center">
-                <mat-form-field style="width: 100%;">
+                <mat-form-field style="width: 100%;" [hidden]="documents.length < 1">
                     <mat-icon matPrefix>search</mat-icon>
-                    <input matInput #search placeholder="Buscar Recibo" (keyup)="0"/>
+                    <input matInput placeholder="Buscar Recibo" (keyup)="0" [(ngModel)]="searchX"/>
                 </mat-form-field>
                 <br>
             </div>
@@ -19,7 +19,7 @@
                                      [advanceSearch]="advanceSearch"></download-doc-report>
             </div>
             <div class="col-md-3 text-center">
-                <button mat-raised-button color="primary" *ngIf="updateBtn" [disabled]="!isPromiseDone"  (click)="sendNotifications();"
+                <button mat-raised-button color="primary" [disabled]="!isPromiseDone || !updateBtn" (click)="sendNotifications();"
                         style="width: 100%;"
                         i18n="action | button which will send a notification to the employees to sign the selected receipt.">
                     Enviar Recordatorio
@@ -28,95 +28,165 @@
         </div>
         <div class="row">
             <div class="pagination-bar text-justify text-center" style="width: 100%;">
-                <small class="font-light text-right" style="color: #2cbbc3; float: right;">
-                    Resultados: {{documents ? (documents | listfilter: search.value)?.length : '0'}}</small>
-            </div>
-            <div class="table-responsive vertical-scroll-temp">
-                <table class="table table-striped">
-                    <thead>
-                    <tr>
-                        <th scope="col" class="pointer" (click)="sortedBy('DocumentId')">
-                            <div style="white-space: nowrap">
-                                ID
-                                <i class="material-icons"
-                                   *ngIf="sortKey === 'DocumentId' && !sortAsc">arrow_drop_down</i>
-                                <i class="material-icons" *ngIf="sortKey === 'DocumentId' && sortAsc">arrow_drop_up</i>
-                            </div>
-                        </th>
-                        <th scope="col" class="pointer" (click)="sortedBy('PayperiodDate')">
-                            <div style="white-space: nowrap">
-                                Período de Pago
-                                <i class="material-icons" *ngIf="sortKey === 'PayperiodDate' && !sortAsc">arrow_drop_down</i>
-                                <i class="material-icons"
-                                   *ngIf="sortKey === 'PayperiodDate' && sortAsc">arrow_drop_up</i>
-                            </div>
-                        </th>
-                        <th scope="col" class="pointer" (click)="sortedBy('EmployeeName')">
-                            <div style="white-space: nowrap">
-                                Nombre de Empleado
-                                <i class="material-icons"
-                                   *ngIf="sortKey === 'EmployeeName' && !sortAsc">arrow_drop_down</i>
-                                <i class="material-icons"
-                                   *ngIf="sortKey === 'EmployeeName' && sortAsc">arrow_drop_up</i>
-                            </div>
-                        </th>
-                        <th scope="col" class="pointer" (click)="sortedBy('EmployeeRfc')">
-                            <div style="white-space: nowrap">
-                                RFC de Empleado
-                                <i class="material-icons"
-                                   *ngIf="sortKey === 'EmployeeRfc' && !sortAsc">arrow_drop_down</i>
-                                <i class="material-icons" *ngIf="sortKey === 'EmployeeRfc' && sortAsc">arrow_drop_up</i>
-                            </div>
-                        </th>
-                        <th scope="col" class="pointer" (click)="sortedBy('UUID')">
-                            <div style="white-space: nowrap">
-                                UUID
-                                <i class="material-icons" *ngIf="sortKey === 'UUID' && !sortAsc">arrow_drop_down</i>
-                                <i class="material-icons" *ngIf="sortKey === 'UUID' && sortAsc">arrow_drop_up</i>
-                            </div>
-                        </th>
-                        <th scope="col" class="pointer" (click)="sortedBy('UploadTime')">
-                            <div style="white-space: nowrap">
-                                Fecha Carga
-                                <i class="material-icons"
-                                   *ngIf="sortKey === 'UploadTime' && !sortAsc">arrow_drop_down</i>
-                                <i class="material-icons" *ngIf="sortKey === 'UploadTime' && sortAsc">arrow_drop_up</i>
-                            </div>
-                        </th>
-                        <th scope="col" class="centerText" (click)="selectAllDocuments();">
-                            <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top"
-                                    title="Tooltip on top">
-                                Seleccionar Todos
-                            </button>
-                        </th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr *ngFor="let e of documents | listfilter: search.value | sortBy:sortKey:sortAsc" class="pointer">
-                        <th [routerLink]="['/document-viewer', companyId, e.DocumentId]"
-                            scope="row">{{e.DocumentId}}</th>
-                        <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.PayperiodDate | date:'shortDate':'':'mx'}}</td>
-                        <td [routerLink]="['/document-viewer', companyId, e.DocumentId]"
-                            class="text-capitalize">{{e.EmployeeName}}</td>
-                        <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.EmployeeRfc}}</td>
-                        <td [routerLink]="['/document-viewer', companyId, e.DocumentId]"
-                            style="white-space: nowrap">{{e.UUID}}</td>
-                        <td [routerLink]="['/document-viewer', companyId, e.DocumentId]">{{e.UploadTime | date:'shortDate':'':'mx'}}</td>
-                        <td class="centerText">
-                            <mat-checkbox class="example-margin" [(ngModel)]="e.CheckedBox" color="primary"
-                                          (change)="selectedCheckBox();"></mat-checkbox>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+                <small class="font-light text-right" style="color: #2cbbc3; float: right; margin-right: 15px;">
+                    Resultados: {{documents ? (documents | listfilter: searchX)?.length : '0'}}</small>
             </div>
         </div>
+    </div>
+</div>
+<div class="fixed-height-viewer">
+    <div class="container" style="height: 100%;" *ngIf="documents">
         <div class="row justify-content-md-center" *ngIf="!isPromiseDone">
             <mat-spinner></mat-spinner>
         </div>
         <div class="row justify-content-md-center" *ngIf="isPromiseDone && documents.length < 1">
-            <h1>No se encontraron recibos de nómina.</h1>
+            <h3>No se encontraron recibos de nómina.</h3>
         </div>
+        <div class="table-responsive" style="height: 100%;">
+            <table class="table table-striped" *ngIf="isPromiseDone && documents.length > 0">
+                <thead>
+                <tr>
+                    <th scope="col" class="pointer" (click)="sortedBy('DocumentId')">
+                        <div style="white-space: nowrap">
+                            ID
+                            <i class="material-icons"
+                               *ngIf="sortKey === 'DocumentId' && !sortAsc">arrow_drop_down</i>
+                            <i class="material-icons" *ngIf="sortKey === 'DocumentId' && sortAsc">arrow_drop_up</i>
+                        </div>
+                    </th>
+                    <th scope="col" class="pointer" (click)="sortedBy('PayperiodDate')">
+                        <div style="white-space: nowrap">
+                            Período de Pago
+                            <i class="material-icons" *ngIf="sortKey === 'PayperiodDate' && !sortAsc">arrow_drop_down</i>
+                            <i class="material-icons"
+                               *ngIf="sortKey === 'PayperiodDate' && sortAsc">arrow_drop_up</i>
+                        </div>
+                    </th>
+                    <th scope="col" class="pointer" (click)="sortedBy('EmployeeName')">
+                        <div style="white-space: nowrap">
+                            Nombre de Empleado
+                            <i class="material-icons"
+                               *ngIf="sortKey === 'EmployeeName' && !sortAsc">arrow_drop_down</i>
+                            <i class="material-icons"
+                               *ngIf="sortKey === 'EmployeeName' && sortAsc">arrow_drop_up</i>
+                        </div>
+                    </th>
+                    <th scope="col" class="pointer" (click)="sortedBy('EmployeeRfc')">
+                        <div style="white-space: nowrap">
+                            RFC de Empleado
+                            <i class="material-icons"
+                               *ngIf="sortKey === 'EmployeeRfc' && !sortAsc">arrow_drop_down</i>
+                            <i class="material-icons" *ngIf="sortKey === 'EmployeeRfc' && sortAsc">arrow_drop_up</i>
+                        </div>
+                    </th>
+                    <th scope="col" class="pointer" (click)="sortedBy('UUID')">
+                        <div style="white-space: nowrap">
+                            UUID
+                            <i class="material-icons" *ngIf="sortKey === 'UUID' && !sortAsc">arrow_drop_down</i>
+                            <i class="material-icons" *ngIf="sortKey === 'UUID' && sortAsc">arrow_drop_up</i>
+                        </div>
+                    </th>
+                    <th scope="col" class="pointer" (click)="sortedBy('UploadTime')">
+                        <div style="white-space: nowrap">
+                            Fecha Carga
+                            <i class="material-icons"
+                               *ngIf="sortKey === 'UploadTime' && !sortAsc">arrow_drop_down</i>
+                            <i class="material-icons" *ngIf="sortKey === 'UploadTime' && sortAsc">arrow_drop_up</i>
+                        </div>
+                    </th>
+                    <th scope="col" class="pointer" (click)="sortedBy('Value1')" *ngIf="company?.IsValue1">
+                        <div style="white-space: nowrap">
+                            {{company.ValueName1}}
+                            <i class="material-icons" *ngIf="sortKey === 'Value1' && !sortAsc">arrow_drop_down</i>
+                            <i class="material-icons"
+                               *ngIf="sortKey === 'Value1' && sortAsc">arrow_drop_up</i>
+                        </div>
+                    </th>
+                    <th scope="col" class="pointer" (click)="sortedBy('Value2')" *ngIf="company?.IsValue2">
+                        <div style="white-space: nowrap">
+                            {{company.ValueName2}}
+                            <i class="material-icons" *ngIf="sortKey === 'Value2' && !sortAsc">arrow_drop_down</i>
+                            <i class="material-icons"
+                               *ngIf="sortKey === 'Value2' && sortAsc">arrow_drop_up</i>
+                        </div>
+                    </th>
+                    <th scope="col" class="pointer" (click)="sortedBy('Value3')" *ngIf="company?.IsValue3">
+                        <div style="white-space: nowrap">
+                            {{company.ValueName3}}
+                            <i class="material-icons" *ngIf="sortKey === 'Value3' && !sortAsc">arrow_drop_down</i>
+                            <i class="material-icons"
+                               *ngIf="sortKey === 'Value3' && sortAsc">arrow_drop_up</i>
+                        </div>
+                    </th>
+                    <th scope="col" class="pointer" (click)="sortedBy('Value4')" *ngIf="company?.IsValue4">
+                        <div style="white-space: nowrap">
+                            {{company.ValueName4}}
+                            <i class="material-icons" *ngIf="sortKey === 'Value4' && !sortAsc">arrow_drop_down</i>
+                            <i class="material-icons"
+                               *ngIf="sortKey === 'Value4' && sortAsc">arrow_drop_up</i>
+                        </div>
+                    </th>
+                    <th scope="col" class="pointer" (click)="sortedBy('Value5')" *ngIf="company?.IsValue5">
+                        <div style="white-space: nowrap">
+                            {{company.ValueName5}}
+                            <i class="material-icons" *ngIf="sortKey === 'Value5' && !sortAsc">arrow_drop_down</i>
+                            <i class="material-icons"
+                               *ngIf="sortKey === 'Value5' && sortAsc">arrow_drop_up</i>
+                        </div>
+                    </th>
+                    <th scope="col" class="pointer" (click)="sortedBy('Value6')" *ngIf="company?.IsValue6">
+                        <div style="white-space: nowrap">
+                            {{company.ValueName6}}
+                            <i class="material-icons" *ngIf="sortKey === 'Value6' && !sortAsc">arrow_drop_down</i>
+                            <i class="material-icons"
+                               *ngIf="sortKey === 'Value6' && sortAsc">arrow_drop_up</i>
+                        </div>
+                    </th>
+                    <th scope="col" class="centerText" (click)="selectAllDocuments();">
+                        <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="top"
+                                title="Tooltip on top">
+                            Seleccionar Todos
+                        </button>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let e of documents | listfilter: searchX | sortBy:sortKey:sortAsc" class="pointer">
+                    <th [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'unsigned'}"
+                        scope="row">{{e.DocumentId}}</th>
+                    <td [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'unsigned'}">
+                        {{e.PayperiodDate | date:'shortDate':'':'mx'}}
+                    </td>
+                    <td [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'unsigned'}"
+                        class="text-capitalize">{{e.EmployeeName}}</td>
+                    <td [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'unsigned'}">
+                        {{e.EmployeeRfc}}
+                    </td>
+                    <td [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'unsigned'}"
+                        style="white-space: nowrap">{{e.UUID}}</td>
+                    <td [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'unsigned'}">
+                        {{e.UploadTime | date:'shortDate':'':'mx'}}
+                    </td>
+                    <td *ngIf="company?.IsValue1"
+                        [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'unsigned'}">{{e.Value1}}</td>
+                    <td *ngIf="company?.IsValue2"
+                        [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'unsigned'}">{{e.Value2}}</td>
+                    <td *ngIf="company?.IsValue3"
+                        [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'unsigned'}">{{e.Value3}}</td>
+                    <td *ngIf="company?.IsValue4"
+                        [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'unsigned'}">{{e.Value4}}</td>
+                    <td *ngIf="company?.IsValue5"
+                        [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'unsigned'}">{{e.Value5}}</td>
+                    <td *ngIf="company?.IsValue6"
+                        [routerLink]="['/document-viewer', companyId, e.DocumentId]" [queryParams]="{search: searchX, type: 'unsigned'}">{{e.Value6}}</td>
+                    <td class="centerText">
+                        <mat-checkbox class="example-margin" [(ngModel)]="e.CheckedBox" color="primary"
+                                      (change)="selectedCheckBox();"></mat-checkbox>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <br>
     </div>
-    <br><br><br><br>
 </div>

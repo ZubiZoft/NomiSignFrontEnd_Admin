@@ -23,15 +23,22 @@ export class EmployeeBarComponent implements OnInit {
     ngOnInit() {
         if (this.router.url.includes('new')) {
             this.newF = true;
+            sessionStorage.removeItem('receiptSearch');
+            sessionStorage.removeItem('employeeSearch');
         } else if (this.router.url.includes('unregistered')) {
             this.unregisteredF = true;
+            sessionStorage.removeItem('receiptSearch');
+            sessionStorage.removeItem('employeeSearch');
         } else if (this.router.url.includes('registered')) {
             this.registeredF = true;
+            sessionStorage.removeItem('receiptSearch');
+            sessionStorage.removeItem('employeeSearch');
         } else if (this.router.url.includes('inactive')) {
             this.inactiveF = true;
+            sessionStorage.removeItem('receiptSearch');
+            sessionStorage.removeItem('employeeSearch');
         } else if (this.router.url.includes('search')) {
             this.searchF = true;
         }
     }
-
 }

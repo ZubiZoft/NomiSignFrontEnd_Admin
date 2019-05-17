@@ -164,6 +164,16 @@
             </div>
             <br>
             <div class="row">
+                <div class="col-md-5"></div>
+                <div class="col-md-2">
+                    <mat-slide-toggle [checked]="company.IsAddenda"
+                                      (change)="company.IsAddenda = !company.IsAddenda">¿Obtener de Addenda?
+                    </mat-slide-toggle>
+                </div>
+                <div class="col-md-5"></div>
+            </div>
+            <br>
+            <div class="row" *ngIf="!company.IsAddenda">
                 <div class="col-md-5">
                     <mat-form-field class="example-full-width">
                         <input matInput placeholder="Campo Personalizado 1:" [(ngModel)]="company.ValueName1"
@@ -179,8 +189,31 @@
                     </mat-checkbox>
                 </div>
             </div>
+            <div class="row" *ngIf="company.IsAddenda">
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Campo Personalizado 1:" [(ngModel)]="company.ValueName1"
+                               [formControl]="form.controls['valueName1']"
+                               i18n-placeholder="input field | input field which contains the companys' city@@ValueName1Input"
+                               maxlength="50">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="XPath 1:" [(ngModel)]="company.XpathValue1"
+                               [formControl]="form.controls['xpath1']"
+                               i18n-placeholder="input field | input field which contains the companys' city@@ValueName1Input"
+                               maxlength="250">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 p-3">
+                    <mat-checkbox class="example-margin" color="primary" [checked]="company.IsValue1"
+                                  (change)="company.IsValue1 = !company.IsValue1">¿Mostrar campo personalizado 1?
+                    </mat-checkbox>
+                </div>
+            </div>
             <br>
-            <div class="row">
+            <div class="row" *ngIf="!company.IsAddenda">
                 <div class="col-md-5">
                     <mat-form-field class="example-full-width">
                         <input matInput placeholder="Campo Personalizado 2:" [(ngModel)]="company.ValueName2"
@@ -196,8 +229,31 @@
                     </mat-checkbox>
                 </div>
             </div>
+            <div class="row" *ngIf="company.IsAddenda">
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Campo Personalizado 2:" [(ngModel)]="company.ValueName2"
+                               [formControl]="form.controls['valueName2']"
+                               i18n-placeholder="input field | input field which contains the companys' city@@ValueName2Input"
+                               maxlength="50">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="XPath 2:" [(ngModel)]="company.XpathValue2"
+                               [formControl]="form.controls['xpath2']"
+                               i18n-placeholder="input field | input field which contains the companys' city@@ValueName2Input"
+                               maxlength="250">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 p-3">
+                    <mat-checkbox class="example-margin" color="primary" [checked]="company.IsValue2"
+                                  (change)="company.IsValue2 = !company.IsValue2">¿Mostrar campo personalizado 2?
+                    </mat-checkbox>
+                </div>
+            </div>
             <br>
-            <div class="row">
+            <div class="row" *ngIf="!company.IsAddenda">
                 <div class="col-md-5">
                     <mat-form-field class="example-full-width">
                         <input matInput placeholder="Campo Personalizado 3:" [(ngModel)]="company.ValueName3"
@@ -213,8 +269,31 @@
                     </mat-checkbox>
                 </div>
             </div>
+            <div class="row" *ngIf="company.IsAddenda">
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Campo Personalizado 3:" [(ngModel)]="company.ValueName3"
+                               [formControl]="form.controls['valueName3']"
+                               i18n-placeholder="input field | input field which contains the companys' city@@ValueName2Input"
+                               maxlength="50">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="XPath 3:" [(ngModel)]="company.XpathValue3"
+                               [formControl]="form.controls['xpath3']"
+                               i18n-placeholder="input field | input field which contains the companys' city@@ValueName3Input"
+                               maxlength="250">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 p-3">
+                    <mat-checkbox class="example-margin" color="primary" [checked]="company.IsValue3"
+                                  (change)="company.IsValue3 = !company.IsValue3">¿Mostrar campo personalizado 3?
+                    </mat-checkbox>
+                </div>
+            </div>
             <br>
-            <div class="row">
+            <div class="row" *ngIf="!company.IsAddenda">
                 <div class="col-md-5">
                     <mat-form-field class="example-full-width">
                         <input matInput placeholder="Campo Personalizado 4:" [(ngModel)]="company.ValueName4"
@@ -230,8 +309,31 @@
                     </mat-checkbox>
                 </div>
             </div>
+            <div class="row" *ngIf="company.IsAddenda">
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Campo Personalizado 4:" [(ngModel)]="company.ValueName4"
+                               [formControl]="form.controls['valueName4']"
+                               i18n-placeholder="input field | input field which contains the companys' city@@ValueName4Input"
+                               maxlength="50">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="XPath 4:" [(ngModel)]="company.XpathValue4"
+                               [formControl]="form.controls['xpath4']"
+                               i18n-placeholder="input field | input field which contains the companys' city@@ValueName4Input"
+                               maxlength="250">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 p-3">
+                    <mat-checkbox class="example-margin" color="primary" [checked]="company.IsValue4"
+                                  (change)="company.IsValue4 = !company.IsValue4">¿Mostrar campo personalizado 4?
+                    </mat-checkbox>
+                </div>
+            </div>
             <br>
-            <div class="row">
+            <div class="row" *ngIf="!company.IsAddenda">
                 <div class="col-md-5">
                     <mat-form-field class="example-full-width">
                         <input matInput placeholder="Campo Personalizado 5:" [(ngModel)]="company.ValueName5"
@@ -247,8 +349,31 @@
                     </mat-checkbox>
                 </div>
             </div>
+            <div class="row" *ngIf="company.IsAddenda">
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Campo Personalizado 5:" [(ngModel)]="company.ValueName5"
+                               [formControl]="form.controls['valueName5']"
+                               i18n-placeholder="input field | input field which contains the companys' city@@ValueName5Input"
+                               maxlength="50">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="XPath 5:" [(ngModel)]="company.XpathValue5"
+                               [formControl]="form.controls['xpath5']"
+                               i18n-placeholder="input field | input field which contains the companys' city@@ValueName5Input"
+                               maxlength="250">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 p-3">
+                    <mat-checkbox class="example-margin" color="primary" [checked]="company.IsValue5"
+                                  (change)="company.IsValue5 = !company.IsValue5">¿Mostrar campo personalizado 5?
+                    </mat-checkbox>
+                </div>
+            </div>
             <br>
-            <div class="row">
+            <div class="row" *ngIf="!company.IsAddenda">
                 <div class="col-md-5">
                     <mat-form-field class="example-full-width">
                         <input matInput placeholder="Campo Personalizado 6:" [(ngModel)]="company.ValueName6"
@@ -259,6 +384,29 @@
                 </div>
                 <div class="col-md-2"></div>
                 <div class="col-md-5 p-3">
+                    <mat-checkbox class="example-margin" color="primary" [checked]="company.IsValue6"
+                                  (change)="company.IsValue6 = !company.IsValue6">¿Mostrar campo personalizado 6?
+                    </mat-checkbox>
+                </div>
+            </div>
+            <div class="row" *ngIf="company.IsAddenda">
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="Campo Personalizado 6:" [(ngModel)]="company.ValueName6"
+                               [formControl]="form.controls['valueName6']"
+                               i18n-placeholder="input field | input field which contains the companys' city@@ValueName6Input"
+                               maxlength="50">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4">
+                    <mat-form-field class="example-full-width">
+                        <input matInput placeholder="XPath 6:" [(ngModel)]="company.XpathValue6"
+                               [formControl]="form.controls['xpath6']"
+                               i18n-placeholder="input field | input field which contains the companys' city@@ValueName6Input"
+                               maxlength="250">
+                    </mat-form-field>
+                </div>
+                <div class="col-md-4 p-3">
                     <mat-checkbox class="example-margin" color="primary" [checked]="company.IsValue6"
                                   (change)="company.IsValue6 = !company.IsValue6">¿Mostrar campo personalizado 6?
                     </mat-checkbox>

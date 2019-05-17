@@ -1,8 +1,7 @@
 ﻿.company-list {
     overflow-y: auto;
     position: absolute;
-    bottom: 15px;
-    right: 9%;
-    left: 9%;
-    top: 280px;
+    bottom: 20px;
+    top: 130px;
+    width: 100%;
 }

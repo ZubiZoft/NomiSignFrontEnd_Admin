@@ -16,6 +16,9 @@ export class DocumentViewerComponent implements OnInit {
 
     document: DocumentDetail = new DocumentDetail();
     isPromiseDone = false;
+    searchX = '';
+    companyId = '';
+    type = '';
 
     constructor(private documentService: DocumentService, private route: ActivatedRoute, public dialog: MatDialog,
                 private userService: UserService, private router: Router, private location: Location) {
@@ -38,6 +41,20 @@ export class DocumentViewerComponent implements OnInit {
                     this.router.navigate(['/login']);
                 }
             });
+
+        this.route.paramMap
+            .switchMap((params: ParamMap) => this.companyId = params.get('cid'));
+
+        this.route.queryParams.subscribe(params => {
+            this.searchX = params['search'];
+            this.type = params['type'];
+        });
+
+        if (this.searchX === undefined || this.searchX === 'undefined') {
+            this.searchX = '';
+        }
+
+        this.companyId = this.route.snapshot.params['cid'];
     }
 
     showNomCert() {

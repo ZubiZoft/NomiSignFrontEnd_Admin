@@ -1,0 +1,20 @@
+.fixed-height-header {
+    height: 130px;
+    top: 190px;
+    width: 100%;
+    position: absolute;
+}
+
+.fixed-height-viewer{
+    top: 335px;
+    bottom: 20px;
+    width: 100%;
+    position: absolute;
+}
+
+.truncate {
+    width: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}

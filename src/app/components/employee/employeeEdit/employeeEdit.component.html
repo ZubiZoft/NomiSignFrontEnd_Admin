@@ -80,7 +80,7 @@
         <button mat-raised-button color="primary" i18n="@@BackButton" (click)="ResetAccount()"
                 [disabled]="employee.EmailAddress == null || employee.EmailAddress == '' || !isPromiseDone">Reiniciar Cuenta</button>
         <button style="float: right;" mat-raised-button color="primary"
-                (click)=updateEmployee() i18n="@@UpdateButton" [disabled]="(emailValid && phoneValid) || !isPromiseDone">Actualizar Información
+                (click)=updateEmployee() i18n="@@UpdateButton" [disabled]="employee.EmailAddress == null || employee.EmailAddress == '' || !isPromiseDone">Actualizar Información
         </button>
         </div>
     </form>
